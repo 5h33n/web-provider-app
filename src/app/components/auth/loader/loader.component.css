@@ -1,0 +1,23 @@
+:host{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    /* background: rgb(0,181,252);
+    background: linear-gradient(132deg, rgba(0,181,252,1) 0%, rgba(0,82,115,1) 75%); */
+    background: #212832;
+  background: linear-gradient(180deg, rgba(0,0,0,0.9668242296918768) 0%, rgba(46,51,57,1) 60%);
+  }
+  /* Absolute Center Spinner */
+.example-margin {
+    z-index: 999;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+.mat-progress-spinner::ng-deep circle {
+    stroke: #fcb000;
+}

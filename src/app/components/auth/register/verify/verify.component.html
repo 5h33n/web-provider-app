@@ -1,0 +1,36 @@
+<div class="container">
+    <header>Verficar cuenta </header>
+    <div class="form-outer">
+        <form [formGroup]="verifyForm" action="#">
+            <div class="page">
+                <div class="title" style="text-align: center;">Ingresa tu código de verificación</div>
+                <div class="field">
+                    <div class="subtitle" *ngIf="currentProvider.verType ==1">
+                        Te envíamos un código de verificación de 6 dígitos a tu cuenta <strong>{{currentProvider.email}}</strong>
+                        por favor revísalo e ingresa el código a continuación:
+                    </div>
+                    <div class="subtitle" *ngIf="currentProvider.verType ==2">
+                        Te envíamos un código de verificación de 6 dígitos al número <strong>{{currentProvider.phone}}</strong>
+                        por favor revísalo e ingresa el código a continuación:
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="code">
+                        <input type="text" formControlName="d1" pattern="\d*" minlength="1" maxlength="1" required> - 
+                        <input type="text" formControlName="d2" pattern="\d*" minlength="1" maxlength="1" required> - 
+                        <input type="text" formControlName="d3" pattern="\d*" minlength="1" maxlength="1" required> - 
+                        <input type="text" formControlName="d4" pattern="\d*" minlength="1" maxlength="1" required> - 
+                        <input type="text" formControlName="d5" pattern="\d*" minlength="1" maxlength="1" required> - 
+                        <input type="text" formControlName="d6" pattern="\d*" minlength="1" maxlength="1" required>
+                    </div>
+                </div>
+                <div class="subtitle" *ngIf="currentProvider.verType ==1">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode()">Reenviar código a {{currentProvider.email}}</a></div>
+                <div class="subtitle" *ngIf="currentProvider.verType ==2">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode()">Reenviar código por SMS al {{currentProvider.phone}}</a></div>
+                <div class="field">
+                    <button class="firstNext next" [disabled]="verifyForm.invalid">Verificar mi cuenta</button>
+                </div>
+                <div class="subtitle" *ngIf="currentProvider.verType ==1">¿No tienes acceso a tu correo o número telefónico? <a href="javascript:void(0)" (click)="changeVerType()">Cambiar método de verificación</a></div>
+            </div>
+        </form>
+    </div>
+</div>

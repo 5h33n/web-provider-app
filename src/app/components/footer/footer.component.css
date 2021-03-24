@@ -1,0 +1,10 @@
+
+.copyrights {
+    color: #707070;
+    border-top: 1px solid rgba(0, 0, 0, .09);
+    margin-top: 60px;
+    text-align: center;
+    padding: 40px 0;
+    display: inline-block;
+    width: 100%;
+}

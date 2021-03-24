@@ -1,0 +1,168 @@
+<div id="dashboard">
+	<div class="dashboard-content">
+	  <!-- Titlebar -->
+	  <div id="titlebar">
+	    <div class="row">
+	      <div class="col-md-12">
+	        <h2 > Negocio (Panel administrativo)</h2>
+	        <!-- Breadcrumbs -->
+	        <nav id="breadcrumbs">
+	          <ul>
+	            <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
+                <li><a href="#">Cola</a> </li>
+	          </ul>
+	        </nav>
+	      </div>
+	    </div>
+	  </div>
+	  <!-- NGNX-CHARTS -->
+		<div class="row" >
+      <div class="alert alert-danger" style="width:100%;text-align: center;">
+        <div>
+          Tu negocio todavía no es visible para nadie, completa la información de <strong>VERIFICACIÓN</strong> para poder comprobar que tu negocio existe y sea visible
+        </div>
+      </div>
+			<!-- <div class="alert alert-warning" style="width:100%;text-align: center;" *ngIf="negocio.estado === 1">
+        <div>
+          La información que proporcionaste está siendo revisada para corroborar que tu negocio existe, te avisaremos cuando la revisión termine.
+        </div>
+      </div>
+			<div class="alert alert-success" style="width:100%;text-align: center;" *ngIf="negocio.estado === 2">
+        <div>
+          ¡Tu negocio ha sido verificado con éxito! Todos los productos que hayas agregado ya son visibles desde la página principal.
+        </div>
+      </div>
+			<div class="alert alert-danger" style="width:100%;text-align: center;" *ngIf="negocio.estado === 3">
+        <div>
+					Lamentablemente tu negocio ha sido rechazado. Se ha considerado que la información proporcionada no es suficiente para validar la existencia de tu negocio o la identidad del encargado, puedes intentar enviando nuevos documentos a revisión o ponerte en <a href="mailto:soporte.yoconsumooaxaca@gmail.com">contacto</a> con nosotros.
+					<br>
+					Motivo del rechazo: <strong>{{negocio.observaciones}}</strong>
+        </div>
+      </div> -->
+	  </div>
+	  <div class="row">
+				<div class="alert alert-light" style="width:100%;text-align: center;">
+				  <strong>¡HOLA! ¿QUÉ VAMOS A HACER HOY?</strong>
+				</div>
+				<div class="col-md-6 pl-0">
+					<div class="card text-center">
+					  <div class="card-header">
+					    Productos
+					  </div>
+					  <div class="card-body">
+					    <h5 class="card-title">Gestionar tu catálogo de productos</h5>
+					    <p class="card-text">Agrega, modifica o elimina productos de tu negocio</p>
+					    <a [routerLink]="['/dashboard/productos']" class="btn btn-primary">¡Hagámoslo!</a>
+					  </div>
+					</div>
+				</div>
+				<div class="col-md-6 pr-0">
+					<div class="card text-center">
+					  <div class="card-header">
+					    Información
+					  </div>
+					  <div class="card-body">
+					    <h5 class="card-title">Modifica las características de tu negocio</h5>
+					    <p class="card-text">Verifica tu cuenta, modifica tus horarios y fotos principales</p>
+					    <a [routerLink]="['/dashboard/info']" class="btn btn-primary">¡Hagámoslo!</a>
+					  </div>
+					</div>
+				</div>
+	  </div>
+	  <div class="row">
+		<!-- Column -->
+		<div class="col-lg-3 col-md-6">
+			<div class="card card-info">
+				<div class="card-body">
+					<h4 class="card-title">Ingresos del día</h4>
+					<div class="text-right">
+						<h2 class="font-light mb-0"><i class="ti-arrow-up text-success"></i> $120</h2>
+						<span class="text-muted">Respecto a lo esperado</span>
+					</div>
+					<span class="text-success">80%</span>
+					<div class="progress">
+						<div class="progress-bar bg-success" role="progressbar" style="width: 80%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Column -->
+		<!-- Column -->
+		<div class="col-lg-3 col-md-6">
+			<div class="card card-info">
+				<div class="card-body">
+					<h4 class="card-title">Ingresos semanales</h4>
+					<div class="text-right">
+						<h2 class="font-light mb-0"><i class="ti-arrow-up text-info"></i> $5,000</h2>
+						<span class="text-muted">Respecto a lo esperado</span>
+					</div>
+					<span class="text-info">30%</span>
+					<div class="progress">
+						<div class="progress-bar bg-info" role="progressbar" style="width: 30%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Column -->
+		<!-- Column -->
+		<div class="col-lg-3 col-md-6">
+			<div class="card card-info">
+				<div class="card-body">
+					<h4 class="card-title">Ingresos mensuales</h4>
+					<div class="text-right">
+						<h2 class="font-light mb-0"><i class="ti-arrow-up text-purple"></i> $8,000</h2>
+						<span class="text-muted">Respecto a lo esperado</span>
+					</div>
+					<span class="text-purple">60%</span>
+					<div class="progress">
+						<div class="progress-bar bg-purple" role="progressbar" style="width: 60%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Column -->
+		<!-- Column -->
+		<div class="col-lg-3 col-md-6">
+			<div class="card card-info">
+				<div class="card-body">
+					<h4 class="card-title">Ingresos semestrales</h4>
+					<div class="text-right">
+						<h2 class="font-light mb-0"><i class="ti-arrow-down text-danger"></i> $12,000</h2>
+						<span class="text-muted">Respecto a lo esperado</span>
+					</div>
+					<span class="text-danger">80%</span>
+					<div class="progress">
+						<div class="progress-bar bg-danger" role="progressbar" style="width: 80%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Column -->
+	</div>
+	<div>
+		<div>
+		  <div style="display: block">
+			<canvas baseChart
+			  [datasets]="radarChartData"
+			  [options]="radarChartOptions"
+			  [labels]="radarChartLabels"
+			  [chartType]="radarChartType">
+			</canvas>
+		  </div>
+		</div>
+	  </div>
+	  <div class="row">
+		<!-- NGNX-CHARTS -->
+  <ngx-charts-advanced-pie-chart
+  [scheme]="colorScheme"
+  [results]="single"
+  [gradient]="gradient"
+  (select)="onSelect($event)"
+  (activate)="onActivate($event)"
+  (deactivate)="onDeactivate($event)"
+  >
+</ngx-charts-advanced-pie-chart>
+	</div>
+	</div>
+	<!-- Content / End -->
+</div>

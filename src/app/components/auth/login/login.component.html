@@ -1,0 +1,42 @@
+<div class="cover" [style.display] = "cover">
+  <mat-progress-spinner diameter="40" mode="indeterminate">
+  </mat-progress-spinner>
+</div>
+<div class="banner">
+  <img [@fadeIn] = "loading ? 'uno' : 'dos'" src="../../../../assets/img/frutas.jpg" alt="">
+</div>
+<div [@circle] = "mobile ? loading ? 'm':'m2' : loading ? 'p' : 'p2' " class="wrapper">
+  <div class="title" [@fadeIn] = "showing ? 'uno' : 'dos'" >
+    Ingresar
+  </div>
+  <form [formGroup]="loginForm" (submit)="submit()" [@fadeIn] = " showing ? 'uno' : 'dos'">
+    <div class="mobile-title"><h1>Ingresar</h1></div>
+    <div class="field">
+      <input type="text" formControlName="username" required>
+      <label>Usuario o correo</label>
+      <mat-error *ngIf="loginForm.controls.username.touched && loginForm.controls.username.invalid">
+        <span *ngIf="loginForm.controls.username?.errors?.required">This field is mandatory.</span>
+        <span *ngIf="loginForm.controls.username?.errors?.pattern">This field is invalid.</span>
+      </mat-error>
+    </div>
+    <div class="field">
+      <input formControlName="password" type="password" required>
+      <label>Contraseña</label>
+    </div>
+    <div class="content">
+      <div class="checkbox">
+        <input type="checkbox" id="remember-me">
+        <label for="remember-me">Recordarme</label>
+      </div>
+      <div class="pass-link">
+        <a href="#">¿Olvidaste tu contraseña?</a>
+      </div>
+    </div>
+    <div class="field">
+      <input type="submit" value="Login">
+    </div>
+    <div class="signup-link">
+      ¿No tienes una cuenta? <a (click)="gotoRegister()">Registrarse</a>
+    </div>
+  </form>
+</div>

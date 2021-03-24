@@ -1,0 +1,173 @@
+<div class="cover" [style.display] = "cover">
+    <mat-progress-spinner diameter="40" mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+<div [@show]="loading ? 'def' : 'm' " class="container" [style.display] = "showing" >
+    <header>Registro de cuenta </header>
+    <div class="pbar">
+        <div class="step" *ngFor="let paso of steps;let indice=index">
+            <p [class]="paso[1]">{{ paso[0] }}</p>
+            <div class="bullet" [class]="paso[1]">
+                <span>{{indice + 1}}</span>
+            </div>
+            <div class="check fas fa-check " [class]="paso[1]">
+            </div>
+        </div>
+    </div>
+    <div class="form-outer">
+        <form [formGroup]="registerForm" action="#">
+            <div class="page slide-page" [style.margin-left] = "marginLeft">
+                <div class="title">Contrato de servicios:</div>
+                <div class="field text-box">
+                    <div class="terms">
+                        <h2>Términos del servicio</h2>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam quod magnam quaerat, autem ea laborum recusandae voluptatem praesentium modi? Ad magni molestiae fugiat aperiam adipisci quod eaque quidem. Hic, optio!</p>
+                        <h2>Otra cosa</h2>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus amet quasi optio repudiandae cumque eligendi, doloribus modi veniam nobis perferendis, voluptatibus id, autem neque quidem totam eum! Repellat, quam officia.</p>
+                    </div>
+                </div>
+                <div class="field downbtn">
+                    <button mat-stroked-button class="download">Descargar contrato</button>
+                </div>
+                <div class="content">
+                    <div class="checkbox">
+                      <input formControlName="terms" type="checkbox" id="accept-terms">
+                      <label for="accept-terms">Confirmo que he leído y acepto los términos y condiciones de uso</label>
+                    </div>
+                  </div>
+                <div class="field">
+                    <button class="firstNext next" [disabled]="!registerForm.value.terms" (click)="next($event)">Siguiente</button>
+                </div>
+            </div>
+            <div class="page">
+                <div class="title">Información de cuenta:</div>
+                <div class="field" style="margin-bottom: 35px;margin-top: 30px;">
+                    <input type="text" required formControlName="username" [class.inputInvalid]="registerForm.controls.username.touched && registerForm.controls.username.invalid">
+                    <label>Nombre de usuario</label>
+                    <mat-error *ngIf="registerForm.controls.username.touched && registerForm.controls.username.invalid">
+                        <span *ngIf="registerForm.controls.username.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-top: 20px;">
+                    <input type="password" required formControlName="password" [class.inputInvalid]="registerForm.controls.password.touched && registerForm.controls.password.invalid">
+                    <label>Contraseña</label>
+                    <mat-error *ngIf="registerForm.controls.password.touched && registerForm.controls.password.invalid">
+                        <span *ngIf="registerForm.controls.password.errors?.required">Este campo no puede estar vacío.</span>
+                        <span *ngIf="registerForm.controls.password.errors?.passwordInvalid && !registerForm.controls.password.errors?.required">La contraseña no es segura</span>
+                    </mat-error>
+                    <a *ngIf="registerForm.controls.password.touched && registerForm.controls.password.invalid" href="javascript:void(0)" (click)="showInfoPassword()" data-toggle="tooltip" data-html="true" style="align-self: center;font-size: initial;" title="La contraseña debe tener entre 8 y 16 caractéres, contener al menos una letra mayúscula, una letra minúscula y un número"><i class="far fa-question-circle"></i></a>
+                </div>
+                <div class="field" style="margin-bottom: 75px;margin-top: 35px;">
+                    <input type="password" required formControlName="passwordConfirm" [class.inputInvalid]="registerForm.controls.passwordConfirm.touched && registerForm.controls.passwordConfirm.invalid">
+                    <label>Confirmar contraseña</label>
+                    <mat-error *ngIf="registerForm.controls.passwordConfirm.touched && registerForm.controls.passwordConfirm.invalid">
+                        <span *ngIf="registerForm.controls.passwordConfirm.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                    <mat-error *ngIf="registerForm.controls.password.touched && !registerForm.controls.passwordConfirm.errors?.required">
+                        <span *ngIf="registerForm.errors?.passwordsNotMatching">Las contraseñas no coinciden</span>
+                    </mat-error>
+                </div>
+                <div class="field btns">
+                    <button class="prev-1 prev" (click)="prev($event)">Anterior</button>
+                    <button class="next-1 next" (click)="next($event)" [disabled]="registerForm.controls.username.invalid || registerForm.controls.password.invalid || registerForm.controls.passwordConfirm.invalid || registerForm.errors?.passwordsNotMatching">Siguiente</button>
+                </div>
+            </div>
+            <div class="page">
+                <div class="title">Información de usuario:</div>
+                <div class="field" style="margin-bottom: 25px;margin-top: 30px;">
+                    <input type="text" required formControlName="firstName" [class.inputInvalid]="registerForm.controls.firstName.touched && registerForm.controls.firstName.invalid">
+                    <label for="">Nombre(s)</label>
+                    <mat-error *ngIf="registerForm.controls.firstName.touched && registerForm.controls.firstName.invalid">
+                        <span *ngIf="registerForm.controls.firstName.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-top: 35px;">
+                    <input type="text" required id="firstLastName" formControlName="lastName" [class.inputInvalid]="registerForm.controls.lastName.touched && registerForm.controls.lastName.invalid">
+                    <label for="firstLastName">Primer apellido</label>
+                    <input type="text" required id="secondLastName" formControlName="secondLastName" [class.inputInvalid]="registerForm.controls.secondLastName.touched && registerForm.controls.secondLastName.invalid">
+                    <label for="secondLastName" style="left: 55%;">Segundo apellido</label>
+                </div>
+                <div class="field" style="margin-top: 0; margin-bottom: 0;">
+                    <mat-error *ngIf="registerForm.controls.lastName.touched && registerForm.controls.lastName.invalid">
+                        <span *ngIf="registerForm.controls.lastName.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                    <mat-error *ngIf="registerForm.controls.secondLastName.touched && registerForm.controls.secondLastName.invalid">
+                        <span *ngIf="registerForm.controls.secondLastName.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-bottom: 0;margin-top: 0;">
+                    <input type="date" required id="birthdate" max="2014-12-31" style="width: 45%;" formControlName="birthdate" [class.inputInvalid]="registerForm.controls.birthdate.touched && registerForm.controls.birthdate.invalid">
+                    <label for="birthdate">Fecha de nacimiento</label>
+                    <select required formControlName="gender" [class.inputInvalid]="registerForm.controls.gender.touched && registerForm.controls.gender.invalid">
+                        <option></option>
+                        <option>Masculino</option>
+                        <option>Femenino</option>
+                        <option>Otro</option>
+                    </select>
+                    <label for="" style="left: 65%;">Género</label>
+                </div>
+                <div class="field" style="margin-top: 0; margin-bottom: 0;">
+                    <mat-error *ngIf="registerForm.controls.birthdate.touched && registerForm.controls.birthdate.invalid">
+                        <span *ngIf="registerForm.controls.birthdate.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                    <mat-error *ngIf="registerForm.controls.gender.touched && registerForm.controls.gender.invalid">
+                        <span *ngIf="registerForm.controls.gender.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field btns" style="margin-top: 25px;">
+                    <button class="prev-2 prev" (click)="prev($event)">Anterior</button>
+                    <button class="next-2 next" (click)="next($event)" [disabled]="registerForm.controls.firstName.invalid || registerForm.controls.lastName.invalid || registerForm.controls.secondLastName.invalid || registerForm.controls.gender.invalid || registerForm.controls.gender.invalid">Siguiente</button>
+                </div>
+            </div>
+            <div class="page">
+                <div class="title">Información de contacto:</div>
+                <div class="field" style="margin-bottom: 15px;margin-top: 30px;">
+                    <input type="email" required formControlName="email" [class.inputInvalid]="registerForm.controls.email.touched && registerForm.controls.email.invalid">
+                    <label for="">Correo electrónico</label>
+                    <mat-error *ngIf="registerForm.controls.email.touched && registerForm.controls.email.invalid">
+                        <span *ngIf="registerForm.controls.email.errors?.required">Este campo no puede estar vacío.</span>
+                        <span *ngIf="registerForm.controls.email.errors?.emailInvalid">El formato del correo es inválido.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-top: 15px;">
+                    <input type="text" required formControlName="phone" [class.inputInvalid]="registerForm.controls.phone.touched && registerForm.controls.phone.invalid">
+                    <label for="" >Teléfono</label>
+                    <mat-error *ngIf="registerForm.controls.phone.touched && registerForm.controls.phone.invalid">
+                        <span *ngIf="registerForm.controls.phone.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-bottom: 0;margin-top: 15px;"> 
+                    <select required formControlName="verType" [class.inputInvalid]="registerForm.controls.verType.touched && registerForm.controls.verType.invalid">
+                        <option></option>
+                        <option>Correo electrónico</option>
+                        <option>Número de teléfono</option>
+                    </select>
+                    <label for="">Verficar mi cuenta usando mi</label>
+                </div>
+                <div class="field" style="margin-bottom: 0;margin-top: 0;height: 25px;">
+                    <mat-error *ngIf="registerForm.controls.verType.touched && registerForm.controls.verType.invalid">
+                        <span *ngIf="registerForm.controls.verType.errors?.required">Debes seleccionar una opción válida.</span>
+                    </mat-error>
+                </div>
+                <div class="subtitle" style="margin-bottom: 45px;">Asegúrate de contar con acceso a al correo o teléfono que elijas para verificar tu cuenta, te enviaremos un código por ese médio.</div>
+                <div class="field btns">
+                    <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
+                    <button class="next-3 next" (click)="next($event)" [disabled]="registerForm.controls.email.invalid || registerForm.controls.phone.invalid  || registerForm.controls.verType.invalid">Registrarme</button>
+                </div>
+            </div>
+            <div class="page">
+                <div class="title" [style.display] = "registerForm.valid ? 'none' : 'flex' ">¿Qué tipo de negocio quieres registrar?</div>
+                <div class="field" [style.display] = "registerForm.valid ? 'none' : 'flex' ">
+                    <button class="btn primary" (click)="setType('store','productos')">
+                        Productos
+                    </button>
+                    <button class="btn primary" (click)="setType('server','servicios')">
+                        Servicios
+                    </button>
+                </div>
+                <mat-progress-spinner [style.display] = "registerForm.valid ? 'flex' : 'none' "  style="margin:0 auto;margin-top:30%;margin-left:47%" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,124 @@
+<!-- Navbar (Para web) -->
+<mat-drawer-container class="navbar" autosize>
+	<mat-drawer #drawer class="sidenav" [mode]="currentMode ? 'push' : 'side'" [opened]="openNav">
+		<!-- Navbar -->
+        <mat-toolbar color="primary">
+			<a class="navbar-brand" href="http://127.0.0.1:8000/tienda/H91Gfc">
+				<!-- icono -->
+				<b>
+					<!-- Icono claro -->
+					<img src="/assets/img/logo-light-icon.png" alt="EC" class="light-logo">
+				</b>
+				<!--Fin icono -->
+				<!-- Texto logo -->
+				<span [style.display]="drawer.opened ? 'inline-block' : 'none' ">
+				 <!-- Claro -->    
+				 <img src="/assets/img/logo-light-text.png" class="light-logo" alt="E-COM">
+				</span> 
+			</a>
+		</mat-toolbar>
+			<div class="dashboard-nav-inner" [class.mini-sidebar]="!drawer.opened">
+				<div class="user-profile">
+                    <!-- User imagen -->
+                    <div class="profile-img"> <img src="/assets/img/user1.jpg" alt="user"> </div>
+                    <!-- User text-->
+                    <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">David<span class="caret"></span></a>
+                        <div class="dropdown-menu animate__animated animate__flipInY">
+                            <a href="#" class="dropdown-item" [routerLink]="['/profile']"><i class="ti-user"></i> Perfil</a>
+                            <a href="#" class="dropdown-item"><i class="ti-email"></i> Mensajes</a>
+                            <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Configuraciones</a>
+                            <div class="dropdown-divider"></div> <a href="http://127.0.0.1:8000/logout" class="dropdown-item"><i class="fa fa-power-off"></i> Salir</a>
+                        </div>
+                    </div>
+                </div>
+				<nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <!-- <li class="nav-small-cap">GESTIÓN DE CONTENIDOS</li> -->
+                        <li>
+                            <a class="has-arrow" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-home"></i><span class="hide-menu">Mi tienda <span class="label label-rounded label-success">5</span></span></a>
+                            <ul aria-expanded="false" class="collapse" id="collapseExample">
+                               
+                                                              <li><a href="http://127.0.0.1:8000/tienda/info/1X719K">Información</a></li>
+                               <li><a href="http://127.0.0.1:8000/tienda/categorias/UnX1EM">Categorías</a></li>
+                                <li>
+                                    <a class="has-arrow" href="#" aria-expanded="false">Diseño</a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a href="http://127.0.0.1:8000/tienda/designWeb/8xB1mM">Sitio web</a></li>
+                                        <li><a href="http://127.0.0.1:8000/tienda/designApp/bt81IF">App móvil</a></li>
+                                    </ul>
+                                </li>
+                                                           </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow " href="#" aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">Productos</span></a>
+                                                        <ul aria-expanded="false" class="collapse">
+                                <!--<li><a href="http://127.0.0.1:8000/mipape/editCategorias">Categorías</a></li> -->
+                                <li><a href="http://127.0.0.1:8000/tienda/inventario/RZj1ev">Inventario</a></li>
+                                <li><a href="http://127.0.0.1:8000/tienda/ventas/Hhm10s">Ventas</a></li>
+                                <li><a href="http://127.0.0.1:8000/mipape/compras">Compras</a></li>
+                            </ul>
+                                                    </li>
+                        <li>
+                            <a class="" href="#" aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">Mensajes</span></a>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">Mas cosas</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="#">Thing 1</a></li>
+                                <li><a href="#">Thing 2</a></li>
+                                <li><a href="#">Thing 3</a></li>
+                                <li><a href="#">Thing te pongo</a></li>
+                                <li><a href="#">Thing 5</a></li>
+                            </ul>
+                        </li>
+                        <!-- <li class="nav-devider"></li>
+                        <li class="nav-small-cap">Aqui arriba hay un separador</li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">Mas</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="#">Cosa</a></li>
+                                <li><a href="#">Otra cosa</a></li>
+                                <li><a href="#">La cosa maravillosa</a></li>
+                            </ul>
+                        </li> -->
+                    </ul>
+					<div>
+						<div class="user-alert alert alert-warning" style="margin: 10%;text-align: center;font-size: 15px;">
+							Te enviamos un correo para verificar tu cuenta ¿Todavía no lo recibes? <a href="javascript:void(0);">Reenviar correo</a>
+						</div>
+					</div>
+                </nav>
+				<div class="sidebar-footer">
+					<a href="" class="link" data-toggle="tooltip" title="" data-original-title="Configuraciones"><i class="ti-settings"></i></a>
+					<a href="" class="link" data-toggle="tooltip" title="" data-original-title="Mensajes"><i class="ti-email"></i></a>
+					<a href="http://127.0.0.1:8000/logout" class="link" data-toggle="tooltip" title="" data-original-title="Salir"><i class="ti-power-off"></i></a>
+				</div>
+				<!-- NAVBAR ANTIGUO, SI YA NO HAY DATOS QUE NECESITES DE AQUÍ, BORRALO -->
+				<!-- <ul>
+					<li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/dashboard']"><i class="fa fa-home"></i> Dashboard</a></li>
+					<li routerLinkActive="active"><a [routerLink]="['/dashboard/productos']"><i class="fa fa-list"></i> Productos</a></li>
+					<li routerLinkActive="active"><a [routerLink]="['/dashboard/info']"><i class="fa fa-info-circle"></i> Información</a>
+					</li>
+					<li routerLinkActive="active"><a [routerLink]="['/dashboard/servicios']"><i class="fa fa-tools"></i> Servicios</a></li>
+					<li routerLinkActive="active"><a [routerLink]="['/dashboard/informacion']"><i class="fa fa-info"></i> Información</a></li>
+				</ul>
+				<ul data-submenu-title="Proximamente nuevas características">
+				</ul> -->
+			</div>
+		<!-- Fin Navbar -->
+    </mat-drawer>
+	<app-header [dr] = "drawer" [mobileDevice] = "mobileDevice"></app-header>
+	<!-- Contenido del dashboard -->
+	<!-- Tab nav -->
+	<mat-tab-group *ngIf="mobileDevice" mat-align-tabs="center" backgroundColor = "primary" color="primary" headerPosition="below">
+		<mat-tab label="First"><app-main></app-main></mat-tab>
+		<mat-tab label="Second">Content 2</mat-tab>
+		<mat-tab label="Third">Content 3</mat-tab>
+	</mat-tab-group>
+	<!-- Fin Tab nav -->
+	<!-- Web content -->
+	<app-main *ngIf="!mobileDevice"></app-main>
+	<!-- Fin web content -->
+	<!-- Fin contenido del dashboard -->
+	<app-footer></app-footer>
+</mat-drawer-container>

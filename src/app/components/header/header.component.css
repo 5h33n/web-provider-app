@@ -1,0 +1,117 @@
+mat-toolbar {
+    position:fixed;
+    z-index: 999;
+}
+button:focus{
+    outline: none;
+}
+.profile-pic {
+    width: 40px;
+    margin-top: -10px;
+    border-radius: 100%;
+}
+.navbar-nav{
+    overflow: visible;
+}
+.dropdown{
+    position: relative;
+}
+.navbar-nav > .nav-item > .nav-link {
+    padding-left: .75rem;
+    padding-right: .75rem;
+    font-size: 17px;
+    line-height: 50px;
+}
+.navbar-nav > .nav-item > .nav-link::after {
+    content: none;
+}
+.navbar-nav .dropdown-menu {
+    position: absolute;
+}
+.dropdown-menu {
+    box-shadow: 0 3px 12px rgb(0 0 0 / 5%);
+    -webkit-box-shadow: 0 3px 12px rgb(0 0 0 / 5%);
+    -moz-box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    border-color: rgba(120, 130, 140, 0.13);
+}
+.navbar-nav ul.dropdown-user {
+    padding: 0px;
+    width: 270px;
+}
+.navbar-nav ul.dropdown-user li {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+.navbar-nav ul.dropdown-user li .dw-user-box {
+    padding: 10px 15px;
+}
+.navbar-nav ul.dropdown-user li .dw-user-box .u-img {
+    width: 80px;
+    display: inline-block;
+    vertical-align: top;
+}
+.navbar-nav ul.dropdown-user li .dw-user-box .u-img img {
+    width: 100%;
+    border-radius: 5px;
+}
+.navbar-nav ul.dropdown-user li .dw-user-box .u-text {
+    display: inline-block;
+    padding-left: 10px;
+    font-family: "rubik",sans-serif;
+}
+.navbar-nav ul.dropdown-user li .dw-user-box .u-text h4 {
+    margin: 0px;
+    font-weight: 400;
+    line-height: 22px;
+    font-size: 18px;
+}
+.navbar-nav ul.dropdown-user li .dw-user-box .u-text p {
+    margin-bottom: 2px;
+    font-size: 14px;
+    line-height: initial;
+}
+.navbar-nav ul.dropdown-user li a {
+    padding: 9px 15px;
+    display: block;
+    color: #54667a;
+    font-family: 'Rubik',sans-serif;
+    line-height: initial;
+}
+.navbar-nav ul.dropdown-user li .dw-user-box .u-text .btn {
+    color: #ffffff;
+    padding: 5px 10px;
+    display: inline-block;
+    font-size: 13px;
+}
+.navbar-nav ul.dropdown-user li.divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: rgba(120, 130, 140, 0.13);
+}
+.navbar-nav ul.dropdown-user li a:hover,.navbar-nav ul.dropdown-user li a.active {
+    background: #fff9eb;
+    color: #fcb000;
+    text-decoration: none;
+}
+@media (min-width: 768px){
+    .navbar-nav {
+        -ms-flex-direction: row;
+        flex-direction: row;
+        margin-top: 0.5% !important;
+    }
+}
+@media (max-width: 767px){
+    .navbar-nav {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        margin-top: 2% !important;
+    }
+}
+.dropdown-menu{
+    top: 100% !important;
+    left: -300% !important;
+}
