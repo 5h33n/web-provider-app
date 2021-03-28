@@ -1,16 +1,18 @@
-import { Component, OnInit, ɵɵtrustConstantResourceUrl } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren, ɵɵtrustConstantResourceUrl } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Provider } from 'src/app/models/provider';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
+import { noSession, infoMessage, redirectMessage } from '../../../../common/common'
 @Component({
   selector: 'app-verify',
   templateUrl: './verify.component.html',
   styleUrls: ['./verify.component.css']
 })
 export class VerifyComponent implements OnInit {
-
+  @ViewChildren('input') inputs!: QueryList<ElementRef>;
+  del = false;
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -30,13 +32,14 @@ export class VerifyComponent implements OnInit {
       d6: [null, [Validators.required]]
     });
     this.currentProvider = this.authService.getCurrentUser();
-    console.log(this.currentProvider);
     this.route.queryParams
       .subscribe(params => {
-        if(!params.vux || !this.currentProvider){
+        if(!params.r || !this.currentProvider){
           this.redirectLogin(params);
-        }else if(params.tkn){
-          this.verifyTkn(params.vux,params.tkn);
+        }else if(params.tok){
+          this.verifyTkn(params.r,params.tok);
+        }else if(this.currentProvider.id != params.r){
+          redirectMessage('warning','No se encontró el usuario','El enlace ingresado corresponde a la verificación de un usuario desconocido ¿Estás accediendo correctamente al enlace?',"De acuerdo, lo revisaré",this.router,'/login')
         }
       });
   }
@@ -51,10 +54,19 @@ export class VerifyComponent implements OnInit {
     });
   }
 
-  verifyTkn(user:string,tkn:string){
-    var info = {id:user,token:tkn,codigo:null};
+  verifyTkn(user:string,tok:string){
+    var info = {id:user,token:tok,codigo:null};
+    this.verify(info);
+  }
+  verifyCode(){
+    var code = "";
+    for (var i in this.inputs.toArray())
+      code += this.inputs.toArray()[i].nativeElement.value;
+    var info = {id:this.currentProvider.id,token:null,codigo:code};
+    this.verify(info);
+  }
+  verify(info:any){
     this.authService.accountConfirm(info).subscribe(response=>{
-      console.log(response)
       if(response){
         if(response.codigo==="0000000033"){
           Swal.fire({
@@ -68,26 +80,15 @@ export class VerifyComponent implements OnInit {
               //this.router.navigate(['/dashboard']);
             }
           })
+        }else{
+          infoMessage('error','Error en la verificación',response.descripcion + ". Recuerde que los enlaces de verificación solo están disponibles durante 1 hora desde que son enviados, intente reenviar el código de verificación.",'ok');
         }
       }else{
-        this.showError("Error en la verificación");
+        redirectMessage('error','Error en la verificación','No pudimos verificar tu cuenta, intenta reenviar el código','ok',this.router,'/login');
       }
     },error=>{
-      this.showError(error.error.notifications[0].descripcion);
+      redirectMessage('error','Error en la verificación',error.error.notifications[0].descripcion,'ok',this.router,'/login');
     });
-  }
-
-  showError(error:string){
-    Swal.fire({
-      icon: 'error',
-      title: 'Error en la verificación',
-      text: error,
-      confirmButtonText: 'Volver al dashboard',
-    }).then((result) => {
-      if (result.value) {
-        console.log("Aquí hay que hacer algo");
-      }
-    })
   }
 
   changeVerType(){
@@ -112,8 +113,19 @@ export class VerifyComponent implements OnInit {
             showCancelButton: true,
           }).then((dato:any) => {
             if(dato){
-              console.log(result.value)
-              console.log(dato.value)
+              this.currentProvider.verType = result.value;
+              this.currentProvider.email = dato.value;
+              this.authService.updateUser({id:this.currentProvider.id,email:dato.value}).subscribe((provider)=>{
+                console.log(provider);
+                this.authService.setUser(provider as Provider);
+                this.authService.resendCode(this.currentProvider.id).subscribe((response)=>{
+                  infoMessage('success','Información actualizada','En breve recibirás un correo con tu código de verificación','¡De acuerdo!');
+                },error=>{
+                  infoMessage('error','No pudimos reenviar el código, inténtalo de nuevo más tarde',error.error.notifications[0].descripcion,'ok');
+                });
+              },error=>{
+                infoMessage('error','Imposible actualizar la información',error.error.notifications[0].descripcion,'ok');
+              });
             }
           })
         }else{
@@ -125,6 +137,7 @@ export class VerifyComponent implements OnInit {
             showCancelButton: true,
             inputValidator: (v) => {
               return new Promise((resolve,reject) => {
+                //En este if debo pasarle un regex o algo que valore que sea un num de 10 digitos
                 if (v === '1') {
                   resolve('Ingresa un número telefónico válido de 10 dígitos')
                 } else {
@@ -143,12 +156,35 @@ export class VerifyComponent implements OnInit {
     })
   }
   resendCode(){
-    let dest = this.currentProvider.verType == 1 ? this.currentProvider.email : this.currentProvider.phone;
-    Swal.fire({
-      icon: 'success',
-      title: 'Código reenviado',
-      text: 'Se ha enviado tu código de verificación a: '+dest,
-      confirmButtonText: '¡De acuerdo!',
-    })
+    this.authService.resendCode(this.currentProvider.id).subscribe((response:any)=>{
+      infoMessage('success','Código reenviado',response?.description,'¡De acuerdo!');
+    },error=>{
+      error.error.notifications[0].codigo == "0000000006" ? noSession(this.router) : infoMessage('error','Algo salió mal',error.error.notifications[0].descripcion,'¡De acuerdo!') ;
+    });
+  }
+  getNumber(e:any, n:number){
+    this.del = false;
+    if (e.key.charCodeAt(0) == 66 || e.key.charCodeAt(0) == 68 ){
+      this.inputs.toArray()[n] = e.key;
+      this.del = true;
+    }else if((e.key.charCodeAt(0) < 48 || e.key.charCodeAt(0) > 57)){
+      this.del = false;
+      e.preventDefault();
+    }
+  }
+  next(n:number){
+    if(n<5 && !this.del){
+      this.inputs.toArray()[n].nativeElement.value==="" ? "" : this.inputs.toArray()[n+1].nativeElement.focus();
+    }else if(this.del){
+      n>0 ? this.inputs.toArray()[n-1].nativeElement.focus() : "";
+    }
+  }
+  prev(n:number){
+    if(n>0){
+      if(this.inputs.toArray()[n-1].nativeElement.value === ""){
+        this.inputs.toArray()[n-1].nativeElement.focus();
+        this.prev(n-1);
+      }
+    }
   }
 }

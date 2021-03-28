@@ -169,7 +169,7 @@ export class RegisterComponent implements OnInit {
           this.showing = "none";
           this.verifier = "block";
           //Aquí mando a verificar pero con el id del usuario
-          this.router.navigate(['verify'],{ queryParams: { vux: provider.id }});
+          this.router.navigate(['verify'],{ queryParams: { removeEventListener: provider.id }});
         }, 3000); 
       },error => {
         //Aquí falta redirigir a donde está el error

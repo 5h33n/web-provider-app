@@ -55,7 +55,9 @@
   height: 50px;
   width: 100%;
   margin-top: 20px;
+  display: flex;
   position: relative;
+  text-align: center;
 }
 .wrapper form .field input{
   padding: 0 20px;
@@ -128,10 +130,20 @@ form .field input[type="submit"]{
   font-weight: 500;
   cursor: pointer;
   background: #fcb000;
+  border-radius: 25px !important;
   transition: all 0.3s ease;
 }
 form .field input[type="submit"]:active{
   transform: scale(0.95);
+}
+form .field input[type="submit"]:disabled{
+  background-color: darkgray;
+}
+form .field input[type="submit"]:hover{
+  background: #000;
+}
+form .field input[type="submit"]:focus{
+    outline:none;
 }
 form .signup-link{
   color: #262626;

@@ -15,13 +15,15 @@
       <input type="text" formControlName="username" required>
       <label>Usuario o correo</label>
       <mat-error *ngIf="loginForm.controls.username.touched && loginForm.controls.username.invalid">
-        <span *ngIf="loginForm.controls.username?.errors?.required">This field is mandatory.</span>
-        <span *ngIf="loginForm.controls.username?.errors?.pattern">This field is invalid.</span>
+        <span *ngIf="loginForm.controls.username?.errors?.required">Necesitamos este dato.</span>
       </mat-error>
     </div>
     <div class="field">
       <input formControlName="password" type="password" required>
       <label>Contraseña</label>
+      <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+        <span *ngIf="loginForm.controls.password?.errors?.required">Necesitamos este dato.</span>
+      </mat-error>
     </div>
     <div class="content">
       <div class="checkbox">
@@ -33,7 +35,7 @@
       </div>
     </div>
     <div class="field">
-      <input type="submit" value="Login">
+      <input type="submit" [disabled]="loginForm.invalid" value="Login">
     </div>
     <div class="signup-link">
       ¿No tienes una cuenta? <a (click)="gotoRegister()">Registrarse</a>

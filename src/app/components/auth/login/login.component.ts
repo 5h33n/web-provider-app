@@ -3,6 +3,7 @@ import {trigger,state,style,animate,transition,} from '@angular/animations';
 import {Router} from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { noSession, infoMessage, redirectMessage } from '../../../common/common'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -78,15 +79,12 @@ export class LoginComponent implements OnInit {
   }
   submit() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe((access)=>{
-        console.log(access);
+      this.authService.login(this.loginForm.value).subscribe((response)=>{
+        this.authService.setUser(response.body);
       },error=>{
-        this.authService.logout().subscribe((response)=>{
-          console.log(response);
-        })
+        infoMessage('error','No se pudo iniciar sesión',error.error.notifications[0].descripcion,'Aceptar');
       });
     }
-    console.log(this.loginForm);
   }
   gotoRegister(){
     this.showing = true;

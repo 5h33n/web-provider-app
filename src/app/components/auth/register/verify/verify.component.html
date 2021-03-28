@@ -16,18 +16,18 @@
                 </div>
                 <div class="field">
                     <div class="code">
-                        <input type="text" formControlName="d1" pattern="\d*" minlength="1" maxlength="1" required> - 
-                        <input type="text" formControlName="d2" pattern="\d*" minlength="1" maxlength="1" required> - 
-                        <input type="text" formControlName="d3" pattern="\d*" minlength="1" maxlength="1" required> - 
-                        <input type="text" formControlName="d4" pattern="\d*" minlength="1" maxlength="1" required> - 
-                        <input type="text" formControlName="d5" pattern="\d*" minlength="1" maxlength="1" required> - 
-                        <input type="text" formControlName="d6" pattern="\d*" minlength="1" maxlength="1" required>
+                        <input type="text" #input formControlName="d1" pattern="\d*" minlength="1" maxlength="1" required (keyup)="next(0)" (keydown)="getNumber($event,0)"> - 
+                        <input type="text" #input formControlName="d2" pattern="\d*" minlength="1" maxlength="1" required (keyup)="next(1)" (keydown)="getNumber($event,1)" (click)="prev(1)"> - 
+                        <input type="text" #input formControlName="d3" pattern="\d*" minlength="1" maxlength="1" required (keyup)="next(2)" (keydown)="getNumber($event,2)" (click)="prev(2)"> - 
+                        <input type="text" #input formControlName="d4" pattern="\d*" minlength="1" maxlength="1" required (keyup)="next(3)" (keydown)="getNumber($event,3)" (click)="prev(3)"> - 
+                        <input type="text" #input formControlName="d5" pattern="\d*" minlength="1" maxlength="1" required (keyup)="next(4)" (keydown)="getNumber($event,4)" (click)="prev(4)"> - 
+                        <input type="text" #input formControlName="d6" pattern="\d*" minlength="1" maxlength="1" required (keyup)="next(5)" (keydown)="getNumber($event,5)" (click)="prev(5)">
                     </div>
                 </div>
                 <div class="subtitle" *ngIf="currentProvider.verType ==1">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode()">Reenviar código a {{currentProvider.email}}</a></div>
                 <div class="subtitle" *ngIf="currentProvider.verType ==2">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode()">Reenviar código por SMS al {{currentProvider.phone}}</a></div>
                 <div class="field">
-                    <button class="firstNext next" [disabled]="verifyForm.invalid">Verificar mi cuenta</button>
+                    <button class="firstNext next" [disabled]="verifyForm.invalid" (click)="verifyCode()">Verificar mi cuenta</button>
                 </div>
                 <div class="subtitle" *ngIf="currentProvider.verType ==1">¿No tienes acceso a tu correo o número telefónico? <a href="javascript:void(0)" (click)="changeVerType()">Cambiar método de verificación</a></div>
             </div>
