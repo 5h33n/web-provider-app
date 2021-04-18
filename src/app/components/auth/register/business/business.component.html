@@ -1,1 +1,62 @@
-<p>business works!</p>
+<div class="container">
+    <header>Registrar nuevo negocio </header>
+    <div class="pbar">
+        <div class="step" *ngFor="let paso of steps;let indice=index">
+            <p [class]="paso[1]">{{ paso[0] }}</p>
+            <div class="bullet" [class]="paso[1]">
+                <span>{{indice + 1}}</span>
+            </div>
+            <div class="check fas fa-check " [class]="paso[1]">
+            </div>
+        </div>
+    </div>
+    <div class="form-outer">
+        <form [formGroup]="registerForm" action="#">
+            <div class="page slide-page" [style.margin-left] = "marginLeft">
+                <div class="title">Cuéntanos un poco sobre tu negocio...</div>
+                <div class="field">
+                </div>
+                <div class="field">
+                    <button class="firstNext next" (click)="next($event)">Siguiente</button>
+                </div>
+            </div>
+            <div class="page">
+                <div class="title">Información de cuenta:</div>
+                <div class="field" style="margin-bottom: 35px;margin-top: 30px;">
+                    <input type="text" required formControlName="username">
+                    <label>Nombre de usuario</label>
+                </div>
+                <div class="field" style="margin-top: 20px;">
+                    <input type="password" required formControlName="password" >
+                    <label>Contraseña</label>
+                </div>
+                <div class="field" style="margin-bottom: 75px;margin-top: 35px;">
+                    <input type="password" required formControlName="passwordConfirm" >
+                    <label>Confirmar contraseña</label>
+                </div>
+                <div class="field btns">
+                    <button class="prev-1 prev" (click)="prev($event)">Anterior</button>
+                    <button class="next-1 next" (click)="next($event)">Siguiente</button>
+                </div>
+            </div>
+            <div class="page">
+                <div class="title">Información de usuario:</div>
+                <div class="field btns">
+                    <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
+                    <button class="next-3 next" (click)="next($event)" [disabled]="registerForm.controls.email.invalid || registerForm.controls.phone.invalid  || registerForm.controls.verType.invalid">Registrarme</button>
+                </div>
+            </div>
+            <div class="page">
+                <div class="title">Información de contacto:</div>
+                <div class="field btns">
+                    <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
+                    <button class="next-3 next" (click)="next($event)" [disabled]="registerForm.controls.email.invalid || registerForm.controls.phone.invalid  || registerForm.controls.verType.invalid">Registrarme</button>
+                </div>
+            </div>
+            <div class="page">
+                <div class="title">¿Qué tipo de negocio quieres registrar?</div>
+                <mat-progress-spinner style="margin:0 auto;margin-top:30%;margin-left:47%" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
+            </div>
+        </form>
+    </div>
+</div>

@@ -3,7 +3,7 @@ import {trigger,state,style,animate,transition,} from '@angular/animations';
 import {Router} from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { noSession, infoMessage, redirectMessage } from '../../../common/common'
+import { noSession, infoMessage, redirectMessage } from '../../../common/common';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -81,8 +81,16 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe((response)=>{
         this.authService.setUser(response.body);
+        let currentUser = this.authService.getCurrentUser();
+        if(currentUser.verifiedAt){
+          //redirecciono a dashboard
+          console.log("todavía no estoy programado xd");
+        }else{
+          this.router.navigate(['verify'],{ queryParams: { r: currentUser.id }});
+        }
       },error=>{
-        infoMessage('error','No se pudo iniciar sesión',error.error.notifications[0].descripcion,'Aceptar');
+        let msgError = error.error.notifications ? error.error.notifications[0].descripcion : "No fue posible conectar con el servicio de inicio de sesión, inténtelo de nuevo más tarde";
+        infoMessage('error','No se pudo iniciar sesión',msgError,'Aceptar');
       });
     }
   }

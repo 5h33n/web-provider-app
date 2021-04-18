@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Provider } from 'src/app/models/provider';
 import Swal from 'sweetalert2';
+import { noSession, infoMessage, redirectMessage } from '../../../common/common'
 class CustomValidators{
   static emailValid(control: AbstractControl): ValidationErrors{
     const regex = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
@@ -96,11 +97,7 @@ export class RegisterComponent implements OnInit {
     });
   }
   showInfoPassword(){
-    Swal.fire(
-      'Ingresa una contraseña segura',
-      'La contraseña debe tener entre 8 y 16 caractéres, contener al menos una letra mayúscula, una letra minúscula y un número',
-      'info'
-    )
+    infoMessage('warning','Ingresa una contraseña segura','La contraseña debe tener entre 8 y 16 caractéres, contener al menos una letra mayúscula, una letra minúscula y un número','Aceptar');
   }
   setType(tipo:string,text:string){
     Swal.fire({
@@ -136,11 +133,7 @@ export class RegisterComponent implements OnInit {
   register(){
     console.log(this.registerForm)
     if (this.registerForm.invalid){
-      Swal.fire(
-        'No se pudeo registrar',
-        'Datos inválidos',
-        'info'
-      )
+      infoMessage('error','Imposible registrar usuario','Algunos datos proporcionados son inválidos','Aceptar');
     }else{
       this.newUser.username = this.registerForm.value.username;
       this.newUser.password = this.registerForm.value.password;
@@ -169,15 +162,12 @@ export class RegisterComponent implements OnInit {
           this.showing = "none";
           this.verifier = "block";
           //Aquí mando a verificar pero con el id del usuario
-          this.router.navigate(['verify'],{ queryParams: { removeEventListener: provider.id }});
+          this.router.navigate(['verify'],{ queryParams: { r: provider.id }});
         }, 3000); 
       },error => {
         //Aquí falta redirigir a donde está el error
-        Swal.fire(
-          'No se pudo crear la cuenta',
-          error.error.notifications[0].descripcion,
-          'error'
-        )
+        let msgError = error.error.notifications ? error.error.notifications[0].descripcion : "No fue posible conectar con el servicio de registro, inténtelo de nuevo más tarde";
+        infoMessage('error','No se pudo crear la cuenta',msgError,'Aceptar');
       });
     }
   }

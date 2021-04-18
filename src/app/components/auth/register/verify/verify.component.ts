@@ -62,10 +62,11 @@ export class VerifyComponent implements OnInit {
     var code = "";
     for (var i in this.inputs.toArray())
       code += this.inputs.toArray()[i].nativeElement.value;
-    var info = {id:this.currentProvider.id,token:null,codigo:code};
+    var info = {id:this.currentProvider.id,token:null,codigo:52005};
     this.verify(info);
   }
   verify(info:any){
+    console.log("verificando...");
     this.authService.accountConfirm(info).subscribe(response=>{
       if(response){
         if(response.codigo==="0000000033"){
@@ -77,7 +78,7 @@ export class VerifyComponent implements OnInit {
           }).then((result) => {
             if (result.value) {
               console.log("Continuamos");
-              //this.router.navigate(['/dashboard']);
+              this.router.navigate(['business'],{ queryParams: { r: this.currentProvider.id }});
             }
           })
         }else{
