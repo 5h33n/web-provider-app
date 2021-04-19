@@ -18,24 +18,45 @@ export class BusinessComponent implements OnInit {
   showing = "none";
   verifier = "none";
   steps = [["General",""],["Ubicación","",],["Contacto",""],["Horarios",""]];
+  center = { lat: 50.064192, lng: -130.605469 };
+// Create a bounding box with sides ~10km away from the center point
+  defaultBounds = {
+    east: 50.064192,
+    north: 50.064192,
+    south: 50.064192,
+    west: 50.064192
+  };
+  options = {
+    bounds: this.defaultBounds,
+    componentRestrictions: { country: "us" },
+    fields: ["address_components", "geometry", "icon", "name"],
+    types: ["establishment"],
+    strictBounds: false,
+    origin: this.center
+  };
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      username: [null, [Validators.required]],
+      name: [null, [Validators.required]],
       photo: ["zxc", [Validators.required]],
-      password: [null, [Validators.required]],
-      passwordConfirm: [null, [Validators.required]],
-      firstName: [null, [Validators.required]],
-      lastName: [null, [Validators.required]],
-      secondLastName: [null, [Validators.required]],
-      birthdate: [null, [Validators.required]],
-      gender: [null, [Validators.required]],
-      email: [null, [Validators.required,]],
-      phone: [null, [Validators.required]],
-      verType: [null, [Validators.required]],
-      type: [null, [Validators.required]],
-      terms:[false, Validators.required]
+      cp: [null, [Validators.required]],
+      state: [null, [Validators.required]],
+      suburb: [null, [Validators.required]],
+      street: [null, [Validators.required]],
+      externNumber: [null, [Validators.required]],
+      internNumber: [null, [Validators.required]],
+      business: [null, [Validators.required]],
+      phone: [null, [Validators.required,]],
+      email: [null, [Validators.required]],
+      description: [null, [Validators.required]],
+      images: [null, [Validators.required]],
+      Assessment:[false, Validators.required],
+      score:[false, Validators.required],
+      Schedule:[false, Validators.required],
+      SocialMedia:[false, Validators.required],
+      tags:[false, Validators.required]
     });
   }
 

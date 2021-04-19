@@ -61,7 +61,7 @@
 
 
 
-form .field input,form .field select{
+form .field input,form .field select,form .field textarea{
     padding: 0 20px;
     height: 100%;
     width: 100%;
@@ -90,7 +90,8 @@ form .field label{
     transition: all 0.3s ease;
   }
   form .field input:focus ~ label:nth-of-type(1),form .field select:focus ~ label,
-  form .field input:required:valid ~ label,form .field select:valid ~ label{
+  form .field input:required:valid ~ label,form .field select:valid ~ label,
+  form .field textarea:focus ~ label,form .field textarea:valid ~ label{
     top: 0%;
     font-size: 16px;
     color: #fcb000;
@@ -131,6 +132,11 @@ form .page .field select{
   font-size: 17px;
   font-weight: 500;
 } */
+form .field textarea{
+  height: 200% !important;
+  line-height: 1;
+  padding-top: 12px;
+}
 form .page .field button{
   width: 100%;
   height: calc(100% + 5px);

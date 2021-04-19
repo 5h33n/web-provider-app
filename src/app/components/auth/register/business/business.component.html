@@ -13,8 +13,27 @@
     <div class="form-outer">
         <form [formGroup]="registerForm" action="#">
             <div class="page slide-page" [style.margin-left] = "marginLeft">
-                <div class="title">Cuéntanos un poco sobre tu negocio...</div>
+                <div class="title">Información general</div>
+                <div class="field" style="margin-bottom: 20px;margin-top: 30px;">
+                    <input type="text" required formControlName="name" [class.inputInvalid]="registerForm.controls.name.touched && registerForm.controls.name.invalid">
+                    <label>Nombre del negocio</label>
+                    <mat-error *ngIf="registerForm.controls.name.touched && registerForm.controls.name.invalid">
+                        <span *ngIf="registerForm.controls.name.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-bottom: 75px;">
+                    <textarea name="description" required formControlName="description" [class.inputInvalid]="registerForm.controls.description.touched && registerForm.controls.description.invalid" cols="30" rows="10"></textarea>
+                    <label>Breve descipción</label>
+                    <mat-error *ngIf="registerForm.controls.description.touched && registerForm.controls.description.invalid">
+                        <span *ngIf="registerForm.controls.description.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
                 <div class="field">
+                    <input type="text" required formControlName="business" [class.inputInvalid]="registerForm.controls.business.touched && registerForm.controls.business.invalid">
+                    <label>Giro del negocio</label>
+                    <mat-error *ngIf="registerForm.controls.business.touched && registerForm.controls.business.invalid">
+                        <span *ngIf="registerForm.controls.business.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
                 </div>
                 <div class="field">
                     <button class="firstNext next" (click)="next($event)">Siguiente</button>
@@ -23,15 +42,14 @@
             <div class="page">
                 <div class="title">Información de cuenta:</div>
                 <div class="field" style="margin-bottom: 35px;margin-top: 30px;">
-                    <input type="text" required formControlName="username">
-                    <label>Nombre de usuario</label>
+                    <!-- <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Ingresa una ubicación" name="formattedAddress"/> -->
                 </div>
                 <div class="field" style="margin-top: 20px;">
-                    <input type="password" required formControlName="password" >
+                    <input type="password" required >
                     <label>Contraseña</label>
                 </div>
                 <div class="field" style="margin-bottom: 75px;margin-top: 35px;">
-                    <input type="password" required formControlName="passwordConfirm" >
+                    <input type="password" required >
                     <label>Confirmar contraseña</label>
                 </div>
                 <div class="field btns">
@@ -43,14 +61,14 @@
                 <div class="title">Información de usuario:</div>
                 <div class="field btns">
                     <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
-                    <button class="next-3 next" (click)="next($event)" [disabled]="registerForm.controls.email.invalid || registerForm.controls.phone.invalid  || registerForm.controls.verType.invalid">Registrarme</button>
+                    <button class="next-3 next" (click)="next($event)" >Registrarme</button>
                 </div>
             </div>
             <div class="page">
                 <div class="title">Información de contacto:</div>
                 <div class="field btns">
                     <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
-                    <button class="next-3 next" (click)="next($event)" [disabled]="registerForm.controls.email.invalid || registerForm.controls.phone.invalid  || registerForm.controls.verType.invalid">Registrarme</button>
+                    <button class="next-3 next" (click)="next($event)" >Registrarme</button>
                 </div>
             </div>
             <div class="page">
