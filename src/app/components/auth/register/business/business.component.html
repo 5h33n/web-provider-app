@@ -11,28 +11,28 @@
         </div>
     </div>
     <div class="form-outer">
-        <form [formGroup]="registerForm" action="#">
+        <form [formGroup]="businessForm" action="#">
             <div class="page slide-page" [style.margin-left] = "marginLeft">
                 <div class="title">Información general</div>
                 <div class="field" style="margin-bottom: 20px;margin-top: 30px;">
-                    <input type="text" required formControlName="name" [class.inputInvalid]="registerForm.controls.name.touched && registerForm.controls.name.invalid">
+                    <input type="text" required formControlName="name" [class.inputInvalid]="businessForm.controls.name.touched && businessForm.controls.name.invalid">
                     <label>Nombre del negocio</label>
-                    <mat-error *ngIf="registerForm.controls.name.touched && registerForm.controls.name.invalid">
-                        <span *ngIf="registerForm.controls.name.errors?.required">Este campo no puede estar vacío.</span>
+                    <mat-error *ngIf="businessForm.controls.name.touched && businessForm.controls.name.invalid">
+                        <span *ngIf="businessForm.controls.name.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </div>
                 <div class="field" style="margin-bottom: 75px;">
-                    <textarea name="description" required formControlName="description" [class.inputInvalid]="registerForm.controls.description.touched && registerForm.controls.description.invalid" cols="30" rows="10"></textarea>
+                    <textarea name="description" required formControlName="description" [class.inputInvalid]="businessForm.controls.description.touched && businessForm.controls.description.invalid" cols="30" rows="10"></textarea>
                     <label>Breve descipción</label>
-                    <mat-error *ngIf="registerForm.controls.description.touched && registerForm.controls.description.invalid">
-                        <span *ngIf="registerForm.controls.description.errors?.required">Este campo no puede estar vacío.</span>
+                    <mat-error *ngIf="businessForm.controls.description.touched && businessForm.controls.description.invalid">
+                        <span *ngIf="businessForm.controls.description.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </div>
                 <div class="field">
-                    <input type="text" required formControlName="business" [class.inputInvalid]="registerForm.controls.business.touched && registerForm.controls.business.invalid">
+                    <input type="text" required formControlName="business" [class.inputInvalid]="businessForm.controls.business.touched && businessForm.controls.business.invalid">
                     <label>Giro del negocio</label>
-                    <mat-error *ngIf="registerForm.controls.business.touched && registerForm.controls.business.invalid">
-                        <span *ngIf="registerForm.controls.business.errors?.required">Este campo no puede estar vacío.</span>
+                    <mat-error *ngIf="businessForm.controls.business.touched && businessForm.controls.business.invalid">
+                        <span *ngIf="businessForm.controls.business.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </div>
                 <div class="field">
@@ -40,17 +40,9 @@
                 </div>
             </div>
             <div class="page">
-                <div class="title">Información de cuenta:</div>
+                <div class="title">Ubicación</div>
                 <div class="field" style="margin-bottom: 35px;margin-top: 30px;">
                     <!-- <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Ingresa una ubicación" name="formattedAddress"/> -->
-                </div>
-                <div class="field" style="margin-top: 20px;">
-                    <input type="password" required >
-                    <label>Contraseña</label>
-                </div>
-                <div class="field" style="margin-bottom: 75px;margin-top: 35px;">
-                    <input type="password" required >
-                    <label>Confirmar contraseña</label>
                 </div>
                 <div class="field btns">
                     <button class="prev-1 prev" (click)="prev($event)">Anterior</button>
@@ -58,10 +50,38 @@
                 </div>
             </div>
             <div class="page">
-                <div class="title">Información de usuario:</div>
+                <div class="title">Contacto</div>
+                <div class="field" style="margin-bottom: 15px;margin-top: 30px;">
+                    <input type="email" required formControlName="email" [class.inputInvalid]="businessForm.controls.email.touched && businessForm.controls.email.invalid">
+                    <label for="">Correo electrónico</label>
+                    <mat-error *ngIf="businessForm.controls.email.touched && businessForm.controls.email.invalid">
+                        <span *ngIf="businessForm.controls.email.errors?.required">Este campo no puede estar vacío.</span>
+                        <span *ngIf="businessForm.controls.email.errors?.pattern">El formato del correo es inválido.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-top: 15px;">
+                    <input type="text" required formControlName="phone" [class.inputInvalid]="businessForm.controls.phone.touched && businessForm.controls.phone.invalid">
+                    <label for="" >Teléfono</label>
+                    <mat-error *ngIf="businessForm.controls.phone.touched && businessForm.controls.phone.invalid">
+                        <span *ngIf="businessForm.controls.phone.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="socialmedia">
+                    <label for="">Redes sociales</label>
+                    <div class="sll">
+                        <div class="input-group">
+                            <select name="ejem" id="ejem" class="btn btn-outline-secondary">
+                                <option value="fb">Facebook</option>
+                                <option value="tw">Twitter</option>
+                            </select>
+                          <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                        </div>
+                        <button class="btn btn-dark btn-block">Agregar otra</button>
+                    </div>
+                </div>
                 <div class="field btns">
                     <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
-                    <button class="next-3 next" (click)="next($event)" >Registrarme</button>
+                    <button class="next-3 next" (click)="next($event)" >Siguiente</button>
                 </div>
             </div>
             <div class="page">

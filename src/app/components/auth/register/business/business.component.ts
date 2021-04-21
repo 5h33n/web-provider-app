@@ -8,7 +8,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class BusinessComponent implements OnInit {
   // PROPIEDADES DE DISEÑO
-  registerForm!: FormGroup;
+  businessForm!: FormGroup;
+  emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
+
   termsAcepted = false;
   marginLeft = "0"
   percent = 0;
@@ -38,7 +40,7 @@ export class BusinessComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
+    this.businessForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       photo: ["zxc", [Validators.required]],
       cp: [null, [Validators.required]],
@@ -49,7 +51,7 @@ export class BusinessComponent implements OnInit {
       internNumber: [null, [Validators.required]],
       business: [null, [Validators.required]],
       phone: [null, [Validators.required,]],
-      email: [null, [Validators.required]],
+      email: [null, [Validators.required,Validators.pattern(this.emailRegx)]],
       description: [null, [Validators.required]],
       images: [null, [Validators.required]],
       Assessment:[false, Validators.required],
