@@ -20,6 +20,7 @@ export class BusinessComponent implements OnInit {
   showing = "none";
   verifier = "none";
   steps = [["General",""],["Ubicación","",],["Contacto",""],["Horarios",""]];
+  socialMedia = [["fb",""]];
   center = { lat: 50.064192, lng: -130.605469 };
 // Create a bounding box with sides ~10km away from the center point
   defaultBounds = {
@@ -57,7 +58,7 @@ export class BusinessComponent implements OnInit {
       Assessment:[false, Validators.required],
       score:[false, Validators.required],
       Schedule:[false, Validators.required],
-      SocialMedia:[false, Validators.required],
+      SocialMedia:[this.socialMedia, Validators.required],
       tags:[false, Validators.required]
     });
   }
@@ -76,6 +77,13 @@ export class BusinessComponent implements OnInit {
     this.current-=1;
     this.steps[this.current][1] = "";
   }
-  
-
+  setSocialMediaValue(i: number,t:number,e:Event){
+    this.socialMedia[i][t]=(<HTMLInputElement>e.target).value
+  }
+  addSocialMedia(e: Event){
+    this.socialMedia.push(["fb",""]);
+    console.log(this.socialMedia)
+    this.businessForm.controls["SocialMedia"].setValue(this.socialMedia);
+    console.log(this.businessForm.controls["SocialMedia"]);
+  }
 }

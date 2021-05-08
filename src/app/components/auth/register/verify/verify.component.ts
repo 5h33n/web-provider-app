@@ -62,7 +62,7 @@ export class VerifyComponent implements OnInit {
     var code = "";
     for (var i in this.inputs.toArray())
       code += this.inputs.toArray()[i].nativeElement.value;
-    var info = {id:this.currentProvider.id,token:null,codigo:52005};
+    var info = {id:this.currentProvider.id,token:null,codigo:code};
     this.verify(info);
   }
   verify(info:any){

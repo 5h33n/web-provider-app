@@ -51,7 +51,7 @@
             </div>
             <div class="page">
                 <div class="title">Contacto</div>
-                <div class="field" style="margin-bottom: 15px;margin-top: 30px;">
+                <div class="field" style="margin-bottom: 25px;margin-top: 30px;">
                     <input type="email" required formControlName="email" [class.inputInvalid]="businessForm.controls.email.touched && businessForm.controls.email.invalid">
                     <label for="">Correo electrónico</label>
                     <mat-error *ngIf="businessForm.controls.email.touched && businessForm.controls.email.invalid">
@@ -59,7 +59,7 @@
                         <span *ngIf="businessForm.controls.email.errors?.pattern">El formato del correo es inválido.</span>
                     </mat-error>
                 </div>
-                <div class="field" style="margin-top: 15px;">
+                <div class="field" style="margin-top: 15px;margin-bottom: 25px;">
                     <input type="text" required formControlName="phone" [class.inputInvalid]="businessForm.controls.phone.touched && businessForm.controls.phone.invalid">
                     <label for="" >Teléfono</label>
                     <mat-error *ngIf="businessForm.controls.phone.touched && businessForm.controls.phone.invalid">
@@ -69,14 +69,14 @@
                 <div class="socialmedia">
                     <label for="">Redes sociales</label>
                     <div class="sll">
-                        <div class="input-group">
-                            <select name="ejem" id="ejem" class="btn btn-outline-secondary">
+                        <div class="input-group" *ngFor="let red of businessForm.controls['SocialMedia'].value;let i=index">
+                            <select name="ejem" class="btn btn-outline-secondary" (change)="setSocialMediaValue(i,0,$event)">
                                 <option value="fb">Facebook</option>
                                 <option value="tw">Twitter</option>
                             </select>
-                          <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                          <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Enlace completo" (change)='setSocialMediaValue(i,1,$event)'>
                         </div>
-                        <button class="btn btn-dark btn-block">Agregar otra</button>
+                        <button class="btn btn-dark btn-block" (click)="addSocialMedia($event)">Agregar otra</button>
                     </div>
                 </div>
                 <div class="field btns">
@@ -85,10 +85,55 @@
                 </div>
             </div>
             <div class="page">
-                <div class="title">Información de contacto:</div>
+                <div class="title">Horarios</div>
+                <div class="horarios" style="margin-top:10px;margin-bottom: 50px;">
+                    <div class="subtitle">Horarios de lunes:</div>
+                    <div class="field">
+                        <input type="time" id="lunesinicio" required>
+                        <label for="lunesinicio">Apertura</label>
+                        <input type="time" id="lunesfin" required>
+                        <label for="lunesfin" style="left: 55%;">Cierre</label>
+                    </div>
+                    <div class="field">
+                        <input type="time" id="martesinicio" required>
+                        <label for="martesinicio">Apertura</label>
+                        <input type="time" id="martesfin" required>
+                        <label for="martesfin" style="left: 55%;">Cierre</label>
+                    </div>
+                    <div class="field">
+                        <input type="time" id="miercolesinicio" required>
+                        <label for="miercolesinicio">Apertura</label>
+                        <input type="time" id="miercolesfin" required>
+                        <label for="miercolesfin" style="left: 55%;">Cierre</label>
+                    </div>
+                    <div class="field">
+                        <input type="time" id="juevesinicio" required>
+                        <label for="juevesinicio">Apertura</label>
+                        <input type="time" id="juevesfin" required>
+                        <label for="juevesfin" style="left: 55%;">Cierre</label>
+                    </div>
+                    <div class="field">
+                        <input type="time" id="viernesinicio" required>
+                        <label for="viernesinicio">Apertura</label>
+                        <input type="time" id="viernesfin" required>
+                        <label for="viernesfin" style="left: 55%;">Cierre</label>
+                    </div>
+                    <div class="field">
+                        <input type="time" id="sabadoinicio" required>
+                        <label for="sabadoinicio">Apertura</label>
+                        <input type="time" id="sabadofin" required>
+                        <label for="sabadofin" style="left: 55%;">Cierre</label>
+                    </div>
+                    <div class="field">
+                        <input type="time" id="domingoinicio" required>
+                        <label for="domingoinicio">Apertura</label>
+                        <input type="time" id="domingofin" required>
+                        <label for="domingofin" style="left: 55%;">Cierre</label>
+                    </div>
+                </div>
                 <div class="field btns">
                     <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
-                    <button class="next-3 next" (click)="next($event)" >Registrarme</button>
+                    <button class="next-3 next" (click)="next($event)" >Crear negocio</button>
                 </div>
             </div>
             <div class="page">
