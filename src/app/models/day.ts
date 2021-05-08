@@ -1,8 +1,14 @@
 export class Day{
-    start:Date;
-    end:Date;
+    start:Date | undefined;
+    end:Date | undefined;
     constructor(){
-        this.start = new Date();
-        this.end = new Date();
+        this.start = undefined;
+        this.end = undefined;
+    }
+    setStart(s: Date){
+        this.start = s;
+    }
+    setEnd(e: Date){
+        this.end = e;
     }
 }

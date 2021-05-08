@@ -89,45 +89,45 @@
                 <div class="horarios" style="margin-top:10px;margin-bottom: 50px;">
                     <div class="subtitle">Horarios de lunes:</div>
                     <div class="field">
-                        <input type="time" id="lunesinicio" required>
+                        <input type="time" id="lunesinicio" required (change)="setSchedule(0,0,$event)">
                         <label for="lunesinicio">Apertura</label>
-                        <input type="time" id="lunesfin" required>
+                        <input type="time" id="lunesfin" required (change)="setSchedule(0,1,$event)">
                         <label for="lunesfin" style="left: 55%;">Cierre</label>
                     </div>
                     <div class="field">
-                        <input type="time" id="martesinicio" required>
+                        <input type="time" id="martesinicio" required (change)="setSchedule(1,0,$event)">
                         <label for="martesinicio">Apertura</label>
-                        <input type="time" id="martesfin" required>
+                        <input type="time" id="martesfin" required (change)="setSchedule(1,1,$event)">
                         <label for="martesfin" style="left: 55%;">Cierre</label>
                     </div>
                     <div class="field">
-                        <input type="time" id="miercolesinicio" required>
+                        <input type="time" id="miercolesinicio" required (change)="setSchedule(2,0,$event)">
                         <label for="miercolesinicio">Apertura</label>
-                        <input type="time" id="miercolesfin" required>
+                        <input type="time" id="miercolesfin" required (change)="setSchedule(2,1,$event)">
                         <label for="miercolesfin" style="left: 55%;">Cierre</label>
                     </div>
                     <div class="field">
-                        <input type="time" id="juevesinicio" required>
+                        <input type="time" id="juevesinicio" required (change)="setSchedule(3,0,$event)">
                         <label for="juevesinicio">Apertura</label>
-                        <input type="time" id="juevesfin" required>
+                        <input type="time" id="juevesfin" required (change)="setSchedule(3,1,$event)">
                         <label for="juevesfin" style="left: 55%;">Cierre</label>
                     </div>
                     <div class="field">
-                        <input type="time" id="viernesinicio" required>
+                        <input type="time" id="viernesinicio" required (change)="setSchedule(4,0,$event)">
                         <label for="viernesinicio">Apertura</label>
-                        <input type="time" id="viernesfin" required>
+                        <input type="time" id="viernesfin" required (change)="setSchedule(4,1,$event)">
                         <label for="viernesfin" style="left: 55%;">Cierre</label>
                     </div>
                     <div class="field">
-                        <input type="time" id="sabadoinicio" required>
+                        <input type="time" id="sabadoinicio" required (change)="setSchedule(5,0,$event)">
                         <label for="sabadoinicio">Apertura</label>
-                        <input type="time" id="sabadofin" required>
+                        <input type="time" id="sabadofin" required (change)="setSchedule(5,1,$event)">
                         <label for="sabadofin" style="left: 55%;">Cierre</label>
                     </div>
                     <div class="field">
-                        <input type="time" id="domingoinicio" required>
+                        <input type="time" id="domingoinicio" required (change)="setSchedule(6,0,$event)">
                         <label for="domingoinicio">Apertura</label>
-                        <input type="time" id="domingofin" required>
+                        <input type="time" id="domingofin" required (change)="setSchedule(6,1,$event)">
                         <label for="domingofin" style="left: 55%;">Cierre</label>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                 </div>
             </div>
             <div class="page">
-                <div class="title">¿Qué tipo de negocio quieres registrar?</div>
+                <div class="title">Personaliza tu negocio</div>
                 <mat-progress-spinner style="margin:0 auto;margin-top:30%;margin-left:47%" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
             </div>
         </form>

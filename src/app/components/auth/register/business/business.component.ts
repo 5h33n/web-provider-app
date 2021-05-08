@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Schedule } from 'src/app/models/schedule';
 
 @Component({
   selector: 'app-business',
@@ -21,6 +22,7 @@ export class BusinessComponent implements OnInit {
   verifier = "none";
   steps = [["General",""],["Ubicación","",],["Contacto",""],["Horarios",""]];
   socialMedia = [["fb",""]];
+  schedule = new Schedule()
   center = { lat: 50.064192, lng: -130.605469 };
 // Create a bounding box with sides ~10km away from the center point
   defaultBounds = {
@@ -57,7 +59,7 @@ export class BusinessComponent implements OnInit {
       images: [null, [Validators.required]],
       Assessment:[false, Validators.required],
       score:[false, Validators.required],
-      Schedule:[false, Validators.required],
+      Schedule:[this.schedule, Validators.required],
       SocialMedia:[this.socialMedia, Validators.required],
       tags:[false, Validators.required]
     });
@@ -65,6 +67,7 @@ export class BusinessComponent implements OnInit {
 
   next(e: Event){
     e.preventDefault();
+    console.log(this.schedule);
     this.percent += 25;
     this.marginLeft = `-${this.percent}%`;
     this.steps[this.current][1] = "active";
@@ -82,8 +85,34 @@ export class BusinessComponent implements OnInit {
   }
   addSocialMedia(e: Event){
     this.socialMedia.push(["fb",""]);
-    console.log(this.socialMedia)
     this.businessForm.controls["SocialMedia"].setValue(this.socialMedia);
-    console.log(this.businessForm.controls["SocialMedia"]);
+  }
+  setSchedule(day: number,pos:number,e:Event){
+    let _time_ = (<HTMLInputElement>e.target).value;
+    let _date_time_ = `December 17, 1995 ${_time_}:00`;
+    let formed_time = new Date(_date_time_);
+    switch(day){
+      case 0:
+        (pos==0) ? this.schedule.monday.setStart(formed_time) : this.schedule.monday.setEnd(formed_time);
+        break;
+      case 1:
+        (pos==0) ? this.schedule.saturday.setStart(formed_time) : this.schedule.saturday.setEnd(formed_time);
+        break;
+      case 2:
+        (pos==0) ? this.schedule.wednesday.setStart(formed_time) : this.schedule.wednesday.setEnd(formed_time);
+       break;
+      case 3:
+        (pos==0) ? this.schedule.thursday.setStart(formed_time) : this.schedule.thursday.setEnd(formed_time);
+        break;
+      case 4:
+        (pos==0) ? this.schedule.friday.setStart(formed_time) : this.schedule.friday.setEnd(formed_time);
+        break;
+      case 5:
+        (pos==0) ? this.schedule.sunday.setStart(formed_time) : this.schedule.sunday.setEnd(formed_time);
+        break;
+      case 6:
+        (pos==0) ? this.schedule.saturday.setStart(formed_time) : this.schedule.saturday.setEnd(formed_time);
+        break;
+    }
   }
 }
