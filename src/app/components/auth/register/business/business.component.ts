@@ -23,21 +23,11 @@ export class BusinessComponent implements OnInit {
   steps = [["General",""],["Ubicación","",],["Contacto",""],["Horarios",""]];
   socialMedia = [["fb",""]];
   schedule = new Schedule()
-  center = { lat: 50.064192, lng: -130.605469 };
+  notWorkingDays = [false,false,false,false,false,false,false];
 // Create a bounding box with sides ~10km away from the center point
-  defaultBounds = {
-    east: 50.064192,
-    north: 50.064192,
-    south: 50.064192,
-    west: 50.064192
-  };
+
   options = {
-    bounds: this.defaultBounds,
-    componentRestrictions: { country: "us" },
-    fields: ["address_components", "geometry", "icon", "name"],
-    types: ["establishment"],
-    strictBounds: false,
-    origin: this.center
+    componentRestrictions: { country: "us" }
   };
 
   constructor(private formBuilder: FormBuilder) { }
@@ -113,6 +103,43 @@ export class BusinessComponent implements OnInit {
       case 6:
         (pos==0) ? this.schedule.saturday.setStart(formed_time) : this.schedule.saturday.setEnd(formed_time);
         break;
+    }
+  }
+  notWork(day:number,e:Event){
+    if((<HTMLInputElement>e.target).checked){
+      this.notWorkingDays[day] = true;
+      switch(day){
+        case 0:
+          this.schedule.monday.setStart(undefined);
+          this.schedule.monday.setEnd(undefined);
+          break;
+        case 1:
+          this.schedule.saturday.setStart(undefined);
+          this.schedule.saturday.setEnd(undefined);
+          break;
+        case 2:
+          this.schedule.wednesday.setStart(undefined);
+          this.schedule.wednesday.setEnd(undefined);
+        break;
+        case 3:
+          this.schedule.thursday.setStart(undefined);
+          this.schedule.thursday.setEnd(undefined);
+          break;
+        case 4:
+          this.schedule.friday.setStart(undefined);
+          this.schedule.friday.setEnd(undefined);
+          break;
+        case 5:
+          this.schedule.sunday.setStart(undefined);
+          this.schedule.sunday.setEnd(undefined);
+          break;
+        case 6:
+          this.schedule.saturday.setStart(undefined);
+          this.schedule.saturday.setEnd(undefined);
+          break;
+      }
+    }else{
+      this.notWorkingDays[day] = false;
     }
   }
 }

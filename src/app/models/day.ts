@@ -5,10 +5,10 @@ export class Day{
         this.start = undefined;
         this.end = undefined;
     }
-    setStart(s: Date){
+    setStart(s: Date | undefined){
         this.start = s;
     }
-    setEnd(e: Date){
+    setEnd(e: Date | undefined){
         this.end = e;
     }
 }

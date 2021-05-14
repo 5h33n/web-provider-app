@@ -87,48 +87,82 @@
             <div class="page">
                 <div class="title">Horarios</div>
                 <div class="horarios" style="margin-top:10px;margin-bottom: 50px;">
-                    <div class="subtitle">Horarios de lunes:</div>
-                    <div class="field">
-                        <input type="time" id="lunesinicio" required (change)="setSchedule(0,0,$event)">
+                    <div class="subtitle">Lunes:</div>
+                    <div class="field" style="margin-top: 0;margin-bottom: 0;">
+                        <input type="time" id="lunesinicio" required (change)="setSchedule(0,0,$event)" [disabled]="notWorkingDays[0]">
                         <label for="lunesinicio">Apertura</label>
-                        <input type="time" id="lunesfin" required (change)="setSchedule(0,1,$event)">
+                        <input type="time" id="lunesfin" required (change)="setSchedule(0,1,$event)" [disabled]="notWorkingDays[0]">
                         <label for="lunesfin" style="left: 55%;">Cierre</label>
                     </div>
-                    <div class="field">
-                        <input type="time" id="martesinicio" required (change)="setSchedule(1,0,$event)">
+                    <div class="field check">
+                        <input type="checkbox" id="lunesno" name="lunesno" (change)="notWork(0,$event)">
+                        <label for="lunesno">No se abre el Lunes</label>
+                    </div>
+                    <div class="subtitle">Martes:</div>
+                    <div class="field" style="margin-top: 0;margin-bottom: 0;">
+                        <input type="time" id="martesinicio" required (change)="setSchedule(1,0,$event)" [disabled]="notWorkingDays[1]">
                         <label for="martesinicio">Apertura</label>
-                        <input type="time" id="martesfin" required (change)="setSchedule(1,1,$event)">
+                        <input type="time" id="martesfin" required (change)="setSchedule(1,1,$event)" [disabled]="notWorkingDays[1]">
                         <label for="martesfin" style="left: 55%;">Cierre</label>
                     </div>
-                    <div class="field">
-                        <input type="time" id="miercolesinicio" required (change)="setSchedule(2,0,$event)">
+                    <div class="field check">
+                        <input type="checkbox" id="martesno" (change)="notWork(1,$event)">
+                        <label for="martesno">No se abre el Martes</label>
+                    </div>
+                    <div class="subtitle">Miércoles:</div>
+                    <div class="field" style="margin-top: 0;margin-bottom: 0;">
+                        <input type="time" id="miercolesinicio" required (change)="setSchedule(2,0,$event)" [disabled]="notWorkingDays[2]">
                         <label for="miercolesinicio">Apertura</label>
-                        <input type="time" id="miercolesfin" required (change)="setSchedule(2,1,$event)">
+                        <input type="time" id="miercolesfin" required (change)="setSchedule(2,1,$event)" [disabled]="notWorkingDays[2]">
                         <label for="miercolesfin" style="left: 55%;">Cierre</label>
                     </div>
-                    <div class="field">
-                        <input type="time" id="juevesinicio" required (change)="setSchedule(3,0,$event)">
+                    <div class="field check">
+                        <input type="checkbox" id="miercolesno" (change)="notWork(2,$event)">
+                        <label for="miercolesno">No se abre el Miércoles</label>
+                    </div>
+                    <div class="subtitle">Jueves:</div>
+                    <div class="field" style="margin-top: 0;margin-bottom: 0;">
+                        <input type="time" id="juevesinicio" required (change)="setSchedule(3,0,$event)" [disabled]="notWorkingDays[3]">
                         <label for="juevesinicio">Apertura</label>
-                        <input type="time" id="juevesfin" required (change)="setSchedule(3,1,$event)">
+                        <input type="time" id="juevesfin" required (change)="setSchedule(3,1,$event)" [disabled]="notWorkingDays[3]">
                         <label for="juevesfin" style="left: 55%;">Cierre</label>
                     </div>
-                    <div class="field">
-                        <input type="time" id="viernesinicio" required (change)="setSchedule(4,0,$event)">
+                    <div class="field check">
+                        <input type="checkbox" id="juevesno" (change)="notWork(3,$event)">
+                        <label for="juevesno">No se abre el Jueves</label>
+                    </div>
+                    <div class="subtitle">Viernes:</div>
+                    <div class="field" style="margin-top: 0;margin-bottom: 0;">
+                        <input type="time" id="viernesinicio" required (change)="setSchedule(4,0,$event)" [disabled]="notWorkingDays[4]">
                         <label for="viernesinicio">Apertura</label>
-                        <input type="time" id="viernesfin" required (change)="setSchedule(4,1,$event)">
+                        <input type="time" id="viernesfin" required (change)="setSchedule(4,1,$event)" [disabled]="notWorkingDays[4]">
                         <label for="viernesfin" style="left: 55%;">Cierre</label>
                     </div>
-                    <div class="field">
-                        <input type="time" id="sabadoinicio" required (change)="setSchedule(5,0,$event)">
+                    <div class="field check">
+                        <input type="checkbox" id="viernesno" (change)="notWork(4,$event)">
+                        <label for="viernesno">No se abre el Viernes</label>
+                    </div>
+                    <div class="subtitle">Sábado:</div>
+                    <div class="field" style="margin-top: 0;margin-bottom: 0;">
+                        <input type="time" id="sabadoinicio" required (change)="setSchedule(5,0,$event)" [disabled]="notWorkingDays[5]">
                         <label for="sabadoinicio">Apertura</label>
-                        <input type="time" id="sabadofin" required (change)="setSchedule(5,1,$event)">
+                        <input type="time" id="sabadofin" required (change)="setSchedule(5,1,$event)" [disabled]="notWorkingDays[5]">
                         <label for="sabadofin" style="left: 55%;">Cierre</label>
                     </div>
-                    <div class="field">
-                        <input type="time" id="domingoinicio" required (change)="setSchedule(6,0,$event)">
+                    <div class="field check">
+                        <input type="checkbox" id="sabadono" (change)="notWork(5,$event)">
+                        <label for="sabadono">No se abre el Sábado</label>
+                    </div>
+                    <div class="subtitle">Domingo:</div>
+                    <div class="field" style="margin-top: 0;margin-bottom: 0;">
+                        <input type="time" id="domingoinicio" required (change)="setSchedule(6,0,$event)" [disabled]="notWorkingDays[6]">
                         <label for="domingoinicio">Apertura</label>
-                        <input type="time" id="domingofin" required (change)="setSchedule(6,1,$event)">
+                        <input type="time" id="domingofin" required (change)="setSchedule(6,1,$event)" [disabled]="notWorkingDays[6]">
                         <label for="domingofin" style="left: 55%;">Cierre</label>
+                    </div>
+                    <div class="field check">
+                        <input type="checkbox" id="domingono" (change)="notWork(6,$event)">
+                        <label for="domingono">No se abre el Domingo</label>
                     </div>
                 </div>
                 <div class="field btns">
