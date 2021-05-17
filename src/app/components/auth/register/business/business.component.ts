@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Schedule } from 'src/app/models/schedule';
 
+import {MatChipInputEvent} from '@angular/material/chips';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {Observable} from 'rxjs';
+import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
+import {map, startWith} from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
 @Component({
   selector: 'app-business',
   templateUrl: './business.component.html',
@@ -24,13 +30,32 @@ export class BusinessComponent implements OnInit {
   socialMedia = [["fb",""]];
   schedule = new Schedule()
   notWorkingDays = [false,false,false,false,false,false,false];
+  imagePrev: string | undefined = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+  charge: string = "none";
 // Create a bounding box with sides ~10km away from the center point
 
   options = {
     componentRestrictions: { country: "us" }
   };
 
-  constructor(private formBuilder: FormBuilder) { }
+  // chips
+  visible = true;
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl();
+  filteredFruits: Observable<string[]>;
+  fruits: string[] = ['Lemon'];
+  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+  @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete!: MatAutocomplete;
+
+  constructor(private formBuilder: FormBuilder) {
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+  }
 
   ngOnInit(): void {
     this.businessForm = this.formBuilder.group({
@@ -53,6 +78,41 @@ export class BusinessComponent implements OnInit {
       SocialMedia:[this.socialMedia, Validators.required],
       tags:[false, Validators.required]
     });
+  }
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // Clear the input value
+    
+    
+    //event.chipInput!.clear();
+
+    this.fruitCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.fruits.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
 
   next(e: Event){
@@ -141,5 +201,13 @@ export class BusinessComponent implements OnInit {
     }else{
       this.notWorkingDays[day] = false;
     }
+  }
+  async imagePreview(e:Event){
+    const file = (<HTMLInputElement>e.target).files![0]
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.imagePrev = reader.result?.toString();
+    };
   }
 }

@@ -8,6 +8,9 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatSelectModule} from '@angular/material/select';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 const materialComponents = [
   MatSliderModule,
   MatProgressSpinnerModule,
@@ -17,7 +20,10 @@ const materialComponents = [
   MatSidenavModule,
   MatListModule,
   MatTabsModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatChipsModule,
+  MatSelectModule,
+  MatAutocompleteModule
 ];
 @NgModule({
   imports: [materialComponents],
