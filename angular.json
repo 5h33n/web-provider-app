@@ -28,16 +28,16 @@
               "src/assets"
             ],
             "styles": [
-              "src/custom-theme.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ti-icons/css/themify-icons.css",
               "node_modules/animate.css/animate.min.css",
+              "src/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/js/jquery-3.5.1.slim.min.js",
-              "src/assets/js/bootstrap.min.js",
-              "node_modules/chart.js/dist/Chart.bundle.min.js",
-              "src/assets/js/popper.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/chart.js/dist/Chart.bundle.min.js"
             ]
           },
           "configurations": {

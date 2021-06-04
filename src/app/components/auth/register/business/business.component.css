@@ -388,6 +388,7 @@ input[type="time"]:disabled {
 .subtitle{
   text-align: justify;
   font-weight: 500;
+  margin-bottom: 10px;
 }
 .field.check{
   display: flex;
@@ -423,18 +424,36 @@ input[type="time"]:disabled {
 .load-images{
   display: flex;
 }
+.page h3.desc{
+  margin-top: 10px;
+  text-align: justify;
+  line-height: 20px;
+}
+.load-images .logo, .load-images .portada{
+  margin: auto;
+}
+.tags{
+  overflow-x: hidden;
+  height: 105px;
+}
+.tags-chips{
+  display: block;
+}
+.confirmBusiness{
+  color: red;
+}
 /* ELEMENTO INPUT FILE (PARA LIBRERÍA) */
 .file-select {          
   position: relative;
   display: inline-block;
-  width: 154px;
-  height: 154px;
+  width: 144px;
+  height: 144px;
 }
  
 .file-select::before {
   background-color: transparent;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   border: 2px dashed gray;
   color: gray;
   display: flex;            
@@ -451,8 +470,8 @@ input[type="time"]:disabled {
  
 .file-select input[type="file"] {
   opacity: 0.1;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   display: inline-block;
   display: flex;
   z-index: 999;
@@ -485,8 +504,8 @@ input[type="time"]:disabled {
   content: 'Selecciona o arrastra una imagen';
 }
 .preview-image{
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   position: absolute;
   left: 2px;
   top: 2px;

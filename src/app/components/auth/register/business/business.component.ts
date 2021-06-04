@@ -43,18 +43,18 @@ export class BusinessComponent implements OnInit {
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  tagsCtrl = new FormControl();
+  filteredTags: Observable<string[]>;
+  tagsSelected: string[] = ['Abarrotes'];
+  defaultTags: string[] = ['Frutas', 'verduras', 'Leche', 'Huevos', 'Condimentos+'];
 
-  @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('tagsInput') tagsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
   constructor(private formBuilder: FormBuilder) {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+    this.filteredTags = this.tagsCtrl.valueChanges.pipe(
       startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+      map((tag: string | null) => tag ? this._filter(tag) : this.defaultTags.slice()));
   }
 
   ngOnInit(): void {
@@ -84,35 +84,34 @@ export class BusinessComponent implements OnInit {
 
     // Add our fruit
     if (value) {
-      this.fruits.push(value);
+      this.tagsSelected.push(value);
     }
 
     // Clear the input value
     
-    
-    //event.chipInput!.clear();
+    event.value = "";
 
-    this.fruitCtrl.setValue(null);
+    this.tagsCtrl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+  remove(tag: string): void {
+    const index = this.tagsSelected.indexOf(tag);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.tagsSelected.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.tagsSelected.push(event.option.viewValue);
+    this.tagsInput.nativeElement.value = '';
+    this.tagsCtrl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    return this.defaultTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
   }
 
   next(e: Event){

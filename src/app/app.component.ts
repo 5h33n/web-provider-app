@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
     if(!document.location.href.includes('/login') && !document.location.href.includes('/register') ){
       this.authService.getSession().subscribe((value)=>{
       },error=>{
-        noSession(this.router);
+        //noSession(this.router);
       });
     }
   }

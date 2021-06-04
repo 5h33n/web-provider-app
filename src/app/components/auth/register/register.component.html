@@ -96,9 +96,9 @@
                     </mat-error>
                 </div>
                 <div class="field" style="margin-bottom: 0;margin-top: 0;">
-                    <input type="date" required id="birthdate" max="2014-12-31" style="width: 45%;" formControlName="birthdate" [class.inputInvalid]="registerForm.controls.birthdate.touched && registerForm.controls.birthdate.invalid">
+                    <input type="date" required id="birthdate" max="2014-12-31" formControlName="birthdate" [class.inputInvalid]="registerForm.controls.birthdate.touched && registerForm.controls.birthdate.invalid">
                     <label for="birthdate">Fecha de nacimiento</label>
-                    <select required formControlName="gender" [class.inputInvalid]="registerForm.controls.gender.touched && registerForm.controls.gender.invalid">
+                    <select required formControlName="gender" style="width: 70%;" [class.inputInvalid]="registerForm.controls.gender.touched && registerForm.controls.gender.invalid">
                         <option></option>
                         <option>Masculino</option>
                         <option>Femenino</option>
@@ -165,7 +165,7 @@
                         Servicios
                     </button>
                 </div>
-                <mat-progress-spinner [style.display] = "registerForm.valid ? 'flex' : 'none' "  style="margin:0 auto;margin-top:30%;margin-left:47%" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
+                <mat-progress-spinner [style.display] = "registerForm.valid ? 'flex' : 'none' "  style="margin:0 auto;margin-top:30%;margin-left:43%" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
             </div>
         </form>
     </div>

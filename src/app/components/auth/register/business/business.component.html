@@ -172,7 +172,7 @@
             </div>
             <div class="page">
                 <div class="title">Personaliza tu negocio</div>
-                <h3>Carga un logotipo y una imágenen de portada para que tu negocio sea más fácil de ubicar:</h3>
+                <h3 class="desc">Agrega tu logotipo y una imágen de portada</h3>
                 <mat-progress-spinner [style.display]="charge" style="margin:0 auto;margin-top:30%;margin-left:47%" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
                 <div class="load-images">
                     <div class="logo">
@@ -192,32 +192,38 @@
                         </div>
                     </div>
                 </div>
-                <mat-form-field class="example-chip-list">
-                    <mat-label>Favorite Fruits</mat-label>
+                <h3 class="desc">Añade etiquetas para las búsquedas</h3>
+                <div class="tags">
+                    <mat-form-field class="tags-chips">
+                    <mat-label>Tags</mat-label>
                     <mat-chip-list #chipList aria-label="Fruit selection">
                       <mat-chip
-                        *ngFor="let fruit of fruits"
+                        *ngFor="let op of tagsSelected"
                         [selectable]="selectable"
                         [removable]="removable"
-                        (removed)="remove(fruit)">
-                        {{fruit}}
+                        (removed)="remove(op)">
+                        {{op}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                       </mat-chip>
                       <input
-                        placeholder="New fruit..."
-                        #fruitInput
-                        [formControl]="fruitCtrl"
+                        placeholder="Nuevo tag..."
+                        #tagsInput
+                        [formControl]="tagsCtrl"
                         [matAutocomplete]="auto"
                         [matChipInputFor]="chipList"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         (matChipInputTokenEnd)="add($event)">
                     </mat-chip-list>
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-                        {{fruit}}
+                      <mat-option *ngFor="let op of filteredTags | async" [value]="op">
+                        {{op}}
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
+                </div>
+                <button class="btn primary confirmBusiness">
+                    Listo
+                </button>
             </div>
         </form>
     </div>
