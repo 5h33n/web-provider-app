@@ -42,7 +42,51 @@
             <div class="page">
                 <div class="title">Ubicación</div>
                 <div class="field" style="margin-bottom: 35px;margin-top: 30px;">
-                    <!-- <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" placeholder="Ingresa una ubicación" name="formattedAddress"/> -->
+                    <input ngx-google-places-autocomplete 
+                        [options]='options' 
+                        #placesRef="ngx-places" 
+                        placeholder="Ingresa una ubicación" 
+                        name="formattedAddress" 
+                        (onAddressChange)="changeDireccion($event)"/>
+                </div>
+                <div class="field" style="margin-top: 35px;">
+                    <input type="text" required id="cp" formControlName="cp" [class.inputInvalid]="businessForm.controls.cp.touched && businessForm.controls.cp.invalid">
+                    <label for="cp">CP</label>
+                    <input type="text" required id="state" formControlName="state" [class.inputInvalid]="businessForm.controls.state.touched && businessForm.controls.state.invalid">
+                    <label for="state" style="left: 55%;">Estado</label>
+                </div>
+                <div class="field" style="margin-top: 0; margin-bottom: 0;">
+                    <mat-error *ngIf="businessForm.controls.cp.touched && businessForm.controls.cp.invalid">
+                        <span *ngIf="businessForm.controls.cp.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                    <mat-error *ngIf="businessForm.controls.state.touched && businessForm.controls.state.invalid">
+                        <span *ngIf="businessForm.controls.state.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-top: 0;margin-bottom: 0;">
+                    <input type="text" required id="suburb" formControlName="suburb" [class.inputInvalid]="businessForm.controls.suburb.touched && businessForm.controls.suburb.invalid">
+                    <label for="suburb">Colonia</label>
+                    <input type="text" id="street" formControlName="street" [class.inputInvalid]="businessForm.controls.street.touched && businessForm.controls.street.invalid">
+                    <label for="street" style="left: 55%;">Calle</label>
+                </div>
+                <div class="field" style="margin-top: 0; margin-bottom: 0;">
+                    <mat-error *ngIf="businessForm.controls.suburb.touched && businessForm.controls.suburb.invalid">
+                        <span *ngIf="businessForm.controls.suburb.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                    <mat-error *ngIf="businessForm.controls.street.touched && businessForm.controls.street.invalid">
+                        <span *ngIf="businessForm.controls.street.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-top: 0;margin-bottom: 0;">
+                    <input type="text" required id="externNumber" formControlName="externNumber" [class.inputInvalid]="businessForm.controls.externNumber.touched && businessForm.controls.externNumber.invalid">
+                    <label for="externNumber">Número externo</label>
+                    <input type="text" id="internNumber" formControlName="internNumber">
+                    <label for="internNumber" style="left: 55%;">Número interno</label>
+                </div>
+                <div class="field" style="margin-top: 0; margin-bottom: 0;">
+                    <mat-error *ngIf="businessForm.controls.externNumber.touched && businessForm.controls.externNumber.invalid">
+                        <span *ngIf="businessForm.controls.externNumber.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
                 </div>
                 <div class="field btns">
                     <button class="prev-1 prev" (click)="prev($event)">Anterior</button>
@@ -172,23 +216,23 @@
             </div>
             <div class="page">
                 <div class="title">Personaliza tu negocio</div>
-                <h3 class="desc">Agrega tu logotipo y una imágen de portada</h3>
+                <h3 class="desc" style="margin-bottom: 5px;">Agrega tu logotipo y una imágen de portada</h3>
                 <mat-progress-spinner [style.display]="charge" style="margin:0 auto;margin-top:30%;margin-left:47%" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
                 <div class="load-images">
                     <div class="logo">
-                        <h3>Logotipo</h3>
+                        <h3 style="margin-bottom: 10px;">Logotipo</h3>
                         <div class="file-select src-file" >
-                            <img class="preview-image" [src]="imagePrev" alt="your image" />
+                            <img class="preview-image" [src]="imgLogo" alt="your image" />
                             <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
-                            <input type="file" name="src-file1" aria-label="Archivo" (change)="imagePreview($event)">
+                            <input type="file" name="img-logo" aria-label="Archivo" (change)="imagePreview($event,0)">
                         </div>
                     </div>
                     <div class="portada">
-                        <h3>Portada</h3>
+                        <h3 style="margin-bottom: 10px;">Portada</h3>
                         <div class="file-select src-file" >
-                            <img class="preview-image" [src]="imagePrev" alt="your image" />
+                            <img class="preview-image" [src]="imgPortada" alt="your image" />
                             <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
-                            <input type="file" name="src-file1" aria-label="Archivo" (change)="imagePreview($event)">
+                            <input type="file" name="img-portada" aria-label="Archivo" (change)="imagePreview($event,1)">
                         </div>
                     </div>
                 </div>
@@ -221,9 +265,12 @@
                     </mat-autocomplete>
                   </mat-form-field>
                 </div>
-                <button class="btn primary confirmBusiness">
-                    Listo
-                </button>
+                <div class="field" style="height: 25px;margin-bottom: 10px !important;">
+                    <button class="btn primary confirmBusiness" (click)="createBusiness()">
+                        Listo
+                    </button>
+                </div>
+                
             </div>
         </form>
     </div>

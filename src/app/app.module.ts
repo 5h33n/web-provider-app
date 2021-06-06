@@ -11,8 +11,7 @@ import { ChartsModule } from 'ng2-charts';
 //ngnx-charts
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 //ngnx google maps
-//import { GooglePlaceModule } from "ngx-google-places-autocomplete";
-//import { NgxGoogleMapModule } from 'ngx-google-map';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 // COMPONENTES
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -42,6 +41,7 @@ import { BusinessComponent } from './components/auth/register/business/business.
     BusinessComponent
   ],
   imports: [
+    GooglePlaceModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

@@ -8,6 +8,11 @@ import {Observable} from 'rxjs';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {map, startWith} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
+import { BusinessService } from 'src/app/services/business.service';
+import { Store } from 'src/app/models/store';
+import { AuthService } from 'src/app/services/auth.service';
+import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
 @Component({
   selector: 'app-business',
   templateUrl: './business.component.html',
@@ -30,13 +35,14 @@ export class BusinessComponent implements OnInit {
   socialMedia = [["fb",""]];
   schedule = new Schedule()
   notWorkingDays = [false,false,false,false,false,false,false];
-  imagePrev: string | undefined = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+  imgLogo: string | undefined = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+  imgPortada: string | undefined = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
   charge: string = "none";
 // Create a bounding box with sides ~10km away from the center point
 
   options = {
-    componentRestrictions: { country: "us" }
-  };
+    componentRestrictions: { country: "mx" }
+  } as Options;
 
   // chips
   visible = true;
@@ -46,12 +52,12 @@ export class BusinessComponent implements OnInit {
   tagsCtrl = new FormControl();
   filteredTags: Observable<string[]>;
   tagsSelected: string[] = ['Abarrotes'];
-  defaultTags: string[] = ['Frutas', 'verduras', 'Leche', 'Huevos', 'Condimentos+'];
+  defaultTags: string[] = ['Frutas', 'verduras', 'Leche', 'Huevos', 'Condimentos'];
 
   @ViewChild('tagsInput') tagsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private businessService: BusinessService, private authService:AuthService) {
     this.filteredTags = this.tagsCtrl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => tag ? this._filter(tag) : this.defaultTags.slice()));
@@ -76,7 +82,9 @@ export class BusinessComponent implements OnInit {
       score:[false, Validators.required],
       Schedule:[this.schedule, Validators.required],
       SocialMedia:[this.socialMedia, Validators.required],
-      tags:[false, Validators.required]
+      tags:[false, Validators.required],
+      lt:[null, Validators.required],
+      ln:[null, Validators.required]
     });
   }
   add(event: MatChipInputEvent): void {
@@ -88,8 +96,7 @@ export class BusinessComponent implements OnInit {
     }
 
     // Clear the input value
-    
-    event.value = "";
+    event.input.value = '';
 
     this.tagsCtrl.setValue(null);
   }
@@ -201,12 +208,53 @@ export class BusinessComponent implements OnInit {
       this.notWorkingDays[day] = false;
     }
   }
-  async imagePreview(e:Event){
+  async imagePreview(e:Event,target:number){
     const file = (<HTMLInputElement>e.target).files![0]
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      this.imagePrev = reader.result?.toString();
+      if (target==0){
+        this.imgLogo = reader.result?.toString();
+      }else if (target==1){
+        this.imgPortada = reader.result?.toString();
+      }
     };
+  }
+  createBusiness(){
+    let businessObj: any = {
+      idProvider: this.authService.getCurrentUser().id,
+      name : this.businessForm.value.name,
+      cp : this.businessForm.value.cp,
+      state : this.businessForm.value.state,
+      suburb : this.businessForm.value.suburb,
+      street : this.businessForm.value.street,
+      externNumber : this.businessForm.value.externNumber,
+      internNumber : this.businessForm.value.internNumber,
+      business : this.businessForm.value.business,
+      phone : this.businessForm.value.phone,
+      email : this.businessForm.value.email,
+      description : this.businessForm.value.description,
+      lt: this.businessForm.value.lt,
+      ln: this.businessForm.value.ln
+    };
+    console.log(businessObj);
+    this.businessService.createStore(businessObj).subscribe(store=>{
+      console.log(store);
+    });
+  }
+  changeDireccion(e:Address){
+    //aqui meter un gif de carga
+    let addr: { [key: string]: any } = {};
+    console.log(e.geometry.location.lat());
+    e.address_components.forEach(element => {
+      addr[element.types[0]] = element.long_name;
+    });
+    this.businessForm.patchValue({cp:addr["postal_code"]});
+    this.businessForm.patchValue({state:addr["administrative_area_level_1"]});
+    this.businessForm.patchValue({suburb:addr["locality"]});
+    this.businessForm.patchValue({street:addr["route"]});
+    this.businessForm.patchValue({externNumber:addr["street_number"]});
+    this.businessForm.patchValue({lt:e.geometry.location.lat()});
+    this.businessForm.patchValue({ln:e.geometry.location.lng()});
   }
 }
