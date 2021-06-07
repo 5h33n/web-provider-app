@@ -1,0 +1,35 @@
+.container {
+    background-color: #f7f7f7;
+    min-height: 100vh;
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 4rem;
+}
+.dashboard-content {
+    padding: 40px 45px;
+    padding-bottom: 0;
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+}
+.text-secondary{
+    align-self: center;
+    font-size: 18px;
+}
+.optns{
+    flex-flow: row;
+    margin: auto;
+    display: flex;
+}
+.edit-info{
+    margin-right: auto;
+}
+.change-psw{
+    margin-right: 10px;
+}
+.actions button{
+    margin-left:16px;
+}
