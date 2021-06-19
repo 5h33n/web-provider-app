@@ -26,11 +26,18 @@ class CustomValidators{
   static passwordsMatch (control: AbstractControl): ValidationErrors {
     const password = control.get('password')?.value;
     const passwordConfirm = control.get('passwordConfirm')?.value;
-
     if((password === passwordConfirm) && (password !== null && passwordConfirm !== null)) {
       return {};
     } else {
       return {passwordsNotMatching: true};
+    }
+  }
+  static phoneValid(control: AbstractControl): ValidationErrors{
+    const regex = /^\(?(\d{10})\)?$/;
+    if (regex.test(control.value) && control.value !== null){
+      return {};
+    }else{
+      return {phoneInvalid: true};
     }
   }
 }
@@ -88,7 +95,7 @@ export class RegisterComponent implements OnInit {
       birthdate: [null, [Validators.required]],
       gender: [null, [Validators.required]],
       email: [null, [Validators.required, CustomValidators.emailValid]],
-      phone: [null, [Validators.required]],
+      phone: [null, [Validators.required, CustomValidators.phoneValid]],
       verType: [null, [Validators.required]],
       type: [null, [Validators.required]],
       terms:[false, Validators.required]
@@ -123,8 +130,8 @@ export class RegisterComponent implements OnInit {
     this.steps[this.current][1] = "active";
     this.current+=1;
   }
-  prev(e: Event){
-    e.preventDefault();
+  prev(e: Event | null){
+    e ? e.preventDefault() : "";
     this.percent -= 25;
     this.marginLeft = `-${this.percent}%`;
     this.current-=1;
@@ -155,7 +162,6 @@ export class RegisterComponent implements OnInit {
       this.newUser.createdAt = new Date();
       this.newUser.modifiedAt = new Date();
       this.newUser.photo = "";
-      console.log(this.newUser);
       this.authService.registerUser(this.newUser).subscribe(provider=>{
         this.authService.setUser(provider as Provider);
         setTimeout(() => {
@@ -167,7 +173,9 @@ export class RegisterComponent implements OnInit {
       },error => {
         //Aquí falta redirigir a donde está el error
         let msgError = error.error.notifications ? error.error.notifications[0].descripcion : "No fue posible conectar con el servicio de registro, inténtelo de nuevo más tarde";
+        this.registerForm.controls['type'].setValue(null);
         infoMessage('error','No se pudo crear la cuenta',msgError,'Aceptar');
+        this.prev(null);
       });
     }
   }

@@ -13,23 +13,34 @@ import { Store } from 'src/app/models/store';
 import { AuthService } from 'src/app/services/auth.service';
 import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import {trigger,state,style,animate,transition,} from '@angular/animations';
+import { CustomValidators } from '../../../../common/common';
 @Component({
   selector: 'app-business',
   templateUrl: './business.component.html',
-  styleUrls: ['./business.component.css']
+  styleUrls: ['./business.component.css'],
+  animations : [
+    trigger('show',[
+      transition('def => m', [
+        style({opacity:0}),
+        animate('0.5s',style({opacity:1}))
+      ]),
+    ])
+  ]
 })
 export class BusinessComponent implements OnInit {
   // PROPIEDADES DE DISEÑO
   businessForm!: FormGroup;
-  emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
 
+  //animation
+  cover = "block";
+  loading = true;
+  showing = "none";
   termsAcepted = false;
   marginLeft = "0"
   percent = 0;
   current = 0;
-  cover = "block";
-  loading = true;
-  showing = "none";
+
   verifier = "none";
   steps = [["General",""],["Ubicación","",],["Contacto",""],["Horarios",""]];
   socialMedia = [["fb",""]];
@@ -37,7 +48,7 @@ export class BusinessComponent implements OnInit {
   notWorkingDays = [false,false,false,false,false,false,false];
   imgLogo: string | undefined = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
   imgPortada: string | undefined = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-  charge: string = "none";
+  charge: boolean = false;
 // Create a bounding box with sides ~10km away from the center point
 
   options = {
@@ -56,14 +67,17 @@ export class BusinessComponent implements OnInit {
 
   @ViewChild('tagsInput') tagsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
-
   constructor(private formBuilder: FormBuilder, private businessService: BusinessService, private authService:AuthService) {
     this.filteredTags = this.tagsCtrl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => tag ? this._filter(tag) : this.defaultTags.slice()));
   }
-
   ngOnInit(): void {
+    setTimeout(() => {
+      this.cover="none";
+      this.loading = false;
+      this.showing = "block"
+     }, 1000);
     this.businessForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       photo: ["zxc", [Validators.required]],
@@ -74,8 +88,8 @@ export class BusinessComponent implements OnInit {
       externNumber: [null, [Validators.required]],
       internNumber: [null, [Validators.required]],
       business: [null, [Validators.required]],
-      phone: [null, [Validators.required,]],
-      email: [null, [Validators.required,Validators.pattern(this.emailRegx)]],
+      phone: [null, [Validators.required,CustomValidators.phoneValid]],
+      email: [null, [Validators.required,CustomValidators.emailValid]],
       description: [null, [Validators.required]],
       images: [null, [Validators.required]],
       Assessment:[false, Validators.required],
@@ -238,6 +252,7 @@ export class BusinessComponent implements OnInit {
       ln: this.businessForm.value.ln
     };
     console.log(businessObj);
+    this.charge=true;
     this.businessService.createStore(businessObj).subscribe(store=>{
       console.log(store);
     });

@@ -1,4 +1,8 @@
-<div class="container">
+<div class="cover" [style.display] = "cover">
+    <mat-progress-spinner diameter="40" mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+<div [@show]="loading ? 'def' : 'm' " class="container" [style.display] = "showing">
     <header>Registrar nuevo negocio </header>
     <div class="pbar">
         <div class="step" *ngFor="let paso of steps;let indice=index">
@@ -15,28 +19,28 @@
             <div class="page slide-page" [style.margin-left] = "marginLeft">
                 <div class="title">Información general</div>
                 <div class="field" style="margin-bottom: 20px;margin-top: 30px;">
-                    <input type="text" required formControlName="name" [class.inputInvalid]="businessForm.controls.name.touched && businessForm.controls.name.invalid">
+                    <input type="text" maxlength="25" required formControlName="name" [class.inputInvalid]="businessForm.controls.name.touched && businessForm.controls.name.invalid">
                     <label>Nombre del negocio</label>
                     <mat-error *ngIf="businessForm.controls.name.touched && businessForm.controls.name.invalid">
                         <span *ngIf="businessForm.controls.name.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </div>
-                <div class="field" style="margin-bottom: 75px;">
-                    <textarea name="description" required formControlName="description" [class.inputInvalid]="businessForm.controls.description.touched && businessForm.controls.description.invalid" cols="30" rows="10"></textarea>
+                <div class="field" style="margin-bottom: 75px;height: 120px;">
+                    <textarea name="description" maxlength="300" required formControlName="description" [class.inputInvalid]="businessForm.controls.description.touched && businessForm.controls.description.invalid" cols="30" rows="10"></textarea>
                     <label>Breve descipción</label>
                     <mat-error *ngIf="businessForm.controls.description.touched && businessForm.controls.description.invalid">
                         <span *ngIf="businessForm.controls.description.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </div>
                 <div class="field">
-                    <input type="text" required formControlName="business" [class.inputInvalid]="businessForm.controls.business.touched && businessForm.controls.business.invalid">
+                    <input type="text" maxlength="20" required formControlName="business" [class.inputInvalid]="businessForm.controls.business.touched && businessForm.controls.business.invalid">
                     <label>Giro del negocio</label>
                     <mat-error *ngIf="businessForm.controls.business.touched && businessForm.controls.business.invalid">
                         <span *ngIf="businessForm.controls.business.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </div>
                 <div class="field">
-                    <button class="firstNext next" (click)="next($event)">Siguiente</button>
+                    <button class="firstNext next" [disabled]="businessForm.controls.name.invalid || businessForm.controls.description.invalid || businessForm.controls.business.invalid" (click)="next($event)">Siguiente</button>
                 </div>
             </div>
             <div class="page">
@@ -50,9 +54,9 @@
                         (onAddressChange)="changeDireccion($event)"/>
                 </div>
                 <div class="field" style="margin-top: 35px;">
-                    <input type="text" required id="cp" formControlName="cp" [class.inputInvalid]="businessForm.controls.cp.touched && businessForm.controls.cp.invalid">
+                    <input type="text" required id="cp" maxlength="5" formControlName="cp" [class.inputInvalid]="businessForm.controls.cp.touched && businessForm.controls.cp.invalid">
                     <label for="cp">CP</label>
-                    <input type="text" required id="state" formControlName="state" [class.inputInvalid]="businessForm.controls.state.touched && businessForm.controls.state.invalid">
+                    <input type="text" maxlength="20" required id="state" formControlName="state" [class.inputInvalid]="businessForm.controls.state.touched && businessForm.controls.state.invalid">
                     <label for="state" style="left: 55%;">Estado</label>
                 </div>
                 <div class="field" style="margin-top: 0; margin-bottom: 0;">
@@ -64,9 +68,9 @@
                     </mat-error>
                 </div>
                 <div class="field" style="margin-top: 0;margin-bottom: 0;">
-                    <input type="text" required id="suburb" formControlName="suburb" [class.inputInvalid]="businessForm.controls.suburb.touched && businessForm.controls.suburb.invalid">
+                    <input type="text" required id="suburb" maxlength="30" formControlName="suburb" [class.inputInvalid]="businessForm.controls.suburb.touched && businessForm.controls.suburb.invalid">
                     <label for="suburb">Colonia</label>
-                    <input type="text" id="street" formControlName="street" [class.inputInvalid]="businessForm.controls.street.touched && businessForm.controls.street.invalid">
+                    <input type="text" id="street" maxlength="25" formControlName="street" [class.inputInvalid]="businessForm.controls.street.touched && businessForm.controls.street.invalid">
                     <label for="street" style="left: 55%;">Calle</label>
                 </div>
                 <div class="field" style="margin-top: 0; margin-bottom: 0;">
@@ -78,9 +82,9 @@
                     </mat-error>
                 </div>
                 <div class="field" style="margin-top: 0;margin-bottom: 0;">
-                    <input type="text" required id="externNumber" formControlName="externNumber" [class.inputInvalid]="businessForm.controls.externNumber.touched && businessForm.controls.externNumber.invalid">
+                    <input type="text" required id="externNumber" maxlength="6" formControlName="externNumber" [class.inputInvalid]="businessForm.controls.externNumber.touched && businessForm.controls.externNumber.invalid">
                     <label for="externNumber">Número externo</label>
-                    <input type="text" id="internNumber" formControlName="internNumber">
+                    <input type="text" id="internNumber" formControlName="internNumber" maxlength="6">
                     <label for="internNumber" style="left: 55%;">Número interno</label>
                 </div>
                 <div class="field" style="margin-top: 0; margin-bottom: 0;">
@@ -90,24 +94,25 @@
                 </div>
                 <div class="field btns">
                     <button class="prev-1 prev" (click)="prev($event)">Anterior</button>
-                    <button class="next-1 next" (click)="next($event)">Siguiente</button>
+                    <button class="next-1 next" [disabled]="businessForm.controls.cp.invalid || businessForm.controls.state.invalid || businessForm.controls.suburb.invalid || businessForm.controls.street.invalid || businessForm.controls.externNumber.invalid" (click)="next($event)">Siguiente</button>
                 </div>
             </div>
             <div class="page">
                 <div class="title">Contacto</div>
                 <div class="field" style="margin-bottom: 25px;margin-top: 30px;">
                     <input type="email" required formControlName="email" [class.inputInvalid]="businessForm.controls.email.touched && businessForm.controls.email.invalid">
-                    <label for="">Correo electrónico</label>
+                    <label for="email" [class.inputInvalid]="businessForm.controls.email.touched && businessForm.controls.email.invalid">Correo electrónico</label>
                     <mat-error *ngIf="businessForm.controls.email.touched && businessForm.controls.email.invalid">
                         <span *ngIf="businessForm.controls.email.errors?.required">Este campo no puede estar vacío.</span>
-                        <span *ngIf="businessForm.controls.email.errors?.pattern">El formato del correo es inválido.</span>
+                        <span *ngIf="businessForm.controls.email.errors?.emailInvalid && !businessForm.controls.email.errors?.required">El formato del correo es inválido.</span>
                     </mat-error>
                 </div>
                 <div class="field" style="margin-top: 15px;margin-bottom: 25px;">
-                    <input type="text" required formControlName="phone" [class.inputInvalid]="businessForm.controls.phone.touched && businessForm.controls.phone.invalid">
-                    <label for="" >Teléfono</label>
+                    <input type="text" maxlength="10" required formControlName="phone" [class.inputInvalid]="businessForm.controls.phone.touched && businessForm.controls.phone.invalid">
+                    <label for="phone" [class.inputInvalid]="businessForm.controls.phone.touched && businessForm.controls.phone.invalid && (businessForm.controls.phone!=null)">Teléfono</label>
                     <mat-error *ngIf="businessForm.controls.phone.touched && businessForm.controls.phone.invalid">
                         <span *ngIf="businessForm.controls.phone.errors?.required">Este campo no puede estar vacío.</span>
+                        <span *ngIf="businessForm.controls.phone.errors?.phoneInvalid && !businessForm.controls.phone.errors?.required">Ingrese los 10 dígitos de su número de tel...</span>
                     </mat-error>
                 </div>
                 <div class="socialmedia">
@@ -125,7 +130,7 @@
                 </div>
                 <div class="field btns">
                     <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
-                    <button class="next-3 next" (click)="next($event)" >Siguiente</button>
+                    <button class="next-3 next" [disabled]="businessForm.controls.email.invalid || businessForm.controls.phone.invalid" (click)="next($event)" >Siguiente</button>
                 </div>
             </div>
             <div class="page">
@@ -214,11 +219,12 @@
                     <button class="next-3 next" (click)="next($event)" >Crear negocio</button>
                 </div>
             </div>
+            
             <div class="page">
                 <div class="title">Personaliza tu negocio</div>
-                <h3 class="desc" style="margin-bottom: 5px;">Agrega tu logotipo y una imágen de portada</h3>
-                <mat-progress-spinner [style.display]="charge" style="margin:0 auto;margin-top:30%;margin-left:47%" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
-                <div class="load-images">
+                <h3 class="desc" [style.display]="charge ? 'none':'flex'" style="margin-bottom: 5px;">Agrega tu logotipo y una imágen de portada</h3>
+                <mat-progress-spinner [style.display]="charge ? 'flex':'none'" style="margin: auto;margin-top: 35%;" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
+                <div [style.display]="charge ? 'none':'flex'" class="load-images">
                     <div class="logo">
                         <h3 style="margin-bottom: 10px;">Logotipo</h3>
                         <div class="file-select src-file" >
@@ -236,8 +242,8 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="desc">Añade etiquetas para las búsquedas</h3>
-                <div class="tags">
+                <h3 [style.display]="charge ? 'none':'flex'" class="desc">Añade etiquetas para las búsquedas</h3>
+                <div [style.display]="charge ? 'none':'inline'" class="tags">
                     <mat-form-field class="tags-chips">
                     <mat-label>Tags</mat-label>
                     <mat-chip-list #chipList aria-label="Fruit selection">
@@ -264,13 +270,12 @@
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
-                </div>
-                <div class="field" style="height: 25px;margin-bottom: 10px !important;">
+                </div>  
+                <div [style.display]="charge ? 'none':'flex'" class="field" style="height: 25px;margin-bottom: 10px !important;">
                     <button class="btn primary confirmBusiness" (click)="createBusiness()">
                         Listo
                     </button>
                 </div>
-                
             </div>
         </form>
     </div>

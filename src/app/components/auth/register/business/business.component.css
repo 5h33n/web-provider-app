@@ -78,6 +78,13 @@ form .field input:focus,form .field select:focus{
  .inputInvalid{
     border-color: red !important;
   }
+  label.inputInvalid{
+    top: 0 !important;
+    font-size: 16px !important;
+    color: red !important;
+    background: #fff;
+    transform: translateY(-50%) !important;
+  }
 form .field label{
     position: absolute;
     top: 50%;
@@ -133,9 +140,12 @@ form .page .field select{
   font-weight: 500;
 } */
 form .field textarea{
-  height: 200% !important;
+  height: 135%!important;
   line-height: 1;
   padding-top: 12px;
+}
+form .field textarea~label{
+  top: 20%;
 }
 form .page .field button{
   width: 100%;
@@ -485,7 +495,7 @@ input[type="time"]:disabled {
   background-color: #262626;
   opacity: 0.5;
   filter: blur(8px);
-  animation: 0.5s slidein;
+  animation: 0.3s slidein;
 }
 
 @keyframes slidein {

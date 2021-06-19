@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren, ɵɵtrustConstantResourceUrl } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {trigger,state,style,animate,transition,} from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Provider } from 'src/app/models/provider';
 import { AuthService } from 'src/app/services/auth.service';
@@ -8,9 +9,22 @@ import { noSession, infoMessage, redirectMessage } from '../../../../common/comm
 @Component({
   selector: 'app-verify',
   templateUrl: './verify.component.html',
-  styleUrls: ['./verify.component.css']
+  styleUrls: ['./verify.component.css'],
+  animations : [
+    trigger('show',[
+      transition('def => m', [
+        style({opacity:0}),
+        animate('0.5s',style({opacity:1}))
+      ]),
+    ])
+  ]
 })
 export class VerifyComponent implements OnInit {
+  //animation
+  cover = "block";
+  loading = true;
+  showing = "none";
+
   @ViewChildren('input') inputs!: QueryList<ElementRef>;
   del = false;
   constructor(
@@ -23,6 +37,11 @@ export class VerifyComponent implements OnInit {
 
   verifyForm!: FormGroup;
   ngOnInit(): void {
+    setTimeout(() => {
+      this.cover="none";
+      this.loading = false;
+      this.showing = "block"
+     }, 1000);
     this.verifyForm = this.formBuilder.group({
       d1: [null, [Validators.required]],
       d2: [null, [Validators.required]],

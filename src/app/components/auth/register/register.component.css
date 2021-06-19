@@ -78,6 +78,13 @@ form .field input:focus,form .field select:focus{
  .inputInvalid{
     border-color: red !important;
   }
+  label.inputInvalid{
+    top: 0 !important;
+    font-size: 16px !important;
+    color: red !important;
+    background: #fff;
+    transform: translateY(-50%) !important;
+  }
 form .field label{
     position: absolute;
     top: 50%;
@@ -306,4 +313,57 @@ form .content{
   }
   form .page .field:last-child{
       margin-bottom: 30px !important;
+  }
+  .field .products{
+    width: 175px;
+    margin: auto;
+    margin-bottom: 10px;
+    box-shadow: -1px -1px 26px 1px rgba(0,0,0,0.36);
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+  }
+  .field .products:hover img{
+    border-radius: 5px;
+    box-shadow: inset -200px -200px 5px 200px rgb(0 0 0 / 58%);
+    filter: brightness(0.4);
+    transition: 0.2s linear;
+  }
+  .field .products h3{
+    display: none;
+  }
+  .field .products:hover h3{
+    display: inline;
+    position: absolute;
+    left: 32.5%;
+    top: 150%;
+    color: white;
+  }
+  .field .services{
+    width: 175px;
+    margin: auto;
+    height: 150px;
+    min-height: 150px;
+    display: flex;
+    margin-top: 10px;
+    box-shadow: -1px -1px 26px 1px rgba(0,0,0,0.36);
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+  }
+  .field .services:hover img{
+    border-radius: 5px;
+    box-shadow: inset -200px -200px 5px 200px rgb(0 0 0 / 58%);
+    filter: brightness(0.4);
+    transition: 0.2s linear;
+  }
+  .field .services h3{
+    display: none;
+  }
+  .field .services:hover h3{
+    display: inline;
+    position: absolute;
+    left: 34.5%;
+    top: 540%;
+    color: white;
   }

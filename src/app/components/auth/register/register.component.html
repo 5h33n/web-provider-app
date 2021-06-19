@@ -42,14 +42,14 @@
             <div class="page">
                 <div class="title">Información de cuenta:</div>
                 <div class="field" style="margin-bottom: 35px;margin-top: 30px;">
-                    <input type="text" required formControlName="username" [class.inputInvalid]="registerForm.controls.username.touched && registerForm.controls.username.invalid">
+                    <input type="text" maxlength="10" required formControlName="username" [class.inputInvalid]="registerForm.controls.username.touched && registerForm.controls.username.invalid">
                     <label>Nombre de usuario</label>
                     <mat-error *ngIf="registerForm.controls.username.touched && registerForm.controls.username.invalid">
                         <span *ngIf="registerForm.controls.username.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </div>
                 <div class="field" style="margin-top: 20px;">
-                    <input type="password" required formControlName="password" [class.inputInvalid]="registerForm.controls.password.touched && registerForm.controls.password.invalid">
+                    <input type="password" maxlength="16" required formControlName="password" [class.inputInvalid]="registerForm.controls.password.touched && registerForm.controls.password.invalid">
                     <label>Contraseña</label>
                     <mat-error *ngIf="registerForm.controls.password.touched && registerForm.controls.password.invalid">
                         <span *ngIf="registerForm.controls.password.errors?.required">Este campo no puede estar vacío.</span>
@@ -58,7 +58,7 @@
                     <a *ngIf="registerForm.controls.password.touched && registerForm.controls.password.invalid" href="javascript:void(0)" (click)="showInfoPassword()" data-toggle="tooltip" data-html="true" style="align-self: center;font-size: initial;" title="La contraseña debe tener entre 8 y 16 caractéres, contener al menos una letra mayúscula, una letra minúscula y un número"><i class="far fa-question-circle"></i></a>
                 </div>
                 <div class="field" style="margin-bottom: 75px;margin-top: 35px;">
-                    <input type="password" required formControlName="passwordConfirm" [class.inputInvalid]="registerForm.controls.passwordConfirm.touched && registerForm.controls.passwordConfirm.invalid">
+                    <input type="password" maxlength="16" required formControlName="passwordConfirm" [class.inputInvalid]="registerForm.controls.passwordConfirm.touched && registerForm.controls.passwordConfirm.invalid">
                     <label>Confirmar contraseña</label>
                     <mat-error *ngIf="registerForm.controls.passwordConfirm.touched && registerForm.controls.passwordConfirm.invalid">
                         <span *ngIf="registerForm.controls.passwordConfirm.errors?.required">Este campo no puede estar vacío.</span>
@@ -75,16 +75,16 @@
             <div class="page">
                 <div class="title">Información de usuario:</div>
                 <div class="field" style="margin-bottom: 25px;margin-top: 30px;">
-                    <input type="text" required formControlName="firstName" [class.inputInvalid]="registerForm.controls.firstName.touched && registerForm.controls.firstName.invalid">
+                    <input type="text" maxlength="25" required formControlName="firstName" [class.inputInvalid]="registerForm.controls.firstName.touched && registerForm.controls.firstName.invalid">
                     <label for="">Nombre(s)</label>
                     <mat-error *ngIf="registerForm.controls.firstName.touched && registerForm.controls.firstName.invalid">
                         <span *ngIf="registerForm.controls.firstName.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </div>
                 <div class="field" style="margin-top: 35px;">
-                    <input type="text" required id="firstLastName" formControlName="lastName" [class.inputInvalid]="registerForm.controls.lastName.touched && registerForm.controls.lastName.invalid">
+                    <input type="text" maxlength="14" required id="firstLastName" formControlName="lastName" [class.inputInvalid]="registerForm.controls.lastName.touched && registerForm.controls.lastName.invalid">
                     <label for="firstLastName">Primer apellido</label>
-                    <input type="text" required id="secondLastName" formControlName="secondLastName" [class.inputInvalid]="registerForm.controls.secondLastName.touched && registerForm.controls.secondLastName.invalid">
+                    <input type="text" maxlength="14" required id="secondLastName" formControlName="secondLastName" [class.inputInvalid]="registerForm.controls.secondLastName.touched && registerForm.controls.secondLastName.invalid">
                     <label for="secondLastName" style="left: 55%;">Segundo apellido</label>
                 </div>
                 <div class="field" style="margin-top: 0; margin-bottom: 0;">
@@ -123,17 +123,18 @@
                 <div class="title">Información de contacto:</div>
                 <div class="field" style="margin-bottom: 15px;margin-top: 30px;">
                     <input type="email" required formControlName="email" [class.inputInvalid]="registerForm.controls.email.touched && registerForm.controls.email.invalid">
-                    <label for="">Correo electrónico</label>
+                    <label for="email" [class.inputInvalid]="registerForm.controls.email.touched && registerForm.controls.email.invalid">Correo electrónico</label>
                     <mat-error *ngIf="registerForm.controls.email.touched && registerForm.controls.email.invalid">
                         <span *ngIf="registerForm.controls.email.errors?.required">Este campo no puede estar vacío.</span>
-                        <span *ngIf="registerForm.controls.email.errors?.emailInvalid">El formato del correo es inválido.</span>
+                        <span *ngIf="registerForm.controls.email.errors?.emailInvalid && !registerForm.controls.email.errors?.required">El formato del correo es inválido.</span>
                     </mat-error>
                 </div>
                 <div class="field" style="margin-top: 15px;">
-                    <input type="text" required formControlName="phone" [class.inputInvalid]="registerForm.controls.phone.touched && registerForm.controls.phone.invalid">
-                    <label for="" >Teléfono</label>
+                    <input type="text" maxlength="10" required formControlName="phone" [class.inputInvalid]="registerForm.controls.phone.touched && registerForm.controls.phone.invalid">
+                    <label for="phone" [class.inputInvalid]="registerForm.controls.phone.touched && registerForm.controls.phone.invalid && (registerForm.controls.phone!=null)">Teléfono</label>
                     <mat-error *ngIf="registerForm.controls.phone.touched && registerForm.controls.phone.invalid">
                         <span *ngIf="registerForm.controls.phone.errors?.required">Este campo no puede estar vacío.</span>
+                        <span *ngIf="registerForm.controls.phone.errors?.phoneInvalid && !registerForm.controls.phone.errors?.required">Ingrese los 10 dígitos de su número de tel...</span>
                     </mat-error>
                 </div>
                 <div class="field" style="margin-bottom: 0;margin-top: 15px;"> 
@@ -156,16 +157,18 @@
                 </div>
             </div>
             <div class="page">
-                <div class="title" [style.display] = "registerForm.valid ? 'none' : 'flex' ">¿Qué tipo de negocio quieres registrar?</div>
-                <div class="field" [style.display] = "registerForm.valid ? 'none' : 'flex' ">
-                    <button class="btn primary" (click)="setType('store','productos')">
-                        Productos
-                    </button>
-                    <button class="btn primary" (click)="setType('server','servicios')">
-                        Servicios
-                    </button>
+                <div class="title" [style.display] = "registerForm.valid ? 'none' : 'flex' " style="font-size: 24px;">¿Qué tipo de recursos vendes?</div>
+                <div class="field" [style.display] = "registerForm.valid ? 'none' : 'flex' " style="flex-flow: column;margin-top: 20px;">
+                    <div class="products" (click)="setType('store','productos')">
+                        <img src="../../../../assets/img/products.svg" alt="">
+                        <h3>Vendo productos</h3>
+                    </div>
+                    <div class="services" (click)="setType('server','servicios')">
+                        <img src="../../../../assets/img/services.svg" alt="">
+                        <h3>Vendo servicios</h3>
+                    </div>
                 </div>
-                <mat-progress-spinner [style.display] = "registerForm.valid ? 'flex' : 'none' "  style="margin:0 auto;margin-top:30%;margin-left:43%" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
+                <mat-progress-spinner [style.display] = "registerForm.valid ? 'flex' : 'none' "  style="margin: auto;margin-top: 10%;" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
             </div>
         </form>
     </div>

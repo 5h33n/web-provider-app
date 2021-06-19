@@ -1,4 +1,8 @@
-<div class="container">
+<div class="cover" [style.display] = "cover">
+    <mat-progress-spinner diameter="40" mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+<div [@show]="loading ? 'def' : 'm' " class="container" [style.display] = "showing">
     <header>Verficar cuenta </header>
     <div class="form-outer">
         <form [formGroup]="verifyForm" action="#">
