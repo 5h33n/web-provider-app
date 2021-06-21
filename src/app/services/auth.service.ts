@@ -9,8 +9,8 @@ import { Backend } from './backend';
 })
 export class AuthService {
 
-  private _ONBOARDING_API = "https://"+Backend+":2020/";
-  private _PROVIDERSECURITY_API = "https://"+Backend+":1010/";
+  private _ONBOARDING_API = Backend+":2020/";
+  private _PROVIDERSECURITY_API = Backend+":1010/";
 
   currentProvider?: Provider = new Provider();
   private userSubject = new BehaviorSubject(this.currentProvider);
@@ -25,10 +25,12 @@ export class AuthService {
     return this.http.post<HttpResponse<any>>(url_api,credentials,{headers:this.headers, observe: "response", withCredentials: true});
   }
   logout() {
-    localStorage.removeItem("currentProvider");
-    this.userSubject.next(undefined);
     const url_api = this._PROVIDERSECURITY_API+'api/cerrar';
     return this.http.get(url_api,{withCredentials:true}).pipe(map(data => data));
+  }
+  removeLocalUser(){
+    localStorage.removeItem("currentProvider");
+    this.userSubject.next(undefined);
   }
   registerUser(user:Provider): Observable<any>{
     const url_api = this._ONBOARDING_API+'provider/newProvider';
@@ -57,8 +59,16 @@ export class AuthService {
     const url_api = this._PROVIDERSECURITY_API+'api/comprobar-Token';
     return this.http.post(url_api,info,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
   }
-  getSession(){
+  getSession():Observable<any>{
     const url_api = this._ONBOARDING_API+'provider/session';
+    return this.http.get(url_api,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
+  }
+  refreshSession():Observable<any>{
+    const url_api = this._PROVIDERSECURITY_API+'api/refreshSession';
+    return this.http.get(url_api,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
+  }
+  getProviderById(id:string){
+    const url_api = `${this._ONBOARDING_API}provider/provider-id/${id}`;
     return this.http.get(url_api,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
   }
 }

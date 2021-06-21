@@ -9,12 +9,6 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   ngOnInit(): void {
-    if(!document.location.href.includes('/login') && !document.location.href.includes('/register') ){
-      this.authService.getSession().subscribe((value)=>{
-      },error=>{
-        //noSession(this.router);
-      });
-    }
   }
   title = 'web-provider';
   constructor(

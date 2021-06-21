@@ -6,197 +6,200 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="/assets/img/user1.jpg" alt="Admin" class="rounded-circle" width="150">
+                    <img src="/assets/img/user1.jpg" alt="Admin" (click)="openImg()" class="rounded-circle photo" width="150">
+                    <span class="up-photo">Subir foto</span>
+                    <input type="file" id="photo-charge" style="display:none">
                     <div class="mt-3">
-                      <h2>Eduardo Guzmán</h2>
-                      <p class="text-secondary mb-1">Sheen</p>
-                      <p class="text-muted font-size-sm">Neogocio1</p>
+                      <h2>{{currentProvider?.firstName}} {{currentProvider?.lastName}} ({{currentProvider?.username}})</h2>
+                      <!-- <p class="text-secondary mb-1">Creación de la cuenta: {{currentProvider?.createdAt}}</p>
+                      <p class="text-secondary mb-1">Ultima modificación: {{currentProvider?.modifiedAt}}</p>
+                      <p class="text-muted font-size-sm">Neogocio1</p> -->
                       <div class="actions">
-                        <button class="btn btn-outline-dark">Cambiar foto de perfil</button>
-                        <button class="btn btn-dark">Información del negocio</button>
+                        <!-- <button class="btn btn-outline-dark">Cambiar foto de perfil</button> -->
+                        <button class="btn btn-dark">Ver información del negocio</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- <div class="card mt-3">
+              <div class="card mt-3">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Website</h6>
-                    <span class="text-secondary">https://bootdey.com</span>
+                    <h4 class="mb-0">Creación de la cuenta:</h4>
+                    <span class="text-secondary">{{currentProvider?.createdAt | date: 'medium' }}</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github mr-2 icon-inline"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>Github</h6>
-                    <span class="text-secondary">bootdey</span>
+                    <h4 class="mb-0">Fecha de verifiación:</h4>
+                    <span class="text-secondary">{{currentProvider?.verifedAt ? (currentProvider?.verifedAt | date: 'medium') : '- - -' }}</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter mr-2 icon-inline text-info"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>Twitter</h6>
-                    <span class="text-secondary">@bootdey</span>
+                    <h4 class="mb-0">Última modificación:</h4>
+                    <span class="text-secondary">{{currentProvider?.modifiedAt | date: 'medium' }}</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram mr-2 icon-inline text-danger"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>Instagram</h6>
-                    <span class="text-secondary">bootdey</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook mr-2 icon-inline text-primary"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>Facebook</h6>
-                    <span class="text-secondary">bootdey</span>
+                    <a class="btn btn-block btn-outline-danger" href="javascript:void(0)" style="width: 49%;">Cambiar contraseña</a>
+                    <a class="btn btn-block btn-danger" href="javascript:void(0)" style="width: 49%;">Deshabilitar cuenta</a>
                   </li>
                 </ul>
-              </div> -->
+              </div>
             </div>
             <div class="col-md-8">
               <div class="card mb-3">
                 <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h2 class="mb-0">Usuario</h2>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                        sheen
-                    </div>
-                </div>
-                <hr>
+                <h2 class="card-title">Información general</h2>
+                <form [formGroup]="providerForm" action="#">
                   <div class="row">
                     <div class="col-sm-3">
-                      <h2 class="mb-0">Nombre</h2>
+                      <h3 class="mb-0">Nombre:</h3>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      Eduardo
+                      <input [style.display]="editingGral ? 'block' : 'none' " type="text" maxlength="10" required formControlName="firstName" [class.inputInvalid]="providerForm.controls.firstName.touched && providerForm.controls.firstName.invalid">
+                      <mat-error *ngIf="providerForm.controls.firstName.touched && providerForm.controls.firstName.invalid">
+                        <span *ngIf="providerForm.controls.firstName.errors?.required">Este campo no puede estar vacío.</span>
+                      </mat-error>
+                      <div [style.display]="editingGral ? 'none' : 'block' ">{{currentProvider?.firstName}}</div>
                     </div>
                   </div>
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h2 class="mb-0">Primer apellido</h2>
+                      <h3 class="mb-0">Primer apellido:</h3>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                        López
+                      <input [style.display]="editingGral ? 'block' : 'none' "  type="text" maxlength="10" required formControlName="lastName" [class.inputInvalid]="providerForm.controls.lastName.touched && providerForm.controls.lastName.invalid">
+                      <mat-error *ngIf="providerForm.controls.lastName.touched && providerForm.controls.lastName.invalid">
+                        <span *ngIf="providerForm.controls.lastName.errors?.required">Este campo no puede estar vacío.</span>
+                      </mat-error>
+                      <div [style.display]="editingGral ? 'none' : 'block' " >{{currentProvider?.lastName}}</div>
                     </div>
                   </div>
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h2 class="mb-0">Segundo apellido</h2>
+                      <h3 class="mb-0">Segundo apellido:</h3>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                        López
+                      <input [style.display]="editingGral ? 'block' : 'none' "  type="text" maxlength="10" required formControlName="secondLastName" [class.inputInvalid]="providerForm.controls.secondLastName.touched && providerForm.controls.secondLastName.invalid">
+                      <mat-error *ngIf="providerForm.controls.secondLastName.touched && providerForm.controls.secondLastName.invalid">
+                        <span *ngIf="providerForm.controls.secondLastName.errors?.required">Este campo no puede estar vacío.</span>
+                      </mat-error>
+                      <div [style.display]="editingGral ? 'none' : 'block' " >{{currentProvider?.secondLastName}}</div>
                     </div>
                   </div>
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h2 class="mb-0">Teléfono</h2>
+                      <h3 class="mb-0">Fecha de nacimiento:</h3>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      (952) 440-5680
+                      <input [style.display]="editingGral ? 'block' : 'none' " type="date" required id="birthdate" max="2014-12-31" formControlName="birthdate" [class.inputInvalid]="providerForm.controls.birthdate.touched && providerForm.controls.birthdate.invalid">
+                      <mat-error *ngIf="providerForm.controls.birthdate.touched && providerForm.controls.birthdate.invalid">
+                        <span *ngIf="providerForm.controls.birthdate.errors?.required">Este campo no puede estar vacío.</span>
+                      </mat-error>
+                      <div [style.display]="editingGral ? 'none' : 'block' " >{{currentProvider?.birthdate | date : 'longDate' : "+0000" }}</div>
                     </div>
                   </div>
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h2 class="mb-0">Email</h2>
+                      <h3 class="mb-0">Género:</h3>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      holasoysheen@gmail.com
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h2 class="mb-0">Fecha de nacimiento</h2>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                        06/10/1996
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h2 class="mb-0">Miembro desde</h2>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                        Dom. 06/06/2021
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h2 class="mb-0">Última modificación</h2>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                        --
+                      <select [style.display]="editingGral ? 'block' : 'none' " required formControlName="gender" style="margin:0;" [class.inputInvalid]="providerForm.controls.gender.touched && providerForm.controls.gender.invalid">
+                        <option [ngValue]="null"></option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                      </select>
+                      <mat-error *ngIf="providerForm.controls.gender.touched && providerForm.controls.gender.invalid">
+                        <span *ngIf="providerForm.controls.gender.errors?.required">Este campo no puede estar vacío.</span>
+                      </mat-error>
+                      <div [style.display]="editingGral ? 'none' : 'block' " >{{currentProvider?.gender}}</div>
                     </div>
                   </div>
                   <hr>
                   <div class="row">
                     <div class="col-sm-12 optns">
-                      <a class="btn btn-outline-primary edit-info" target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Editar información</a>
-                      <a class="btn btn-outline-danger change-psw" target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Cambiar contraseña</a>
-                      <a class="btn btn-danger " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Desactivar cuenta</a>
+                      <a class="btn btn-outline-primary edit-info" href="javascript:void(0)" (click)="editGral()" [style.display]="editingGral ? 'none' : 'inline-block'">Editar información</a>
+                      <a class="btn btn-outline-success edit-info" href="javascript:void(0)" (click)="save()" [style.display]="editingGral ? 'inline-block' : 'none'">Guardar</a>
+                      <a class="btn btn-outline-danger edit-info-cancel" href="javascript:void(0)" (click)="editGral()" [style.display]="editingGral ? 'inline-block' : 'none' ">Cancelar edición</a>
                     </div>
                   </div>
+                </form>
                 </div>
               </div>
-
-              <!-- <div class="row gutters-sm">
-                <div class="col-sm-6 mb-3">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                      <small>Web Design</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>Website Markup</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>One Page</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>Mobile Template</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>Backend API</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
+              <div class="card mb-3">
+                <div class="card-body">
+                <h2 class="card-title">Información de contacto</h2>
+                <form [formGroup]="contactForm" action="#">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h3 class="mb-0">Username</h3>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <input [style.display]="editingContact ? 'block' : 'none' "  type="text" maxlength="10" required formControlName="username" [class.inputInvalid]="contactForm.controls.username.touched && contactForm.controls.username.invalid">
+                      <mat-error *ngIf="contactForm.controls.username.touched && contactForm.controls.username.invalid">
+                        <span *ngIf="contactForm.controls.username.errors?.required">Este campo no puede estar vacío.</span>
+                      </mat-error>
+                      <div [style.display]="editingContact ? 'none' : 'block' " >{{currentProvider?.username}}</div>
+                    </div>
+                </div>
+                <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h3 class="mb-0">Teléfono:</h3>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <input [style.display]="editingContact ? 'block' : 'none' "  type="text" maxlength="10" required formControlName="phone" [class.inputInvalid]="contactForm.controls.phone.touched && contactForm.controls.phone.invalid">
+                      <mat-error *ngIf="contactForm.controls.phone.touched && contactForm.controls.phone.invalid">
+                          <span *ngIf="contactForm.controls.phone.errors?.required">Este campo no puede estar vacío.</span>
+                          <span *ngIf="contactForm.controls.phone.errors?.phoneInvalid && !contactForm.controls.phone.errors?.required">Ingrese los 10 dígitos de su número de teléfono</span>
+                      </mat-error>
+                      <div [style.display]="editingContact ? 'none' : 'block' " >{{currentProvider?.phone}}</div>
                     </div>
                   </div>
-                </div>
-                <div class="col-sm-6 mb-3">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                      <small>Web Design</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>Website Markup</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>One Page</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>Mobile Template</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <small>Backend API</small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h3 class="mb-0">Email:</h3>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <input [style.display]="editingContact ? 'block' : 'none' " type="email" required formControlName="email" [class.inputInvalid]="contactForm.controls.email.touched && contactForm.controls.email.invalid">
+                      <mat-error *ngIf="contactForm.controls.email.touched && contactForm.controls.email.invalid">
+                          <span *ngIf="contactForm.controls.email.errors?.required">Este campo no puede estar vacío.</span>
+                          <span *ngIf="contactForm.controls.email.errors?.emailInvalid && !contactForm.controls.email.errors?.required">El formato del correo es inválido.</span>
+                      </mat-error>
+                      <div [style.display]="editingContact ? 'none' : 'block' " >{{currentProvider?.email}}</div>
                     </div>
                   </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h3 class="mb-0">Tipo de verificación:</h3>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <select [style.display]="editingContact ? 'block' : 'none' " required formControlName="verType" [class.inputInvalid]="contactForm.controls.verType.touched && contactForm.controls.verType.invalid">
+                        <option [ngValue]="null"></option>
+                        <option value="1">Correo electrónico</option>
+                        <option value="2">Número de teléfono</option>
+                      </select>
+                      <mat-error *ngIf="contactForm.controls.verType.touched && contactForm.controls.verType.invalid">
+                        <span *ngIf="contactForm.controls.verType.errors?.required">Debes seleccionar una opción válida.</span>
+                      </mat-error>
+                      <div [style.display]="editingContact ? 'none' : 'block' " >{{currentProvider?.verType==1 ? "Correo electrónico" : "Número de teléfono" }}</div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-12 optns">
+                      <a class="btn btn-outline-primary edit-info" href="javascript:void(0)" (click)="editContact()" [style.display]="editingContact ? 'none' : 'inline-block'">Editar información</a>
+                      <a class="btn btn-outline-success edit-info" href="javascript:void(0)" (click)="save()" [style.display]="editingContact ? 'inline-block' : 'none'">Guardar</a>
+                      <a class="btn btn-outline-danger edit-info-cancel" href="javascript:void(0)" (click)="editContact()" [style.display]="editingContact ? 'inline-block' : 'none' ">Cancelar edición</a>
+                    </div>
+                  </div>
+                </form>
                 </div>
-              </div> -->
-
-
-
+              </div>
             </div>
           </div>
 

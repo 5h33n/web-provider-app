@@ -9,7 +9,7 @@ import { Backend2 } from './backend';
 })
 export class BusinessService {
 
-  private _BUSINESS_API = "https://"+Backend2+":3030/";
+  private _BUSINESS_API = Backend2+":3030/";
   headers : HttpHeaders = new HttpHeaders({
     "Content-Type": "application/json"
   });

@@ -27,9 +27,45 @@
 .edit-info{
     margin-right: auto;
 }
+.edit-info-cancel{
+    margin-right: 10px;
+}
+h3{
+    font-weight: 500;
+}
 .change-psw{
     margin-right: 10px;
 }
 .actions button{
     margin-left:16px;
+}
+input{
+    line-height: 41px;
+}
+.photo{
+    border: 1px solid;
+}
+.photo:hover{
+    cursor: pointer;
+    background-color: black;
+    filter: brightness(0.6);
+}
+.up-photo{
+    display: none;
+}
+.photo:hover~.up-photo{
+    cursor: pointer;
+    position: absolute;
+    top: 26%;
+    color: white;
+    display: flex;
+    flex-flow: column;
+    font-size: 16px;
+}
+.photo:hover~.up-photo::after{
+    cursor: pointer;
+    content: " \1F4F7";
+}
+.text-secondary input{
+    margin: 0;
 }

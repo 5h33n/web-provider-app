@@ -16,8 +16,8 @@
                                     <div class="dw-user-box">
                                         <div class="u-img"><img src="/assets/img/user1.jpg" alt="user"></div>
                                         <div class="u-text">
-                                            <h4>Eduardo Guzmán</h4>
-                                            <p class="text-muted"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="" style="padding: 0px;">holasoysheen@gmail.com</a></p><a href="profile.html" class="btn btn-rounded btn-yellow btn-sm">Ver perfil</a></div>
+                                            <h4>{{currentProvider?.firstName}} {{currentProvider?.lastName}}</h4>
+                                            <p class="text-muted"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="" style="padding: 0px;">{{currentProvider?.email}}</a></p><a href="profile.html" class="btn btn-rounded btn-yellow btn-sm">Ver perfil</a></div>
                                     </div>
                                 </li>
                                 <li role="separator" class="divider"></li>
@@ -26,7 +26,7 @@
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#"><i class="ti-settings"></i> Configuraciones</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="http://127.0.0.1:8000/logout"><i class="fa fa-power-off"></i> Salir</a></li>
+                                <li><a href="javascript:void()" (click)="logout()"><i class="fa fa-power-off"></i> Salir</a></li>
                             </ul>
                         </div>
                     </li>

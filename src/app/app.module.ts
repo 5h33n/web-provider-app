@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -25,6 +25,7 @@ import { ConfigComponent } from './components/admin/config/config.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VerifyComponent } from './components/auth/register/verify/verify.component';
 import { BusinessComponent } from './components/auth/register/business/business.component';
+
 @NgModule({
   declarations: [
     AppComponent,

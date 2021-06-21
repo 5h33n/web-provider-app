@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 export function noSession(router: Router){
     Swal.fire({
         icon: 'error',
@@ -67,4 +68,23 @@ export class CustomValidators{
         return {phoneInvalid: true};
       }
     }
+}
+export function Logout(authService : AuthService, router: Router){
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¿Seguro que quieres cerrar sesión?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sí, quiero salir'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        authService.logout().subscribe((response)=>{
+          authService.removeLocalUser();
+          router.navigate(["login"]);
+        });
+      }
+    });
   }

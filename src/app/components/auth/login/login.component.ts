@@ -80,17 +80,14 @@ export class LoginComponent implements OnInit {
   submit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe((response)=>{
-        console.log(response);
         this.authService.setUser(response.body);
-        let currentUser = this.authService.getCurrentUser();
+        const currentUser = this.authService.getCurrentUser();
         if(currentUser.verifiedAt){
-          //redirecciono a dashboard
-          console.log("todavía no estoy programado xd");
+          this.router.navigate(['dashboard']);
         }else{
           this.router.navigate(['verify'],{ queryParams: { r: currentUser.id }});
         }
       },error=>{
-        console.log(error);
         let msgError = error.error.notifications ? error.error.notifications[0].descripcion : "No fue posible conectar con el servicio de inicio de sesión, inténtelo de nuevo más tarde";
         infoMessage('error','No se pudo iniciar sesión',msgError,'Aceptar');
       });

@@ -20,14 +20,14 @@
 			<div class="dashboard-nav-inner" [class.mini-sidebar]="!drawer.opened">
 				<div class="user-profile">
                     <!-- User imagen -->
-                    <div class="profile-img"> <img src="/assets/img/user1.jpg" alt="user"> </div>
+                    <div class="profile-img"> <img [src]="currentProvider?.photo ? '' : '/assets/img/user1.jpg'" alt="user"> </div>
                     <!-- User text-->
-                    <div class="profile-text"> <a href="javascript:void(0)" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Eduardo López<span class="caret"></span></a>
+                    <div class="profile-text"> <a href="javascript:void(0)" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">{{currentProvider?.firstName}} {{currentProvider?.lastName}}<span class="caret"></span></a>
                         <div class="dropdown-menu animate__animated animate__flipInY">
                             <a href="#" class="dropdown-item" [routerLink]="['/profile']"><i class="ti-user"></i> Perfil</a>
                             <a href="#" class="dropdown-item"><i class="ti-email"></i> Mensajes</a>
                             <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Configuraciones</a>
-                            <div class="dropdown-divider"></div> <a href="http://127.0.0.1:8000/logout" class="dropdown-item"><i class="fa fa-power-off"></i> Salir</a>
+                            <div class="dropdown-divider"></div> <a href="javascript:void()" (click)="logout()" class="dropdown-item"><i class="fa fa-power-off"></i> Salir</a>
                         </div>
                     </div>
                 </div>
@@ -82,16 +82,16 @@
                             </ul>
                         </li> -->
                     </ul>
-					<div>
+					<!-- <div>
 						<div class="user-alert alert alert-warning" style="margin: 10%;text-align: center;font-size: 15px;">
 							Te enviamos un correo para verificar tu cuenta ¿Todavía no lo recibes? <a href="javascript:void(0);">Reenviar correo</a>
 						</div>
-					</div>
+					</div> -->
                 </nav>
 				<div class="sidebar-footer">
 					<a href="" class="link" data-toggle="tooltip" title="" data-original-title="Configuraciones"><i class="ti-settings"></i></a>
 					<a href="" class="link" data-toggle="tooltip" title="" data-original-title="Mensajes"><i class="ti-email"></i></a>
-					<a href="http://127.0.0.1:8000/logout" class="link" data-toggle="tooltip" title="" data-original-title="Salir"><i class="ti-power-off"></i></a>
+					<a href="javascript:void()" (click)="logout()" class="link" data-toggle="tooltip" title="" data-original-title="Salir"><i class="ti-power-off"></i></a>
 				</div>
 				<!-- NAVBAR ANTIGUO, SI YA NO HAY DATOS QUE NECESITES DE AQUÍ, BORRALO -->
 				<!-- <ul>

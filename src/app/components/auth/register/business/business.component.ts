@@ -15,6 +15,8 @@ import { Options } from 'ngx-google-places-autocomplete/objects/options/options'
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import {trigger,state,style,animate,transition,} from '@angular/animations';
 import { CustomValidators } from '../../../../common/common';
+import { noSession, infoMessage, redirectMessage } from '../../../../common/common';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-business',
   templateUrl: './business.component.html',
@@ -46,8 +48,11 @@ export class BusinessComponent implements OnInit {
   socialMedia = [["fb",""]];
   schedule = new Schedule()
   notWorkingDays = [false,false,false,false,false,false,false];
-  imgLogo: string | undefined = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-  imgPortada: string | undefined = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+  default_img :string = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+  imgLogo: string | undefined = this.default_img;
+  imgPortada: string | undefined = this.default_img;
+  logoOut : any | undefined=undefined;
+  portadaOut :any | undefined=undefined;
   charge: boolean = false;
 // Create a bounding box with sides ~10km away from the center point
 
@@ -67,7 +72,12 @@ export class BusinessComponent implements OnInit {
 
   @ViewChild('tagsInput') tagsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
-  constructor(private formBuilder: FormBuilder, private businessService: BusinessService, private authService:AuthService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private businessService: BusinessService, 
+    private authService:AuthService,
+    private router:Router,
+    ) {
     this.filteredTags = this.tagsCtrl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => tag ? this._filter(tag) : this.defaultTags.slice()));
@@ -96,48 +106,36 @@ export class BusinessComponent implements OnInit {
       score:[false, Validators.required],
       Schedule:[this.schedule, Validators.required],
       SocialMedia:[this.socialMedia, Validators.required],
-      tags:[false, Validators.required],
+      tags:[null, Validators.required],
       lt:[null, Validators.required],
       ln:[null, Validators.required]
     });
   }
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
-    // Add our fruit
     if (value) {
       this.tagsSelected.push(value);
     }
-
-    // Clear the input value
     event.input.value = '';
-
     this.tagsCtrl.setValue(null);
   }
-
   remove(tag: string): void {
     const index = this.tagsSelected.indexOf(tag);
-
     if (index >= 0) {
       this.tagsSelected.splice(index, 1);
     }
   }
-
   selected(event: MatAutocompleteSelectedEvent): void {
     this.tagsSelected.push(event.option.viewValue);
     this.tagsInput.nativeElement.value = '';
     this.tagsCtrl.setValue(null);
   }
-
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.defaultTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
   }
-
   next(e: Event){
     e.preventDefault();
-    console.log(this.schedule);
     this.percent += 25;
     this.marginLeft = `-${this.percent}%`;
     this.steps[this.current][1] = "active";
@@ -229,12 +227,39 @@ export class BusinessComponent implements OnInit {
     reader.onload = () => {
       if (target==0){
         this.imgLogo = reader.result?.toString();
+        this.logoOut = {
+          name: `logo_${this.authService.getCurrentUser().id}_${file.lastModified}`,
+          type:"logo",
+          weight:file.size,
+          description:null,
+          data:reader.result?.toString(),
+          extension:file.name.split('.').pop()
+        }
       }else if (target==1){
         this.imgPortada = reader.result?.toString();
+        this.portadaOut = {
+          name: `cover_${this.authService.getCurrentUser().id}_${file.lastModified}`,
+          type:"cover",
+          weight:file.size,
+          description:null,
+          data:reader.result?.toString(),
+          extension:file.name.split('.').pop()
+        }
       }
     };
   }
   createBusiness(){
+    let smedia:any[] = [];
+    if (this.socialMedia[0][1] != ""){
+      this.socialMedia.forEach(element => {
+        smedia.push({[element[0]]:element[1]});
+      });
+    }
+    let imgs:any[] = [];
+    if (this.portadaOut != undefined || this.logoOut != undefined){
+      this.logoOut != undefined ? imgs.push(this.logoOut) : "";
+      this.portadaOut != undefined ? imgs.push(this.portadaOut) : "";
+    }
     let businessObj: any = {
       idProvider: this.authService.getCurrentUser().id,
       name : this.businessForm.value.name,
@@ -249,18 +274,27 @@ export class BusinessComponent implements OnInit {
       email : this.businessForm.value.email,
       description : this.businessForm.value.description,
       lt: this.businessForm.value.lt,
-      ln: this.businessForm.value.ln
+      ln: this.businessForm.value.ln,
+      tags: this.tagsSelected,
+      images: imgs.length==0 ? null : imgs,
+      schedule: this.businessForm.value.Schedule.empty() ? null : this.businessForm.value.Schedule,
+      socialMedia: smedia.length==0 ? null : smedia
     };
-    console.log(businessObj);
+    //ADVERTENCIA: LA CONSOLA SE TRABA SI IMPRIMO EL OBJETO CON IMAGENES
     this.charge=true;
     this.businessService.createStore(businessObj).subscribe(store=>{
-      console.log(store);
+      if(store){
+        this.router.navigate(['dashboard']);
+      }
+    },error => {
+      //Aquí falta redirigir a donde está el error
+      let msgError = error.error.notifications ? error.error.notifications[0].descripcion : "No fue posible conectar con el servicio de registro, inténtelo de nuevo más tarde";
+      infoMessage('error','No se pudo crear el negocio',msgError,'Aceptar');
     });
   }
   changeDireccion(e:Address){
     //aqui meter un gif de carga
     let addr: { [key: string]: any } = {};
-    console.log(e.geometry.location.lat());
     e.address_components.forEach(element => {
       addr[element.types[0]] = element.long_name;
     });

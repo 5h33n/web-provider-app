@@ -16,4 +16,15 @@ export class Schedule{
         this.saturday = new Day();
         this.sunday = new Day();
     }
+    public empty():boolean{
+        if( this.monday.end == undefined && this.monday.start == undefined &&
+            this.tuesday.end == undefined && this.tuesday.start == undefined &&
+            this.wednesday.end == undefined && this.wednesday.start == undefined &&
+            this.thursday.end == undefined && this.thursday.start == undefined &&
+            this.friday.end == undefined && this.friday.start == undefined &&
+            this.saturday.end == undefined && this.saturday.start == undefined &&
+            this.sunday.end == undefined && this.sunday.start == undefined
+        ){ return true }
+        else{ return false}
+    }
 }
