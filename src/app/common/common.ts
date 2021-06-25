@@ -88,3 +88,9 @@ export function Logout(authService : AuthService, router: Router){
       }
     });
   }
+  export function LogoutForce(authService : AuthService, router: Router){
+      authService.logout().subscribe((response)=>{
+        authService.removeLocalUser();
+        router.navigate(["login"]);
+      });
+  }

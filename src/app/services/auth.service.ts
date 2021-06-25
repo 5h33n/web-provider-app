@@ -32,14 +32,6 @@ export class AuthService {
     localStorage.removeItem("currentProvider");
     this.userSubject.next(undefined);
   }
-  registerUser(user:Provider): Observable<any>{
-    const url_api = this._ONBOARDING_API+'provider/newProvider';
-    return this.http.post(url_api,user,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
-  }
-  updateUser(contactInfo:any): Observable<any>{
-    const url_api = this._ONBOARDING_API+'provider/editarC';
-    return this.http.put(url_api,contactInfo,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
-  }
   resendCode(id:string){
     const url_api = this._PROVIDERSECURITY_API+'api/reenviar-codigo';
     return this.http.post(url_api,id,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
@@ -60,15 +52,11 @@ export class AuthService {
     return this.http.post(url_api,info,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
   }
   getSession():Observable<any>{
-    const url_api = this._ONBOARDING_API+'provider/session';
+    const url_api = this._PROVIDERSECURITY_API+'api/session';
     return this.http.get(url_api,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
   }
   refreshSession():Observable<any>{
     const url_api = this._PROVIDERSECURITY_API+'api/refreshSession';
-    return this.http.get(url_api,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
-  }
-  getProviderById(id:string){
-    const url_api = `${this._ONBOARDING_API}provider/provider-id/${id}`;
     return this.http.get(url_api,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
   }
 }

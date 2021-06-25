@@ -1,10 +1,12 @@
 import { HostListener } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Provider } from 'src/app/models/provider';
 import { AuthService } from 'src/app/services/auth.service';
-import Swal from 'sweetalert2';
-import { CustomValidators } from '../../../common/common';
+import { ProviderService } from 'src/app/services/provider.service';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
+import { CustomValidators, infoMessage, LogoutForce } from '../../../common/common';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -19,13 +21,15 @@ export class ProfileComponent implements OnInit {
   editingContact:boolean = false;
   constructor(
     private authService:AuthService,
+    private providerService:ProviderService,
     private formBuilder: FormBuilder,
+    private router:Router
   ) { }
   ngOnInit(): void {
     this.reorder();
     this.providerForm = this.createProvider(null,null,null,null,null);
     this.contactForm = this.createContact(null,null,null,null);
-    this.authService.getProviderById(this.authService.getCurrentUser().id).subscribe((response)=>{
+    this.providerService.getProviderById(this.authService.getCurrentUser().id).subscribe((response)=>{
       this.currentProvider = response;
       this.providerForm = this.createProvider(this.currentProvider?.firstName,this.currentProvider?.lastName,this.currentProvider?.secondLastName,new Date(this.currentProvider!.birthdate).toISOString().split('T')[0],this.currentProvider?.gender);
       this.contactForm = this.createContact(this.currentProvider?.username,this.currentProvider?.email,this.currentProvider?.phone,this.currentProvider?.verType)
@@ -98,7 +102,123 @@ export class ProfileComponent implements OnInit {
       this.editingContact = true;
     }
   }
-  save(){
-    console.log(this.providerForm);
+  saveGral(){
+    Swal.fire({
+      title: 'Confirmar',
+      text: "¿Desea guardar estos cambios?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sí, guardar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const providerObj = {
+          id: this.currentProvider.id,
+          firstName: this.providerForm.value.firstName,
+          lastName: this.providerForm.value.lastName,
+          secondLastName: this.providerForm.value.secondLastName,
+          birthdate: new Date(this.providerForm.value.birthdate),
+          gender: this.providerForm.value.gender
+        };
+        this.providerService.updateUserInfo(providerObj).subscribe((r)=>{
+          if (r){
+            this.authService.refreshSession().subscribe((response)=>{
+              this.authService.setUser(response);
+              infoMessage('success','Listo','Información actualizada correctamente','¡De acuerdo!');
+              this.editingGral = false;
+              this.ngOnInit();
+            });
+          }else{
+            infoMessage('error','Algo salió mal','No fue posible editar la informacion, intentalo de nuevo más tarde','ok');
+          }
+        },error=>{
+          infoMessage('error','Imposible actualizar la información',error.error.notifications[0].descripcion,'ok');
+        });
+      }
+    });
+  }
+  saveContact(){
+    const reVer:boolean = this.currentProvider.verType != this.contactForm.value.verType ? true : this.currentProvider.verType == 1 && (this.currentProvider.email != this.contactForm.value.email) ? true : this.currentProvider.verType == 2 && (this.currentProvider.phone != this.contactForm.value.phone) ? true : false;
+    const txt:string = reVer ? "Estás modificando alguno de los datos con los que tu cuenta está verificada, este cambio cerrará tu sesión y no podrás acceder hasta verificar tu cuenta de nuevo ¿Estás seguro de continuar? " : "Se actualizará tu información de contacto";
+    const tit:string = reVer ? "ADVERTENCIA" : "¿Deseas continuar?";
+    const icon:SweetAlertIcon = reVer ? 'error':'warning';
+    Swal.fire({
+      title: tit,
+      text: txt,
+      icon: icon,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sí, continuar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const providerObj = {
+          id: this.currentProvider.id,
+          username: this.contactForm.value.username,
+          email: this.contactForm.value.email,
+          phone: this.contactForm.value.phone,
+          verType: this.contactForm.value.verType
+        }
+        if (reVer){
+          Swal.fire({
+            title: 'Ingresa tu contraseña para continuar',
+            input: 'password',
+            inputAttributes: {
+              autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Continuar',
+            showLoaderOnConfirm: true,
+            preConfirm: (pwd) => {
+              return this.authService.login({username:this.currentProvider.username,password:pwd}).subscribe((response)=>{
+                this.providerService.updateUserContact(providerObj).subscribe((r)=>{
+                  if (r){
+                    this.authService.refreshSession().subscribe((response)=>{
+                      infoMessage('success','Listo','Información actualizada correctamente, serás redirigido al inicio','¡De acuerdo!');
+                      LogoutForce(this.authService,this.router);
+                      this.editingGral = false;
+                    });
+                  }else{
+                    infoMessage('error','Algo salió mal','No fue posible editar la informacion, intentalo de nuevo más tarde','ok');
+                  }
+                },error=>{
+                  infoMessage('error','Imposible actualizar la información',error.error.notifications[0].descripcion,'ok');
+                });
+              },error=>{
+                Swal.showValidationMessage(
+                  `${error.error.notifications ? error.error.notifications[0].descripcion:"Error desconocido"}`
+                );
+                return false;
+              });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Resultado"
+              })
+            }
+          });
+        }else{
+        this.providerService.updateUserContact(providerObj).subscribe((r)=>{
+          if (r){
+            this.authService.refreshSession().subscribe((response)=>{
+              this.authService.setUser(response);
+              infoMessage('success','Listo','Información actualizada correctamente','¡De acuerdo!');
+              this.editingContact = false;
+              this.ngOnInit();
+            });
+          }else{
+            infoMessage('error','Algo salió mal','No fue posible editar la informacion, intentalo de nuevo más tarde','ok');
+          }
+        },error=>{
+          infoMessage('error','Imposible actualizar la información',error.error.notifications[0].descripcion,'ok');
+        });
+        }
+      }
+    });
   }
 }

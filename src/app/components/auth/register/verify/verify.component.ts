@@ -6,6 +6,7 @@ import { Provider } from 'src/app/models/provider';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 import { noSession, infoMessage, redirectMessage } from '../../../../common/common'
+import { ProviderService } from 'src/app/services/provider.service';
 @Component({
   selector: 'app-verify',
   templateUrl: './verify.component.html',
@@ -30,6 +31,7 @@ export class VerifyComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
+    private providerService: ProviderService,
     private router:Router,
     private formBuilder: FormBuilder
   ) { }
@@ -53,7 +55,7 @@ export class VerifyComponent implements OnInit {
     this.currentProvider = this.authService.getCurrentUser();
     this.route.queryParams
       .subscribe(params => {
-        if(!params.r || !this.currentProvider){
+        if(!params.r && !this.currentProvider){
           this.redirectLogin(params);
         }else if(params.tok){
           this.verifyTkn(params.r,params.tok);
@@ -96,8 +98,10 @@ export class VerifyComponent implements OnInit {
             confirmButtonText: 'Continuar',
           }).then((result) => {
             if (result.value) {
-              console.log("Continuamos");
-              this.router.navigate(['business'],{ queryParams: { r: this.currentProvider.id }});
+              this.authService.refreshSession().subscribe((response)=>{
+                this.authService.setUser(response);
+                this.router.navigate(['business'],{ queryParams: { r: this.currentProvider.id }});
+              });
             }
           })
         }else{
@@ -135,8 +139,7 @@ export class VerifyComponent implements OnInit {
             if(dato){
               this.currentProvider.verType = result.value;
               this.currentProvider.email = dato.value;
-              this.authService.updateUser({id:this.currentProvider.id,email:dato.value}).subscribe((provider)=>{
-                console.log(provider);
+              this.providerService.updateUserContact({id:this.currentProvider.id,email:dato.value}).subscribe((provider)=>{
                 this.authService.setUser(provider as Provider);
                 this.authService.resendCode(this.currentProvider.id).subscribe((response)=>{
                   infoMessage('success','Información actualizada','En breve recibirás un correo con tu código de verificación','¡De acuerdo!');

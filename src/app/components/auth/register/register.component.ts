@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Provider } from 'src/app/models/provider';
 import Swal from 'sweetalert2';
 import { noSession, infoMessage, redirectMessage } from '../../../common/common'
+import { ProviderService } from 'src/app/services/provider.service';
 class CustomValidators{
   static emailValid(control: AbstractControl): ValidationErrors{
     const regex = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
@@ -64,7 +65,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private router:Router,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private providerService: ProviderService
     ) { }
   // PROPIEDADES DE DISEÑO
   marginLeft = "0"
@@ -162,7 +164,7 @@ export class RegisterComponent implements OnInit {
       this.newUser.createdAt = new Date();
       this.newUser.modifiedAt = new Date();
       this.newUser.photo = "";
-      this.authService.registerUser(this.newUser).subscribe(provider=>{
+      this.providerService.registerUser(this.newUser).subscribe(provider=>{
         this.authService.setUser(provider as Provider);
         setTimeout(() => {
           this.showing = "none";
