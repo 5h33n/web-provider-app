@@ -30,10 +30,12 @@
                 </div>
                 <div class="subtitle" *ngIf="currentProvider.verType ==1">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode()">Reenviar código a {{currentProvider.email}}</a></div>
                 <div class="subtitle" *ngIf="currentProvider.verType ==2">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode()">Reenviar código por SMS al {{currentProvider.phone}}</a></div>
-                <div class="field">
+                <div class="field" style="margin-bottom: 0;">
                     <button class="firstNext next" [disabled]="verifyForm.invalid" (click)="verifyCode()">Verificar mi cuenta</button>
                 </div>
-                <div class="subtitle" *ngIf="currentProvider.verType ==1">¿No tienes acceso a tu correo o número telefónico? <a href="javascript:void(0)" (click)="changeVerType()">Cambiar método de verificación</a></div>
+                <div class="subtitle">¿No tienes acceso a tu correo o número telefónico? <a href="javascript:void(0)" (click)="changeVerType()">Cambiar método de verificación</a></div>
+                <br>
+                <div class="subtitle"><a href="javascript:void(0)" (click)="logout()">Cerrar sesión</a></div>
             </div>
         </form>
     </div>

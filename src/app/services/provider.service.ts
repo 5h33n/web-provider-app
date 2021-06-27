@@ -32,4 +32,12 @@ export class ProviderService {
         const url_api = `${this._ONBOARDING_API}provider/provider-id/${id}`;
         return this.http.get(url_api,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
     }
+    deactivate(provider:any){
+        const url_api = `${this._ONBOARDING_API}provider/desactivar`;
+        return this.http.put(url_api,provider,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
+    }
+    updatePhoto(file:any){
+        const url_api = `${this._ONBOARDING_API}provider/uploadFile`;
+        return this.http.put(url_api,file,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
+    }
 }

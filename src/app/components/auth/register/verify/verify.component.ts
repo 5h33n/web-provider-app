@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Provider } from 'src/app/models/provider';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
-import { noSession, infoMessage, redirectMessage } from '../../../../common/common'
+import { noSession, infoMessage, redirectMessage, Logout } from '../../../../common/common'
 import { ProviderService } from 'src/app/services/provider.service';
 @Component({
   selector: 'app-verify',
@@ -139,8 +139,10 @@ export class VerifyComponent implements OnInit {
             if(dato){
               this.currentProvider.verType = result.value;
               this.currentProvider.email = dato.value;
-              this.providerService.updateUserContact({id:this.currentProvider.id,email:dato.value}).subscribe((provider)=>{
-                this.authService.setUser(provider as Provider);
+              this.providerService.updateUserContact({id:this.currentProvider.id,email:dato.value,verType:this.currentProvider.verType}).subscribe((provider)=>{
+                this.authService.refreshSession().subscribe((response)=>{
+                    this.authService.setUser(response);
+                });
                 this.authService.resendCode(this.currentProvider.id).subscribe((response)=>{
                   infoMessage('success','Información actualizada','En breve recibirás un correo con tu código de verificación','¡De acuerdo!');
                 },error=>{
@@ -209,5 +211,8 @@ export class VerifyComponent implements OnInit {
         this.prev(n-1);
       }
     }
+  }
+  logout(){
+    Logout(this.authService,this.router);
   }
 }

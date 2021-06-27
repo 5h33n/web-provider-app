@@ -140,7 +140,6 @@ export class RegisterComponent implements OnInit {
     this.steps[this.current][1] = "";
   }
   register(){
-    console.log(this.registerForm)
     if (this.registerForm.invalid){
       infoMessage('error','Imposible registrar usuario','Algunos datos proporcionados son inválidos','Aceptar');
     }else{
@@ -165,7 +164,9 @@ export class RegisterComponent implements OnInit {
       this.newUser.modifiedAt = new Date();
       this.newUser.photo = "";
       this.providerService.registerUser(this.newUser).subscribe(provider=>{
-        this.authService.setUser(provider as Provider);
+        this.authService.refreshSession().subscribe((response)=>{
+            this.authService.setUser(response);
+        });
         setTimeout(() => {
           this.showing = "none";
           this.verifier = "block";

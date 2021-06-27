@@ -34,12 +34,12 @@
 				<nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <!-- <li class="nav-small-cap">GESTIÓN DE CONTENIDOS</li> -->
-                        <li>
-                            <a class="has-arrow" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-home"></i><span class="hide-menu">Mi tienda <span class="label label-rounded label-success">5</span></span></a>
+                        <!-- <li>
+                            <a class="has-arrow" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-home"></i><span class="hide-menu">Mi negocio <span class="label label-rounded label-success">5</span></span></a>
                             <ul aria-expanded="false" class="collapse" id="collapseExample">
                                
                                                               <li><a href="http://127.0.0.1:8000/tienda/info/1X719K">Información</a></li>
-                               <li><a href="http://127.0.0.1:8000/tienda/categorias/UnX1EM">Categorías</a></li>
+                               <li><a href="http://127.0.0.1:8000/tienda/categorias/UnX1EM">Inventarios</a></li>
                                 <li>
                                     <a class="has-arrow" href="#" aria-expanded="false">Diseño</a>
                                     <ul aria-expanded="false" class="collapse">
@@ -48,20 +48,20 @@
                                     </ul>
                                 </li>
                                                            </ul>
+                        </li> -->
+                        <li>
+                            <a class="" href="#" aria-expanded="false"><i class="fa fa-tasks"></i><span class="hide-menu">Pedidos</span></a>
                         </li>
                         <li>
-                            <a class="has-arrow " href="#" aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">Productos</span></a>
-                                                        <ul aria-expanded="false" class="collapse">
-                                <!--<li><a href="http://127.0.0.1:8000/mipape/editCategorias">Categorías</a></li> -->
-                                <li><a href="http://127.0.0.1:8000/tienda/inventario/RZj1ev">Inventario</a></li>
-                                <li><a href="http://127.0.0.1:8000/tienda/ventas/Hhm10s">Ventas</a></li>
-                                <li><a href="http://127.0.0.1:8000/mipape/compras">Compras</a></li>
-                            </ul>
-                                                    </li>
-                        <li>
-                            <a class="" href="#" aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">Mensajes</span></a>
+                            <a class="" href="#" aria-expanded="false"><i class="fa fa-table"></i><span class="hide-menu">Mi negocio</span></a>
                         </li>
                         <li>
+                            <a class="" href="#" aria-expanded="false"><i class="fa fa-book-open"></i><span class="hide-menu">Inventarios</span></a>
+                        </li>
+                        <li>
+                            <a class="" href="#" aria-expanded="false"><i class="fa fa-chart-bar"></i><span class="hide-menu">Estadisticas</span></a>
+                        </li>
+                        <!-- <li>
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">Mas cosas</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="#">Thing 1</a></li>
@@ -70,7 +70,7 @@
                                 <li><a href="#">Thing te pongo</a></li>
                                 <li><a href="#">Thing 5</a></li>
                             </ul>
-                        </li>
+                        </li> -->
                         <!-- <li class="nav-devider"></li>
                         <li class="nav-small-cap">Aqui arriba hay un separador</li>
                         <li>
@@ -111,9 +111,34 @@
 	<!-- Contenido del dashboard -->
 	<!-- Tab nav -->
 	<mat-tab-group *ngIf="mobileDevice" mat-align-tabs="center" backgroundColor = "primary" color="primary" headerPosition="below">
-		<mat-tab label="First"><app-main></app-main></mat-tab>
-		<mat-tab label="Second">Content 2</mat-tab>
-		<mat-tab label="Third">Content 3</mat-tab>
+		<mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">list</mat-icon>
+                <span>Pedidos</span>
+            </ng-template>
+            <app-main></app-main>
+        </mat-tab>
+		<mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">table_chart</mat-icon>
+                <span>Mi negocio</span>
+            </ng-template>
+            Content 2
+        </mat-tab>
+		<mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">menu_book</mat-icon>
+                <span>Inventarios</span>
+            </ng-template>
+            Content 3
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon">leaderboard</mat-icon>
+                <span>Estadisticas</span>
+            </ng-template>
+            Content te pongo
+        </mat-tab>
 	</mat-tab-group>
 	<!-- Fin Tab nav -->
 	<!-- Web content -->

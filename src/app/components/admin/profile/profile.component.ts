@@ -62,6 +62,25 @@ export class ProfileComponent implements OnInit {
   openImg(){
     (<HTMLInputElement>document.querySelector('#photo-charge')).click();
   }
+  upPhoto(e:Event){
+    const newPhoto = (<HTMLInputElement>e.target).files![0];
+    console.log(newPhoto);
+    const reader = new FileReader();
+    reader.readAsDataURL(newPhoto);
+    reader.onload = () => {
+      const fileObj = {
+        name:`profile_${this.authService.getCurrentUser().id}_${newPhoto.lastModified}`,
+        type:"profile",
+        weight:newPhoto.size,
+        description:"Foto de perfil proveedor",
+        data:reader.result?.toString(),
+        extension:newPhoto.name.split('.').pop()
+      }
+      this.providerService.updatePhoto(fileObj).subscribe((resp)=>{
+        console.log(resp)
+      });
+    }
+  }
   editGral(){
     if(this.editingGral){
       Swal.fire({
@@ -220,5 +239,51 @@ export class ProfileComponent implements OnInit {
         }
       }
     });
+  }
+  deactivate(){
+    if(this.currentProvider.active){
+      Swal.fire({
+          title: 'Confirmar',
+          text: "¿Desea desactivar su cuenta? Su negocio no será visible para nadie si desactiva su cuenta",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Sí, continuar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.providerService.deactivate({id:this.currentProvider.id,active:false}).subscribe((r)=>{
+              if (r){
+                this.authService.refreshSession().subscribe((response)=>{
+                  this.authService.setUser(response);
+                  infoMessage('success','Listo','Se ha desactivado correctamente la cuenta','¡De acuerdo!');
+                  this.editingGral = false;
+                  this.ngOnInit();
+                });
+              }else{
+                infoMessage('error','Algo salió mal','No fue posible editar la informacion, intentalo de nuevo más tarde','ok');
+              }
+            },error=>{
+              infoMessage('error','Imposible actualizar la información',error.error.notifications[0].descripcion,'ok');
+            });
+          }
+        });
+    }else{
+      this.providerService.deactivate({id:this.currentProvider.id,active:true}).subscribe((r)=>{
+        if (r){
+          this.authService.refreshSession().subscribe((response)=>{
+            this.authService.setUser(response);
+            infoMessage('success','Listo','Se ha activado correctamente la cuenta','¡De acuerdo!');
+            this.editingGral = false;
+            this.ngOnInit();
+          });
+        }else{
+          infoMessage('error','Algo salió mal','No fue posible editar la informacion, intentalo de nuevo más tarde','ok');
+        }
+      },error=>{
+        infoMessage('error','Imposible actualizar la información',error.error.notifications[0].descripcion,'ok');
+      });
+    }
   }
 }
