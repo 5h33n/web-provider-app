@@ -25,6 +25,10 @@ import { ConfigComponent } from './components/admin/config/config.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VerifyComponent } from './components/auth/register/verify/verify.component';
 import { BusinessComponent } from './components/auth/register/business/business.component';
+import { InfoComponent } from './components/dashboard/info/info.component';
+import { InventoriesComponent } from './components/dashboard/inventories/inventories.component';
+import { StatsComponent } from './components/dashboard/stats/stats.component';
+import { BreadcumbsComponent } from './components/dashboard/breadcumbs/breadcumbs.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,11 @@ import { BusinessComponent } from './components/auth/register/business/business.
     ProfileComponent,
     ConfigComponent,
     VerifyComponent,
-    BusinessComponent
+    BusinessComponent,
+    InfoComponent,
+    InventoriesComponent,
+    StatsComponent,
+    BreadcumbsComponent
   ],
   imports: [
     GooglePlaceModule,

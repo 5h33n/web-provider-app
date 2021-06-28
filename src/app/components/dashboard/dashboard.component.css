@@ -73,7 +73,6 @@
     margin:0px;
     padding: 0px 0px 60px;
     margin-top: 5%;
-    padding-left: 10px;
 }
 .sidebar-nav ul li.nav-small-cap {
     color: #90a4ae;
@@ -318,4 +317,25 @@ mat-tab-group{
     position: fixed !important;
     top: 92%;
     left: 0;
+}
+/* CONTENT */
+#dashboard {
+    background-color: #f7f7f7;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 4rem;
+}
+.dashboard-content {
+    padding: 40px 45px;
+    padding-bottom: 0;
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+}
+@media(max-width: 760px){
+    .dashboard-content {
+        padding: 0 45px;
+    }
 }
