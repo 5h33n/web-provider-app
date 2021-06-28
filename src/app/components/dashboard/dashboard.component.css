@@ -339,3 +339,6 @@ mat-tab-group{
         padding: 0 45px;
     }
 }
+input{
+    line-height: 40px;
+}
