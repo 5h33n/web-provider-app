@@ -9,7 +9,6 @@ import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/a
 import {map, startWith} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import { BusinessService } from 'src/app/services/business.service';
-import { Store } from 'src/app/models/store';
 import { AuthService } from 'src/app/services/auth.service';
 import { Options } from 'ngx-google-places-autocomplete/objects/options/options';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';

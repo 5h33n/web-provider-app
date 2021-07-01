@@ -18,4 +18,8 @@ export class BusinessService {
     const url_api = this._BUSINESS_API+'store/nuevo';
     return this.http.post(url_api,store,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
   }
+  getStore(id:string){
+    const url_api = this._BUSINESS_API+'store/negocioid/'+id;
+    return this.http.get(url_api,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
+  }
 }

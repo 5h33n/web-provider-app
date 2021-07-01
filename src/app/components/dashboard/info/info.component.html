@@ -1,180 +1,221 @@
 <app-breadcumbs [current]="'Información'"></app-breadcumbs>
 <div class="row">
-    <div class="col-md-7" style="padding-left: 0;">
-      <div class="card border-primary mb-3" style="width: 100%;">
-        <div class="card-header">INFORMACIÓN GENERAL DEL NEGOCIO</div>
-        <div class="card-body text-primary">
-                  <form #edicion="ngForm">
-        <table class="table table-bordered table-striped">
-          <tbody>
-            <tr>
-              <th>Nombre: </th>
-              <td>
-                <input name="nombre" type="text" class="form-control" id="nombre" #nombre="ngModel" placeholder="Nombre de tu negocio" ngModel required minlength="4" >
-                <div class="alert alert-danger">
-                  <div>
-                    Necesitamos este dato
-                  </div>
-                  <div >
-                    El nombre debe tener al menos 4 caractéres
-                  </div>
-                </div>
-              </td>
-            </tr>
-        </table>
-                  <div class="alert alert-danger" >
-                      <div>
-                          erroresNegocio
-                      </div>
-                  </div>
-          <div class="my-2 text-right">
-            <button class="btn btn-rounded btn-primary" type="button">textButton</button>
+  <div class="col-md-7" style="padding-left: 0;">
+    <div class="card border-dark mb-3" style="width: 100%;">
+      <div class="card-header">INFORMACIÓN GENERAL DEL NEGOCIO</div>
+      <mat-progress-bar
+          class="example-margin"
+          [color]="'accent'"
+          [mode]="'indeterminate'"
+          [value]="50">
+      </mat-progress-bar>
+      <div class="card-body text-primary">
+        <form [formGroup]="businessForm">
+          <table class="table table-bordered table-striped">
+            <tbody>
+              <tr><th>Nombre: </th>
+                <td>
+                  <input type="text" maxlength="25" required formControlName="name" [attr.disabled]="!gnralEditable ? '' : null">
+                  <mat-error *ngIf="businessForm.controls.name.touched && businessForm.controls.name.invalid">
+                    <span *ngIf="businessForm.controls.name.errors?.required">Este campo no puede estar vacío.</span>
+                  </mat-error>
+                </td>
+              </tr>
+              <tr><th>Descripción: </th>
+                <td>
+                  <textarea name="description" maxlength="300" required formControlName="description" cols="30" rows="10" [attr.disabled]="!gnralEditable ? '' : null"></textarea>
+                  <mat-error *ngIf="businessForm.controls.description.touched && businessForm.controls.description.invalid">
+                    <span *ngIf="businessForm.controls.description.errors?.required">Este campo no puede estar vacío.</span>
+                </mat-error>
+                </td>
+              </tr>
+              <tr><th>Giro: </th>
+                <td>
+                  <input type="text" maxlength="20" required formControlName="business" [attr.disabled]="!gnralEditable ? '' : null">
+                    <mat-error *ngIf="businessForm.controls.business.touched && businessForm.controls.business.invalid">
+                        <span *ngIf="businessForm.controls.business.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </td>
+              </tr>
+              <tr><th>Email: </th>
+                <td>
+                  <input type="email" required formControlName="email" [attr.disabled]="!gnralEditable ? '' : null">
+                  <mat-error *ngIf="businessForm.controls.email.touched && businessForm.controls.email.invalid">
+                      <span *ngIf="businessForm.controls.email.errors?.required">Este campo no puede estar vacío.</span>
+                      <span *ngIf="businessForm.controls.email.errors?.emailInvalid && !businessForm.controls.email.errors?.required">El formato del correo es inválido.</span>
+                  </mat-error>
+                </td>
+              </tr>
+              <tr><th>Teléfono: </th>
+                <td>
+                  <input type="text" maxlength="10" required formControlName="phone" [attr.disabled]="!gnralEditable ? '' : null">
+                  <mat-error *ngIf="businessForm.controls.phone.touched && businessForm.controls.phone.invalid">
+                      <span *ngIf="businessForm.controls.phone.errors?.required">Este campo no puede estar vacío.</span>
+                      <span *ngIf="businessForm.controls.phone.errors?.phoneInvalid && !businessForm.controls.phone.errors?.required">Ingrese los 10 dígitos de su número de tel...</span>
+                  </mat-error>
+                </td>
+              </tr>
+              <tr><th>Tags: </th>
+                <td>
+                  <mat-form-field class="tags-chips">
+                    <mat-chip-list #chipList aria-label="Tags selection">
+                      <mat-chip
+                        *ngFor="let op of tagsSelected"
+                        [removable]="removable"
+                        (removed)="remove(op)">
+                        {{op}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input
+                        #tagsInput
+                        [formControl]="tagsCtrl"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (matChipInputTokenEnd)="add($event)"
+                        >
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" color="accent">
+                      <mat-option *ngFor="let op of filteredTags | async" [value]="op">
+                        {{op}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="alert alert-danger" *ngIf="gralErrors">
+            <div>{{ gralErrors }}</div>
           </div>
-                  </form>
+          <div class="col-sm-12 optns">
+            <a (click)="gnralEdit()" class="btn btn-outline-dark edit-info" href="javascript:void(0)" [style.display]="gnralEditable ? 'none' : 'inline-block'">Editar información</a>
+            <a (click)="gnralSave()" class="btn btn-outline-success edit-info" href="javascript:void(0)" [style.display]="gnralEditable ? 'inline-block' : 'none'">Guardar</a>
+            <a (click)="gnralCancel()" class="btn btn-outline-danger edit-info-cancel" href="javascript:void(0)" [style.display]="gnralEditable ? 'inline-block' : 'none' ">Cancelar edición</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <!-- Información de verificación: -->
+    <!-- <div class="row">
+      <div class="card border-dark mb-3" style="width: 100%;">
+        <div class="card-header">INFORMACIÓN DE VERIFICACIÓN</div>
+        <div class="card-body text-primary">
+          <div class="alert alert-warning" style="width:100%;text-align: center;" >
+            <div>Sube los siguientes documentos para poder asegurar tu identidad y que el negocio registrado existe. Si todo está en orden te avisaremos cuando tu negocio sea publicado</div>
+          </div>
+          <div class="alert alert-warning" style="width:100%;text-align: center;" >
+            <div>Documentos en proceso de revisión...</div>
+          </div>
+          <div class="alert alert-warning" style="width:100%;text-align: center;" >
+            <div>Utiliza esta sección para actualizar tus documentos si es que alguno de ellos ha cambiado, recuerda que estos documentos serán sometidos a un proeso de revisión durante el cual tu tienda no será visible al público</div>
+          </div>
+          <form #validacion="ngForm" name="validacion" enctype="multipart/form-data">
+            <label for="fachada">Foto de la fachada del negocio:</label>
+            <input type="file" name="fachada" style="line-height: inherit;height: inherit;">
+            <div class="alert alert-danger">
+              <div>Necesitamos este dato</div>
+            </div>
+            <label for="cdomicilio">Comprobante de domicilio no anterior a 3 meses:</label>
+            <input type="file" name="cdomicilio" style="line-height: inherit;height: inherit;">
+						<div class="alert alert-danger">
+              <div>Necesitamos este dato</div>
+            </div>
+						<label for="situacionf">Documento de situación fiscal</label>
+            <input type="file" name="situacionf" style="line-height: inherit;height: inherit;">
+            <div class="alert alert-danger">
+              <div>Necesitamos este dato</div>
+            </div>
+            <label for="credencial">Documento de identifiación oficial del encargado (IFE, INE, PASAPORTE)</label>
+            <input type="file" name="credencial" style="line-height: inherit;height: inherit;">
+            <div class="alert alert-danger">
+              <div>Necesitamos este dato</div>
+            </div>
+            <div class="alert alert-warning" style="width:100%;text-align: center;">
+              <div>Te recomendamos escanear los documentos o tomar una fotografía donde los datos sean legibles</div>
+            </div>
+            <button class="btn btn-rounded btn-primary btn-block" type="button">Enviar</button>
+            <br/>
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+              progress %
+            </div>
+            <div class="alert alert-info" style="width:100%;text-align: center;">
+              <div> message </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="card border-dark mb-3" style="width: 100%;">
+        <div class="card-header">APARIENCIA</div>
+        <mat-progress-bar
+          class="example-margin"
+          [color]="'accent'"
+          [mode]="'indeterminate'"
+          [value]="50">
+      </mat-progress-bar>
+        <div class="card-body text-primary">
+          <div class="alert alert-dark" style="width:100%;text-align: center;">
+            <div>En esta sección puedes subir una foto de portada y tu logotipo para mostrarlo al público</div>
+          </div>
+          <div class="load-images">
+            <div class="logo">
+                <h3 style="margin-bottom: 10px;">Logotipo</h3>
+                <div class="file-select src-file" >
+                    <img class="preview-image" [src]="imgLogo" alt="your image" />
+                    <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
+                    <input type="file" name="img-logo" aria-label="Archivo" (change)="imagePreview($event,0)">
+                </div>
+            </div>
+            <div class="portada">
+                <h3 style="margin-bottom: 10px;">Portada</h3>
+                <div class="file-select src-file" >
+                    <img class="preview-image" [src]="imgPortada" alt="your image" />
+                    <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
+                    <input type="file" name="img-portada" aria-label="Archivo" (change)="imagePreview($event,1)">
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-dark" style="width:100%;text-align: center;">
+          <div>Te recomendamos una medida de 1350 x 400 px para la portada, y un fondo blanco para el logotipo. Puedes ver la página de tu negocio aquí: <a routerLink="/detalle/tienda" target="_blank">Mi tienda</a></div>
         </div>
       </div>
     </div>
-    <div class="col-md-5">
-        <div class="row">
-          <div class="card border-primary mb-3" style="width: 100%;">
-      	    <div class="card-header">INFORMACIÓN DE VERIFICACIÓN</div>
-      	    <div class="card-body text-primary">
-              <div class="alert alert-warning" style="width:100%;text-align: center;" >
-                <div>Sube los siguientes documentos para poder asegurar tu identidad y que el negocio registrado existe. Si todo está en orden te avisaremos cuando tu negocio sea publicado</div>
-              </div>
-							<div class="alert alert-warning" style="width:100%;text-align: center;" >
-                <div>Documentos en proceso de revisión...</div>
-              </div>
-							<div class="alert alert-warning" style="width:100%;text-align: center;" >
-                <div>Utiliza esta sección para actualizar tus documentos si es que alguno de ellos ha cambiado, recuerda que estos documentos serán sometidos a un proeso de revisión durante el cual tu tienda no será visible al público</div>
-              </div>
-              <form #validacion="ngForm" name="validacion" enctype="multipart/form-data">
-                <label for="fachada">Foto de la fachada del negocio:</label>
-                <input type="file" name="fachada" style="line-height: inherit;height: inherit;">
-                <div class="alert alert-danger">
-                  <div>
-                    Necesitamos este dato
-                  </div>
-                </div>
-                <label for="cdomicilio">Comprobante de domicilio no anterior a 3 meses:</label>
-                <input type="file" name="cdomicilio" style="line-height: inherit;height: inherit;">
-								<div class="alert alert-danger">
-                  <div>
-                    Necesitamos este dato
-                  </div>
-                </div>
-								<label for="situacionf">Documento de situación fiscal</label>
-                <input type="file" name="situacionf" style="line-height: inherit;height: inherit;">
-                <div class="alert alert-danger">
-                  <div>
-                    Necesitamos este dato
-                  </div>
-                </div>
-                <label for="credencial">Documento de identifiación oficial del encargado (IFE, INE, PASAPORTE)</label>
-                <input type="file" name="credencial" style="line-height: inherit;height: inherit;">
-								<div class="alert alert-danger">
-                  <div>
-                    Necesitamos este dato
-                  </div>
-                </div>
-                <div class="alert alert-warning" style="width:100%;text-align: center;">
-                  <div>Te recomendamos escanear los documentos o tomar una fotografía donde los datos sean legibles</div>
-                </div>
-                <button class="btn btn-rounded btn-primary btn-block" type="button">Enviar</button>
-								<br/>
-								<div
-									class="progress-bar progress-bar-info progress-bar-striped"
-									role="progressbar"
-									attr.aria-valuenow="30"
-									aria-valuemin="0"
-									aria-valuemax="100"
-								>
-									 progress %
-								</div>
-								<div class="alert alert-info" style="width:100%;text-align: center;">
-                  <div> message </div>
-                </div>
-							</form>
-            </div>
-          </div>
+  </div>
+</div>
+<div class="row">
+  <div class="card border-dark mb-3" style="width: 100%;">
+    <div class="card-header">HORARIOS</div>
+    <div class="card-body text-primary">
+      <h6 class="card-title">Comparte los horarios en que está abierto tu negocio</h6>
+      <form #horarios="ngForm" name="horarios">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Día</th>
+              <th>Actual</th>
+              <th>Nuevo (Desde)</th>
+              <th>Nuevo (Hasta)</th>
+              <th>Cerrado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center align-middle">Lunes</td>
+              <td class="text-center align-middle"> horas</td>
+              <td class="text-center align-middle"></td>
+              <td class="text-center align-middle "></td>
+              <td class="text-center align-middle"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="my-2 text-left">
+          <button  class="btn btn-rounded btn-primary" type="button">Enviar</button>
         </div>
-        <div class="row">
-            <div class="card border-primary mb-3" style="width: 100%;">
-                <div class="card-header">APARIENCIA</div>
-                <div class="card-body text-primary">
-                              <div class="alert alert-warning" style="width:100%;text-align: center;">
-                  <div>En esta sección puedes subir una foto de portada y tu logotipo para mostrarlo al público</div>
-                </div>
-                <form #aparienciaF="ngForm" name="aparienciaF" enctype="multipart/form-data" style="margin-bottom: 8px;">
-                  <label for="fachada">Foto de portada (Recomendado 1350px x 400px):</label>
-                  <input type="file" name="portada" style="line-height: inherit;height: inherit;" required>
-                  <div class="alert alert-danger">
-                    <div>
-                      Necesitamos este dato
-                    </div>
-                  </div>
-                  <label for="cdomicilio">Logotipo (Fondo blanco recomendado): </label>
-                  <input type="file" name="logo" style="line-height: inherit;height: inherit;" required>
-                                  <div class="alert alert-danger">
-                    <div>
-                      Necesitamos este dato
-                    </div>
-                  </div>
-                  <div class="alert alert-warning" style="width:100%;text-align: center;">
-                    <div>Te recomendamos una medida de 1350 x 400 px para la portada, y un fondo blanco para el logotipo. Puedes ver la página de tu negocio aquí: <a routerLink="/detalle/tienda" target="_blank">Mi tienda</a></div>
-                  </div>
-                  <button class="btn btn-rounded btn-primary btn-block" type="button" >Enviar</button>
-                                  <div
-                                      class="progress-bar progress-bar-info progress-bar-striped"
-                                      role="progressbar"
-                                      attr.aria-valuenow="25"
-                                      aria-valuemin="0"
-                                      aria-valuemax="100"
-                                  >
-                                      progress2%
-                                  </div>
-                                  <div class="alert alert-info" style="width:100%;text-align: center;">
-                    <div>message2</div>
-                  </div>
-                              </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="card border-primary mb-3" style="width: 100%;">
-          <div class="card-header">HORARIOS</div>
-          <div class="card-body text-primary">
-            <h6 class="card-title">Comparte los horarios en que está abierto tu negocio</h6>
-            <form #horarios="ngForm" name="horarios">
-              <table class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Día</th>
-                                      <th>Actual</th>
-                    <th>Nuevo (Desde)</th>
-                    <th>Nuevo (Hasta)</th>
-                    <th>Cerrado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="text-center align-middle">Lunes</td>
-                                      <td class="text-center align-middle"> horas</td>
-                    <td class="text-center align-middle">
-                    </td>
-                    <td class="text-center align-middle ">
-                    </td>
-                    <td class="text-center align-middle">
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="my-2 text-left">
-                  <button  class="btn btn-rounded btn-primary" type="button">Enviar</button>
-                </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      </form>
+    </div>
+  </div>
+</div>

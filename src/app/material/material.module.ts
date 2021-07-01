@@ -11,6 +11,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+import {MatInputModule} from '@angular/material/input';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 const materialComponents = [
   MatSliderModule,
   MatProgressSpinnerModule,
@@ -23,7 +29,13 @@ const materialComponents = [
   MatFormFieldModule,
   MatChipsModule,
   MatSelectModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatInputModule,
+  MatSortModule,
+  MatSlideToggleModule,
+  MatProgressBarModule
 ];
 @NgModule({
   imports: [materialComponents],

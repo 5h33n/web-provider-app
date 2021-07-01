@@ -46,7 +46,13 @@ export class AuthService {
     let user_string = localStorage.getItem("currentProvider");
     return user_string ? JSON.parse(user_string): null;
   }
-
+  setBusiness(business: string): void{
+    localStorage.setItem("businessId",business);
+  }
+  getCurrentBusiness(){
+    let business_string = localStorage.getItem("businessId");
+    return business_string ? business_string: null;
+  }
   accountConfirm(info:any):Observable<any>{
     const url_api = this._PROVIDERSECURITY_API+'api/comprobar-Token';
     return this.http.post(url_api,info,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));

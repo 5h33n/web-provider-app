@@ -87,3 +87,76 @@ button.button, input[type=button], input[type=submit], a.button.border, a.button
     background-color: #fff9eb !important;
     border-color: #f5ac03;
 }
+/* ELEMENTO INPUT FILE (PARA LIBRERÍA) */
+.file-select {          
+    position: relative;
+    display: inline-block;
+    width: 144px;
+    height: 144px;
+  }
+   
+  .file-select::before {
+    background-color: transparent;
+    width: 140px;
+    height: 140px;
+    border: 2px dashed gray;
+    color: gray;
+    display: flex;            
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    content: 'Seleccionar'; /* testo por defecto */
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;                
+  }
+   
+  .file-select input[type="file"] {
+    opacity: 0.1;
+    width: 140px;
+    height: 140px;
+    display: inline-block;
+    display: flex;
+    z-index: 999;
+    margin: 2px;
+    padding: 0;
+    cursor: pointer;
+    color: transparent;
+    text-indent: -100%; 
+  }
+  .file-select input[type="file"]:hover{
+    background-color: #262626;
+    opacity: 0.5;
+    filter: blur(8px);
+    animation: 0.3s slidein;
+  }
+  
+  @keyframes slidein {
+    from {
+      opacity: 0;
+      filter: blur(1px);
+    }
+  
+    to {
+      opacity: 0.5;
+      filter: blur(8px);
+   }
+  }
+   
+  .src-file::before {
+    content: 'Selecciona o arrastra una imagen';
+  }
+  .preview-image{
+    width: 140px;
+    height: 140px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    z-index: 0;
+  }
+  .preview-image:hover {
+    -webkit-filter: blur(4px); /* Chrome, Safari, Opera */
+    filter: blur(4px);
+  }
