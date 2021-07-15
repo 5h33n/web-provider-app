@@ -14,7 +14,7 @@ import { Options } from 'ngx-google-places-autocomplete/objects/options/options'
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import {trigger,state,style,animate,transition,} from '@angular/animations';
 import { CustomValidators } from '../../../../common/common';
-import { noSession, infoMessage, redirectMessage } from '../../../../common/common';
+import { noSession, infoMessage, redirectMessage, Logout } from '../../../../common/common';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-business',
@@ -66,11 +66,15 @@ export class BusinessComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagsCtrl = new FormControl();
   filteredTags: Observable<string[]>;
-  tagsSelected: string[] = ['Abarrotes'];
-  defaultTags: string[] = ['Frutas', 'verduras', 'Leche', 'Huevos', 'Condimentos'];
+  tagsSelected: string[] = [];
+  defaultTags: string[] = [];
 
   @ViewChild('tagsInput') tagsInput!: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
+  myControl = new FormControl();
+  giros: string[] = [];
+  filteredGiros!: Observable<string[]>;
+
   constructor(
     private formBuilder: FormBuilder,
     private businessService: BusinessService, 
@@ -96,7 +100,7 @@ export class BusinessComponent implements OnInit {
       street: [null, [Validators.required]],
       externNumber: [null, [Validators.required]],
       internNumber: [null, [Validators.required]],
-      business: [null, [Validators.required]],
+      business: [null],
       phone: [null, [Validators.required,CustomValidators.phoneValid]],
       email: [null, [Validators.required,CustomValidators.emailValid]],
       description: [null, [Validators.required]],
@@ -109,9 +113,18 @@ export class BusinessComponent implements OnInit {
       lt:[null, Validators.required],
       ln:[null, Validators.required]
     });
+    this.businessService.getGiros().subscribe((giros:any)=>{
+      giros.forEach((element: any) => {
+        this.giros.push(element.name);
+      });
+      this.filteredGiros = this.myControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter_giros(value))
+      );
+    });
   }
   add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+    const value = (event.value.toLowerCase() || '').trim();
     if (value) {
       this.tagsSelected.push(value);
     }
@@ -133,26 +146,45 @@ export class BusinessComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.defaultTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
   }
+  private _filter_giros(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.giros.filter(option => option.toLowerCase().includes(filterValue));
+  }
   next(e: Event){
-    e.preventDefault();
+    if(this.current==3){
+      this.businessService.getTags(this.myControl.value).subscribe((tags:any)=>{
+        this.defaultTags = tags;
+        this.filteredTags = this.tagsCtrl.valueChanges.pipe(
+            startWith(null),
+            map((tag: string | null) => tag ? this._filter(tag) : this.defaultTags.slice()));
+        });
+    }
+    e ? e.preventDefault() : "";
     this.percent += 25;
     this.marginLeft = `-${this.percent}%`;
     this.steps[this.current][1] = "active";
     this.current+=1;
   }
-  prev(e: Event){
-    e.preventDefault();
+  prev(e: Event | null){
+    e ? e.preventDefault() : "";
     this.percent -= 25;
     this.marginLeft = `-${this.percent}%`;
     this.current-=1;
     this.steps[this.current][1] = "";
   }
   setSocialMediaValue(i: number,t:number,e:Event){
+    console.log((<HTMLInputElement>e.target).value);
+    if((<HTMLInputElement>e.target).value == 'delete'){
+      this.socialMedia.splice(i,1);
+      return;
+    }
     this.socialMedia[i][t]=(<HTMLInputElement>e.target).value
   }
   addSocialMedia(e: Event){
     this.socialMedia.push(["fb",""]);
     this.businessForm.controls["SocialMedia"].setValue(this.socialMedia);
+    console.log(this.socialMedia);
   }
   setSchedule(day: number,pos:number,e:Event){
     let _time_ = (<HTMLInputElement>e.target).value;
@@ -251,9 +283,10 @@ export class BusinessComponent implements OnInit {
     let smedia:any[] = [];
     if (this.socialMedia[0][1] != ""){
       this.socialMedia.forEach(element => {
-        smedia.push({[element[0]]:element[1]});
+        smedia.push({type:element[0],url:element[1]});
       });
     }
+    console.log(this.socialMedia)
     let imgs:any[] = [];
     if (this.portadaOut != undefined || this.logoOut != undefined){
       this.logoOut != undefined ? imgs.push(this.logoOut) : "";
@@ -268,7 +301,7 @@ export class BusinessComponent implements OnInit {
       street : this.businessForm.value.street,
       externNumber : this.businessForm.value.externNumber,
       internNumber : this.businessForm.value.internNumber,
-      business : this.businessForm.value.business,
+      business : this.myControl.value,
       phone : this.businessForm.value.phone,
       email : this.businessForm.value.email,
       description : this.businessForm.value.description,
@@ -281,14 +314,21 @@ export class BusinessComponent implements OnInit {
     };
     //ADVERTENCIA: LA CONSOLA SE TRABA SI IMPRIMO EL OBJETO CON IMAGENES
     this.charge=true;
+    console.log(businessObj)
     this.businessService.createStore(businessObj).subscribe(store=>{
       if(store){
+        console.log(store);
+        //Se agrega el giro al catalogo de giros
+        if (!this.giros.includes(businessObj.business)){
+          this.businessService.addGiro(businessObj.business).subscribe((response)=>{});
+        }
         this.router.navigate(['dashboard']);
       }
     },error => {
       //Aquí falta redirigir a donde está el error
       let msgError = error.error.notifications ? error.error.notifications[0].descripcion : "No fue posible conectar con el servicio de registro, inténtelo de nuevo más tarde";
       infoMessage('error','No se pudo crear el negocio',msgError,'Aceptar');
+      this.charge = false;
     });
   }
   changeDireccion(e:Address){
@@ -304,5 +344,8 @@ export class BusinessComponent implements OnInit {
     this.businessForm.patchValue({externNumber:addr["street_number"]});
     this.businessForm.patchValue({lt:e.geometry.location.lat()});
     this.businessForm.patchValue({ln:e.geometry.location.lng()});
+  }
+  logout(){
+    Logout(this.authService,this.router);
   }
 }

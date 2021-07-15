@@ -153,7 +153,7 @@ export class RegisterComponent implements OnInit {
       this.newUser.gender = this.registerForm.value.gender;
 
       this.newUser.email = this.registerForm.value.email;
-      this.newUser.phone = this.registerForm.value.phone;
+      this.newUser.phone = "+52"+this.registerForm.value.phone;
       this.newUser.verType = this.registerForm.value.verType === "Correo electrónico" ? 1 : 2 ;
 
       this.newUser.type = this.registerForm.value.type;

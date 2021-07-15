@@ -32,15 +32,42 @@
                         <span *ngIf="businessForm.controls.description.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </div>
-                <div class="field">
+                <!-- <div class="field">
                     <input type="text" maxlength="20" required formControlName="business" [class.inputInvalid]="businessForm.controls.business.touched && businessForm.controls.business.invalid">
                     <label>Giro del negocio</label>
                     <mat-error *ngIf="businessForm.controls.business.touched && businessForm.controls.business.invalid">
                         <span *ngIf="businessForm.controls.business.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
+                </div> -->
+                <div class="field">
+                    <!-- <select required formControlName="business" [class.inputInvalid]="businessForm.controls.business.touched && businessForm.controls.business.invalid">
+                        <option></option>
+                        <option>Correo electrónico</option>
+                        <option>Número de teléfono</option>
+                    </select>
+                    <label for="">Giro del negocio</label>
+                    <mat-error *ngIf="businessForm.controls.business.touched && businessForm.controls.business.invalid">
+                        <span *ngIf="businessForm.controls.business.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error> -->
+                    <input type="text"
+                            aria-label="Number"
+                            matInput
+                            [formControl]="myControl"
+                            [matAutocomplete]="giro"
+                            required
+                            [class.inputInvalid]="myControl.touched && myControl.invalid">
+                    <label for="">Giro del negocio</label>
+                    <mat-autocomplete autoActiveFirstOption #giro="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredGiros | async" [value]="option">
+                        {{option}}
+                    </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="myControl.touched && myControl.invalid">
+                        <span *ngIf="myControl.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
                 </div>
                 <div class="field">
-                    <button class="firstNext next" [disabled]="businessForm.controls.name.invalid || businessForm.controls.description.invalid || businessForm.controls.business.invalid" (click)="next($event)">Siguiente</button>
+                    <button class="firstNext next" [disabled]="businessForm.controls.name.invalid || businessForm.controls.description.invalid || businessForm.controls.business.invalid || myControl.invalid" (click)="next($event)">Siguiente</button>
                 </div>
             </div>
             <div class="page">
@@ -120,7 +147,8 @@
                     <div class="sll">
                         <div class="input-group" *ngFor="let red of businessForm.controls['SocialMedia'].value;let i=index">
                             <select name="ejem" class="btn btn-outline-secondary" (change)="setSocialMediaValue(i,0,$event)">
-                                <option value="fb">Facebook</option>
+                                <option value="delete">Quitar esta red social</option>
+                                <option value="fb" selected>Facebook</option>
                                 <option value="tw">Twitter</option>
                             </select>
                           <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Enlace completo" (change)='setSocialMediaValue(i,1,$event)'>
@@ -218,8 +246,7 @@
                     <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
                     <button class="next-3 next" (click)="next($event)" >Crear negocio</button>
                 </div>
-            </div>
-            
+            </div>       
             <div class="page">
                 <div class="title">Personaliza tu negocio</div>
                 <h3 class="desc" [style.display]="charge ? 'none':'flex'" style="margin-bottom: 5px;">Agrega tu logotipo y una imágen de portada</h3>
@@ -279,4 +306,5 @@
             </div>
         </form>
     </div>
+    <div class="logout"><a href="javascript:void(0)" (click)="logout()"><mat-icon color="primary">cancel</mat-icon></a></div>
 </div>

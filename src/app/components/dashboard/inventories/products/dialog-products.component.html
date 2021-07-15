@@ -1,0 +1,74 @@
+<div class="form-product">
+    <div class="form-outer">
+        <form [formGroup]="productForm" action="#">
+            <div class="page slide-page">
+                <div class="title">Nuevo producto</div>
+                <div class="field" style="margin-bottom: 20px;margin-top: 30px;">
+                    <input type="text" maxlength="25" required formControlName="name" [class.inputInvalid]="productForm.controls.name.touched && productForm.controls.name.invalid">
+                    <label>Nombre del producto</label>
+                    <mat-error *ngIf="productForm.controls.name.touched && productForm.controls.name.invalid">
+                        <span *ngIf="productForm.controls.name.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-bottom: 35px;height: 120px;">
+                    <textarea name="description" maxlength="300" required formControlName="description" [class.inputInvalid]="productForm.controls.description.touched && productForm.controls.description.invalid" cols="30" rows="10"></textarea>
+                    <label>Breve descipción</label>
+                    <mat-error *ngIf="productForm.controls.description.touched && productForm.controls.description.invalid">
+                        <span *ngIf="productForm.controls.description.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-bottom: 0px;margin-top: 30px;">
+                    <input type="text" maxlength="25" id="price" name="price" required formControlName="price" [class.inputInvalid]="productForm.controls.price.touched && productForm.controls.price.invalid">
+                    <label for="price">Precio</label>
+                    <input type="text" maxlength="25" id="stock" name="stock" required formControlName="stock" [class.inputInvalid]="productForm.controls.stock.touched && productForm.controls.stock.invalid">
+                    <label for="stock">Stock</label>
+                </div>
+                <div class="field" style="margin-bottom: 0px;margin-top: 0;height: 20px;">
+                    <mat-error *ngIf="productForm.controls.stock.touched && productForm.controls.name.invalid">
+                        <span *ngIf="productForm.controls.stock.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                    <mat-error *ngIf="productForm.controls.price.touched && productForm.controls.name.invalid">
+                        <span *ngIf="productForm.controls.price.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="field" style="margin-bottom: 20px;margin-top: 0px;">
+                    <select required formControlName="unit" [class.inputInvalid]="productForm.controls.unit.touched && productForm.controls.unit.invalid">
+                        <option></option>
+                        <option>Metros</option>
+                        <option>Kilogramos</option>
+                    </select>
+                    <label>Unidades</label>
+                    <mat-error *ngIf="productForm.controls.unit.touched && productForm.controls.name.invalid">
+                        <span *ngIf="productForm.controls.unit.errors?.required">Este campo no puede estar vacío.</span>
+                    </mat-error>
+                </div>
+                <div class="img-product">
+                    <div class="file-select src-file">
+                        <img class="preview-image"/>
+                        <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
+                        <input type="file" name="img-logo" aria-label="Archivo">
+                    </div>
+                    <div class="file-select src-file">
+                        <img class="preview-image"/>
+                        <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
+                        <input type="file" name="img-logo" aria-label="Archivo">
+                    </div>
+                    <div class="file-select src-file">
+                        <img class="preview-image"/>
+                        <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
+                        <input type="file" name="img-logo" aria-label="Archivo">
+                    </div>
+                    <div class="file-select src-file">
+                        <img class="preview-image"/>
+                        <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
+                        <input type="file" name="img-logo" aria-label="Archivo">
+                    </div>
+                </div>
+                <div class="field">
+                    <button class="firstNext next" (click)="save()" [disabled]="productForm.controls.name.invalid || productForm.controls.description.invalid || productForm.controls.unit.invalid">Agregar</button>
+                </div>
+            </div>
+        </form>
+    </div> 
+    <div class="close"><a href="javascript:void(0)" (click)="close()"><mat-icon color="primary">cancel</mat-icon></a></div>
+</div>

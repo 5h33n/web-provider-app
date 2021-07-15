@@ -13,8 +13,8 @@ export class HeaderComponent implements OnInit {
   currentProvider: Provider | undefined;
   @Input() dr: any;
   @Input() mobileDevice: any;
-  marginUser = "";
   currentWidth = screen.width;
+  headerWidth = "long";
   constructor(
     private authService:AuthService,
     private router:Router
@@ -32,11 +32,13 @@ export class HeaderComponent implements OnInit {
   reorder(){
     let cf;
     if (this.dr===null){
-      cf = this.mobileDevice ? 200 : 230;
+      //cf = this.mobileDevice ? 200 : 230;
+      this.headerWidth = "long";
     }else{
-      cf = this.dr.opened ? 487 : this.mobileDevice ? 155 : 270; 
+      //cf = this.dr.opened ? 487 : this.mobileDevice ? 155 : 270;
+      this.dr.opened ? this.headerWidth = "short" : this.headerWidth = "middle" ;
     }
-    this.marginUser = `${this.currentWidth - cf}px`;
+    //this.marginUser = `${this.currentWidth - cf}px`;
   }
   action(){
     this.dr === null ? this.router.navigate(['dashboard']) : this.dr.toggle();

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 //GUARDS
 import { AuthGuard } from './guards/auth.guard';
 import { VerifiedGuard } from './guards/verified.guard';
+import { NegocioGuard } from './guards/business.guard';
 //COMPONENTS
 import { LoaderComponent } from './components/auth/loader/loader.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -19,7 +20,7 @@ import { MainComponent } from './components/dashboard/main/main.component';
 
 const routes: Routes = [
   {path: '',component: LoaderComponent},
-  {path: 'dashboard',component: DashboardComponent, canActivate: [AuthGuard,VerifiedGuard],
+  {path: 'dashboard',component: DashboardComponent, canActivate: [AuthGuard,VerifiedGuard,NegocioGuard],
     children: [
       {path: '', redirectTo: 'pedidos',pathMatch: 'full'},
       {path: 'pedidos', component: MainComponent},
@@ -32,7 +33,7 @@ const routes: Routes = [
   {path: 'register',component: RegisterComponent},
   {path: 'profile',component:ProfileComponent,canActivate: [AuthGuard,VerifiedGuard]},
   {path: 'verify',component:VerifyComponent,canActivate: [AuthGuard]},
-  {path: 'business',component:BusinessComponent, canActivate: [AuthGuard,VerifiedGuard]}
+  {path: 'business',component:BusinessComponent, canActivate: [AuthGuard,VerifiedGuard,NegocioGuard]}
 ];
 
 @NgModule({

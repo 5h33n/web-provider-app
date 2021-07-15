@@ -20,6 +20,7 @@
     stroke: #fcb000;
   }
 .container{
+  position: relative;
   width: 330px;
   background: #fff;
   text-align: center;
@@ -38,6 +39,11 @@
 .container .form-outer form{
   display: flex;
   width: 400%;
+}
+.container .logout{
+  position: absolute;
+  top: 1%;
+  left: 90%;
 }
 .form-outer form .page{
   width: 25%;
@@ -451,4 +457,7 @@ input[type="time"]:disabled {
 }
 .confirmBusiness{
   color: red;
+}
+.field input{
+  text-align: justify;
 }

@@ -87,7 +87,7 @@ form .field input:focus,form .field select:focus{
   }
 form .field label{
     position: absolute;
-    top: 50%;
+    top: 53%;
     left: 20px;
     color: #999999;
     font-weight: 400;

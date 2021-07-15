@@ -31,8 +31,8 @@ export class ProfileComponent implements OnInit {
     this.contactForm = this.createContact(null,null,null,null);
     this.providerService.getProviderById(this.authService.getCurrentUser().id).subscribe((response)=>{
       this.currentProvider = response;
-      this.providerForm = this.createProvider(this.currentProvider?.firstName,this.currentProvider?.lastName,this.currentProvider?.secondLastName,new Date(this.currentProvider!.birthdate).toISOString().split('T')[0],this.currentProvider?.gender);
-      this.contactForm = this.createContact(this.currentProvider?.username,this.currentProvider?.email,this.currentProvider?.phone,this.currentProvider?.verType)
+      this.loadGral();
+      this.loadContact();
     });
   }
   createProvider(firstName:string|null,lastName:string|null,secondLastName:string|null,birthdate:string|null,gender:string|null){
@@ -44,6 +44,9 @@ export class ProfileComponent implements OnInit {
       gender:[gender,[Validators.required]]
     });
   }
+  loadGral(){
+    this.providerForm = this.createProvider(this.currentProvider?.firstName,this.currentProvider?.lastName,this.currentProvider?.secondLastName,new Date(this.currentProvider!.birthdate).toISOString().split('T')[0],this.currentProvider?.gender);
+  }
   createContact(username:string|null,email:string|null,phone:string|null,verType:number|null){
     return this.formBuilder.group({
       username: [username, [Validators.required]],
@@ -51,6 +54,9 @@ export class ProfileComponent implements OnInit {
       phone: [phone, [Validators.required, CustomValidators.phoneValid]],
       verType: [verType,[Validators.required]]
     });
+  }
+  loadContact(){
+    this.contactForm = this.createContact(this.currentProvider?.username,this.currentProvider?.email,this.currentProvider?.phone,this.currentProvider?.verType)
   }
   @HostListener('window:resize', ['$event'])
     onResize(event: Event) {
@@ -99,6 +105,7 @@ export class ProfileComponent implements OnInit {
       });
     }else{
       this.editingGral = true;
+      this.loadGral();
     }
   }
   editContact(){
@@ -119,6 +126,7 @@ export class ProfileComponent implements OnInit {
       });
     }else{
       this.editingContact = true;
+      this.loadContact();
     }
   }
   saveGral(){
@@ -194,6 +202,7 @@ export class ProfileComponent implements OnInit {
             preConfirm: (pwd) => {
               return this.authService.login({username:this.currentProvider.username,password:pwd}).subscribe((response)=>{
                 this.providerService.updateUserContact(providerObj).subscribe((r)=>{
+                  console.log(r);
                   if (r){
                     this.authService.refreshSession().subscribe((response)=>{
                       infoMessage('success','Listo','Información actualizada correctamente, serás redirigido al inicio','¡De acuerdo!');
@@ -258,6 +267,7 @@ export class ProfileComponent implements OnInit {
                 this.authService.refreshSession().subscribe((response)=>{
                   this.authService.setUser(response);
                   infoMessage('success','Listo','Se ha desactivado correctamente la cuenta','¡De acuerdo!');
+                  LogoutForce(this.authService,this.router);
                   this.editingGral = false;
                   this.ngOnInit();
                 });

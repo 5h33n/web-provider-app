@@ -36,8 +36,8 @@ export class VerifyComponent implements OnInit {
     private formBuilder: FormBuilder
   ) { }
   currentProvider = new Provider()
-
   verifyForm!: FormGroup;
+  emailRegex = /^\(?(\d{10})\)?$/;
   ngOnInit(): void {
     setTimeout(() => {
       this.cover="none";
@@ -53,6 +53,7 @@ export class VerifyComponent implements OnInit {
       d6: [null, [Validators.required]]
     });
     this.currentProvider = this.authService.getCurrentUser();
+    console.log(this.currentProvider)
     this.route.queryParams
       .subscribe(params => {
         if(!params.r && !this.currentProvider){
@@ -106,6 +107,7 @@ export class VerifyComponent implements OnInit {
           })
         }else{
           infoMessage('error','Error en la verificación',response.descripcion + ". Recuerde que los enlaces de verificación solo están disponibles durante 1 hora desde que son enviados, intente reenviar el código de verificación.",'ok');
+          this.verifyForm.reset();
         }
       }else{
         redirectMessage('error','Error en la verificación','No pudimos verificar tu cuenta, intenta reenviar el código','ok',this.router,'/login');
@@ -133,23 +135,24 @@ export class VerifyComponent implements OnInit {
             input: 'email',
             title: 'Ingresa tu correo electrónico para verificiación',
             text: 'Asegurate de tener acceso, te enviaremos tu código a este correo',
+            inputValue:this.currentProvider.email,
             confirmButtonText: 'Siguiente &rarr;',
             showCancelButton: true,
           }).then((dato:any) => {
             if(dato){
-              this.currentProvider.verType = result.value;
-              this.currentProvider.email = dato.value;
-              this.providerService.updateUserContact({id:this.currentProvider.id,email:dato.value,verType:this.currentProvider.verType}).subscribe((provider)=>{
-                this.authService.refreshSession().subscribe((response)=>{
-                    this.authService.setUser(response);
-                });
-                this.authService.resendCode(this.currentProvider.id).subscribe((response)=>{
-                  infoMessage('success','Información actualizada','En breve recibirás un correo con tu código de verificación','¡De acuerdo!');
-                },error=>{
-                  infoMessage('error','No pudimos reenviar el código, inténtalo de nuevo más tarde',error.error.notifications[0].descripcion,'ok');
-                });
+              this.providerService.updateUserContact({id:this.currentProvider.id,email:dato.value,verType:result.value}).subscribe((provider)=>{
+                if(provider){
+                  this.currentProvider.verType = result.value;
+                  this.currentProvider.email = dato.value;
+                  this.authService.refreshSession().subscribe((response)=>{
+                      this.authService.setUser(response);
+                  });
+                  this.resendCode('Información actualizada','En breve recibirás un correo con tu código de verificación');
+                }else{
+                  throw Error("unkown");
+                }
               },error=>{
-                infoMessage('error','Imposible actualizar la información',error.error.notifications[0].descripcion,'ok');
+                error.error.notifications ? infoMessage('error','Imposible actualizar la información',error.error.notifications[0].descripcion,'ok') : infoMessage('error','Imposible actualizar la información','Ocurrió un error desconocido','ok');
               });
             }
           })
@@ -159,11 +162,11 @@ export class VerifyComponent implements OnInit {
             title: 'Ingresa tu número de telefono para verificiación',
             text: 'Asegurate de tener acceso, te enviaremos tu código a este número por SMS',
             confirmButtonText: 'Siguiente &rarr;',
+            inputValue:this.currentProvider.phone.substr(3),
             showCancelButton: true,
             inputValidator: (v) => {
               return new Promise((resolve,reject) => {
-                //En este if debo pasarle un regex o algo que valore que sea un num de 10 digitos
-                if (v === '1') {
+                if (!this.emailRegex.test(v)) {
                   resolve('Ingresa un número telefónico válido de 10 dígitos')
                 } else {
                   resolve('')
@@ -172,17 +175,29 @@ export class VerifyComponent implements OnInit {
             }
           }).then((dato:any) => {
             if(dato){
-              console.log(result.value)
-              console.log(dato.value)
+              this.providerService.updateUserContact({id:this.currentProvider.id,phone:dato.value,verType:result.value}).subscribe((provider)=>{
+                if(provider){
+                  this.currentProvider.verType = result.value;
+                  this.currentProvider.phone = dato.value;
+                  this.authService.refreshSession().subscribe((response)=>{
+                      this.authService.setUser(response);
+                  });
+                  this.resendCode('Información actualizada','En breve recibirás un SMS con tu código de verificación');
+                }else{
+                  throw Error("unkown");
+                }
+              },error=>{
+                error.error.notifications ? infoMessage('error','Imposible actualizar la información',error.error.notifications[0].descripcion,'ok') : infoMessage('error','Imposible actualizar la información','Ocurrió un error desconocido','ok');
+              });
             }
           })
         }
       }
     })
   }
-  resendCode(){
+  resendCode(msg:string,head:string|null){
     this.authService.resendCode(this.currentProvider.id).subscribe((response:any)=>{
-      infoMessage('success','Código reenviado',response?.description,'¡De acuerdo!');
+      infoMessage('success',head?head:'Código reenviado',msg ? msg : response?.description,'¡De acuerdo!');
     },error=>{
       error.error.notifications[0].codigo == "0000000006" ? noSession(this.router) : infoMessage('error','Algo salió mal',error.error.notifications[0].descripcion,'¡De acuerdo!') ;
     });

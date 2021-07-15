@@ -1,4 +1,4 @@
-input{
+input,select{
     line-height: 40px;
     margin-bottom: 0;
 }
@@ -20,15 +20,113 @@ table textarea{
     line-height: 1;
     padding-top: 12px;
     height: 90px;
+    margin-bottom: 0;
 }
 .load-images{
     display: flex;
   }
-.load-images .logo, .load-images .portada{
+.logo,.portada{
     margin: auto;
+}
+.logo{
+    display: flex;
+}
+.logo .alert{
+    margin-bottom: 2px;
+    margin-left: 22px;
 }
 
 ::ng-deep .mat-chip.mat-standard-chip {
     background-color: #f5ac03;
     color: #ffffff;
+}
+.custom-accordion{
+    padding: 0;
+}
+.mat-expansion-panel-spacing{
+    margin: 0px;
+    border-radius:0;
+}
+.mat-expansion-panel .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled=true]), .mat-expansion-panel .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled=true]), .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]),
+.mat-expansion-panel-header.mat-expanded,
+.mat-expansion-panel-header.mat-expanded:hover,
+.mat-expansion-panel-header.mat-expanded:focus{
+    background: floralwhite;
+}
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+::ng-deep .mat-expansion-panel-body{
+    padding: 24px 16px !important;
+}
+.edit-place{
+    margin-bottom: 1rem;
+}
+.ubication{
+    padding: 0 12px;
+    padding-bottom: 1rem;
+}
+.field{
+    display: flex;
+}
+.sub-field{
+    flex-flow: column;
+    position: relative;
+    width: 50%;
+}
+.sub-field label{
+    position: absolute;
+    top: 48%;
+    left: 20px;
+    color: darkgray;
+    font-weight: 400;
+    font-size: 17px;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+  }
+.sub-field input:focus ~ label:nth-of-type(1),.sub-field select:focus ~ label,
+.sub-field input:required:valid ~ label,.field-field select:valid ~ label,
+.sub-field textarea:focus ~ label,.field-field textarea:valid ~ label{
+    top: 0%;
+    font-size: 16px;
+    color: #fcb000;
+    background: #fff;
+    transform: translateY(-50%);
+  }
+.sub-field .mat-error{
+    position: absolute;
+}
+.mat-error{
+    text-align: center;
+}
+td{
+    display: flex;
+}
+input[disabled] {
+    color: darkgray;
+ }
+textarea[disabled]{
+    color: darkgray;
+}
+input[disabled]~label{
+    top: 0%;
+    font-size: 16px;
+    color: darkgray;
+    background: #fff;
+    transform: translateY(-50%);
+}
+.img-portada ::ng-deep.mat-expansion-panel-body{
+    display: flex;
+    flex-flow: column;
 }

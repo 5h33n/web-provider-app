@@ -7,12 +7,16 @@ import { AuthService } from '../services/auth.service';
 })
 export class NegocioGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router){}
-  canActivate(){
-    if(this.authService.getCurrentUser().tipo === "negocio"){
-      return true;
+  canActivate(route: ActivatedRouteSnapshot){
+    if(this.authService.getCurrentBusiness()=="null"){
+      if(route.routeConfig!.path == "dashboard"){
+        this.router.navigate(['/business'])
+        return false;
+      }else{
+        return true;
+      }
     }else{
-      this.router.navigate(['/inicio'])
-      return false;
+      return true;
     }
   }
 }

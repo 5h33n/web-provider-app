@@ -12,6 +12,7 @@ button:focus{
 }
 .navbar-nav{
     overflow: visible;
+    margin-left: auto;
 }
 .dropdown{
     position: relative;
@@ -36,7 +37,7 @@ button:focus{
 }
 .navbar-nav ul.dropdown-user {
     padding: 0px;
-    width: 270px;
+    width: 290px;
 }
 .navbar-nav ul.dropdown-user li {
     list-style: none;
@@ -112,6 +113,15 @@ button:focus{
     }
 }
 .dropdown-menu{
-    top: 100% !important;
-    left: -300% !important;
+    top: 95% !important;
+    left: -350% !important;
+}
+.long{
+    width: 100%;
+}
+.middle{
+    width: 95.9%;
+}
+.short{
+    width: 84.4%;
 }

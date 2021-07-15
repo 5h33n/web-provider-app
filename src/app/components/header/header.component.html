@@ -1,4 +1,4 @@
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" [class]="headerWidth">
         <!-- Main toolbar -->
                 <span class="example-spacer"></span>
                 <button *ngIf="dr===null || (dr && !mobileDevice)" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="action()">
@@ -6,7 +6,7 @@
                     <mat-icon *ngIf="dr===null">keyboard_backspace</mat-icon>
                 </button>
                 <span class="example-spacer"></span>
-                <span [style.margin-right]="marginUser">Proveedores</span>
+                <span>Proveedores</span>
                 <ul class="navbar-nav my-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/assets/img/user1.jpg" alt="user" class="profile-pic"></a>
@@ -17,7 +17,8 @@
                                         <div class="u-img"><img src="/assets/img/user1.jpg" alt="user"></div>
                                         <div class="u-text">
                                             <h4>{{currentProvider?.firstName}} {{currentProvider?.lastName}}</h4>
-                                            <p class="text-muted"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="" style="padding: 0px;">{{currentProvider?.email}}</a></p><a href="profile.html" class="btn btn-rounded btn-yellow btn-sm">Ver perfil</a></div>
+                                            <p class="text-muted"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="" style="padding: 0px;">{{currentProvider?.email}}</a></p>
+                                            <a href="javascript:void()" [routerLink]="['/profile']" class="btn btn-rounded btn-yellow btn-sm">Ver perfil</a></div>
                                     </div>
                                 </li>
                                 <li role="separator" class="divider"></li>

@@ -22,4 +22,16 @@ export class BusinessService {
     const url_api = this._BUSINESS_API+'store/negocioid/'+id;
     return this.http.get(url_api,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
   }
+  getGiros(){
+    const url_api = this._BUSINESS_API+'business/listar';
+    return this.http.get(url_api,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
+  }
+  addGiro(name:string): Observable<any>{
+    const url_api = this._BUSINESS_API+'business/nuevo';
+    return this.http.post(url_api,{name},{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
+  }
+  getTags(references:string){
+    const url_api = this._BUSINESS_API+'store/tags?tags='+references;
+    return this.http.get(url_api,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
+  }
 }

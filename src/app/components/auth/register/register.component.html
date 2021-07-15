@@ -150,7 +150,7 @@
                         <span *ngIf="registerForm.controls.verType.errors?.required">Debes seleccionar una opción válida.</span>
                     </mat-error>
                 </div>
-                <div class="subtitle" style="margin-bottom: 45px;">Asegúrate de contar con acceso a al correo o teléfono que elijas para verificar tu cuenta, te enviaremos un código por ese médio.</div>
+                <div class="subtitle" style="margin-bottom: 45px;">Asegúrate de contar con acceso al correo o teléfono que elijas para verificar tu cuenta, te enviaremos un código por ese médio.</div>
                 <div class="field btns">
                     <button class="prev-3 prev" (click)="prev($event)" >Anterior</button>
                     <button class="next-3 next" (click)="next($event)" [disabled]="registerForm.controls.email.invalid || registerForm.controls.phone.invalid  || registerForm.controls.verType.invalid">Registrarme</button>

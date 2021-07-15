@@ -28,14 +28,6 @@ export class AuthService {
     const url_api = this._PROVIDERSECURITY_API+'api/cerrar';
     return this.http.get(url_api,{withCredentials:true}).pipe(map(data => data));
   }
-  removeLocalUser(){
-    localStorage.removeItem("currentProvider");
-    this.userSubject.next(undefined);
-  }
-  resendCode(id:string){
-    const url_api = this._PROVIDERSECURITY_API+'api/reenviar-codigo';
-    return this.http.post(url_api,id,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
-  }
   setUser(user: Provider): void{
     let user_string = JSON.stringify(user);
     this.currentProvider = user;
@@ -53,9 +45,18 @@ export class AuthService {
     let business_string = localStorage.getItem("businessId");
     return business_string ? business_string: null;
   }
+  removeLocalUser(){
+    localStorage.removeItem("businessId");
+    localStorage.removeItem("currentProvider");
+    this.userSubject.next(undefined);
+  }
   accountConfirm(info:any):Observable<any>{
     const url_api = this._PROVIDERSECURITY_API+'api/comprobar-Token';
     return this.http.post(url_api,info,{headers:this.headers,withCredentials:true}).pipe(map(response=>response));
+  }
+  resendCode(id:string){
+    const url_api = this._PROVIDERSECURITY_API+'api/reenviar-codigo';
+    return this.http.post(url_api,id,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
   }
   getSession():Observable<any>{
     const url_api = this._PROVIDERSECURITY_API+'api/session';

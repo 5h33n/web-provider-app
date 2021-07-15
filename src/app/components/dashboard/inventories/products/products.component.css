@@ -1,0 +1,44 @@
+:host{
+    background: #fff;
+    min-height: 100%;
+}
+::ng-deep .cdk-overlay-pane{
+    position: relative !important;
+}
+.form-outer form .page{
+    width: 100%;
+}
+.close{
+    position: absolute;
+    top: 2%;
+    left: 90%;
+}
+form .field textarea{
+    height: 100% !important;
+}
+label[for=stock]{
+    left: 56% !important;
+}
+#stock:focus ~ label[for=stock],
+#stock:required:valid ~ label[for=stock]{
+    top: 0%;
+    font-size: 16px;
+    color: #fcb000;
+    background: #fff;
+    transform: translateY(-50%);
+}
+.img-product{
+    width: 330px;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.img-product:first-child{
+    margin-left: 0;
+}
+.img-product .file-select{
+    margin-right: 35px;
+}
+form .page .field:last-child {
+    margin-bottom: 0px !important;
+}

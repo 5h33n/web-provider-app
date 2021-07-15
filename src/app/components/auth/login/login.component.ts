@@ -80,10 +80,19 @@ export class LoginComponent implements OnInit {
   submit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe((response)=>{
+        if(!response.body.active){
+          infoMessage('error','Cuenta deshabilitada','Esta cuenta se encuentra deshabilitada, comunicate con el administrador para obtener acceso a ella','Aceptar');
+        }
         this.authService.setUser(response.body);
+        this.authService.setBusiness(response.body.idBussiness)
         const currentUser = this.authService.getCurrentUser();
         if(currentUser.verifiedAt){
-          this.router.navigate(['dashboard']);
+          if(currentUser.idBussiness){
+            this.authService.setBusiness(currentUser.idBussiness);
+            this.router.navigate(['dashboard']);
+          }else{
+            this.router.navigate(['business']);
+          }
         }else{
           this.router.navigate(['verify'],{ queryParams: { r: currentUser.id }});
         }

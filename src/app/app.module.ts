@@ -29,6 +29,7 @@ import { InfoComponent } from './components/dashboard/info/info.component';
 import { InventoriesComponent } from './components/dashboard/inventories/inventories.component';
 import { StatsComponent } from './components/dashboard/stats/stats.component';
 import { BreadcumbsComponent } from './components/dashboard/breadcumbs/breadcumbs.component';
+import { ProductsDialogComponent } from './components/dashboard/inventories/products/products.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { BreadcumbsComponent } from './components/dashboard/breadcumbs/breadcumb
     InfoComponent,
     InventoriesComponent,
     StatsComponent,
-    BreadcumbsComponent
+    BreadcumbsComponent,
+    ProductsDialogComponent
   ],
   imports: [
     GooglePlaceModule,

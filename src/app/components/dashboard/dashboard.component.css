@@ -342,3 +342,6 @@ mat-tab-group{
 input{
     line-height: 40px;
 }
+.navbar-brand{
+    cursor:default;
+}

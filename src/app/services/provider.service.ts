@@ -25,6 +25,7 @@ export class ProviderService {
         return this.http.put(url_api,generalInfo,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
     }
     updateUserContact(contactInfo:any): Observable<any>{
+        console.log(contactInfo)
         const url_api = this._ONBOARDING_API+'provider/editarC';
         return this.http.put(url_api,contactInfo,{headers:this.headers, withCredentials:true}).pipe(map(data=>data));
     }

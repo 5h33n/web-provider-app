@@ -10,7 +10,7 @@
   background: linear-gradient(180deg, rgba(0,0,0,0.9668242296918768) 0%, rgba(46,51,57,1) 60%);
 }
 ::selection{
-  background: #fcb000;;
+  background: #fcb000;
   color: #fff;
 }
 .cover{

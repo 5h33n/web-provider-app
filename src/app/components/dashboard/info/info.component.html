@@ -1,9 +1,9 @@
-<app-breadcumbs [current]="'Información'"></app-breadcumbs>
+<app-breadcumbs [current]="'Información del negocio'"></app-breadcumbs>
 <div class="row">
   <div class="col-md-7" style="padding-left: 0;">
     <div class="card border-dark mb-3" style="width: 100%;">
       <div class="card-header">INFORMACIÓN GENERAL DEL NEGOCIO</div>
-      <mat-progress-bar
+      <mat-progress-bar *ngIf="gnralLoading"
           class="example-margin"
           [color]="'accent'"
           [mode]="'indeterminate'"
@@ -31,9 +31,28 @@
               </tr>
               <tr><th>Giro: </th>
                 <td>
-                  <input type="text" maxlength="20" required formControlName="business" [attr.disabled]="!gnralEditable ? '' : null">
-                    <mat-error *ngIf="businessForm.controls.business.touched && businessForm.controls.business.invalid">
-                        <span *ngIf="businessForm.controls.business.errors?.required">Este campo no puede estar vacío.</span>
+                  <!-- <select required formControlName="business" [attr.disabled]="!gnralEditable ? '' : null">
+                    <option></option>
+                    <option>Correo electrónico</option>
+                    <option>Número de teléfono</option>
+                </select>
+                  <mat-error *ngIf="businessForm.controls.business.touched && businessForm.controls.business.invalid">
+                      <span *ngIf="businessForm.controls.business.errors?.required">Este campo no puede estar vacío.</span>
+                  </mat-error> -->
+                  <input type="text"
+                            aria-label="Number"
+                            matInput
+                            [formControl]="myControl"
+                            [matAutocomplete]="giro"
+                            required
+                            [class.inputInvalid]="myControl.touched && myControl.invalid">
+                    <mat-autocomplete autoActiveFirstOption #giro="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredGiros | async" [value]="option">
+                        {{option}}
+                    </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="myControl.touched && myControl.invalid">
+                        <span *ngIf="myControl.errors?.required">Este campo no puede estar vacío.</span>
                     </mat-error>
                 </td>
               </tr>
@@ -151,71 +170,136 @@
     <div class="row">
       <div class="card border-dark mb-3" style="width: 100%;">
         <div class="card-header">APARIENCIA</div>
-        <mat-progress-bar
+        <mat-progress-bar *ngIf="imagesLoading"
           class="example-margin"
           [color]="'accent'"
           [mode]="'indeterminate'"
           [value]="50">
       </mat-progress-bar>
-        <div class="card-body text-primary">
-          <div class="alert alert-dark" style="width:100%;text-align: center;">
-            <div>En esta sección puedes subir una foto de portada y tu logotipo para mostrarlo al público</div>
-          </div>
-          <div class="load-images">
-            <div class="logo">
-                <h3 style="margin-bottom: 10px;">Logotipo</h3>
+        <div class="card-body text-primary custom-accordion">
+          <mat-accordion class="example-headers-align">
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Logo
+                </mat-panel-title>
+                <mat-panel-description>
+                  Imagen principal de tu negocio
+                  <mat-icon color="accent">account_circle</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="logo">
                 <div class="file-select src-file" >
                     <img class="preview-image" [src]="imgLogo" alt="your image" />
-                    <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
                     <input type="file" name="img-logo" aria-label="Archivo" (change)="imagePreview($event,0)">
                 </div>
-            </div>
-            <div class="portada">
-                <h3 style="margin-bottom: 10px;">Portada</h3>
-                <div class="file-select src-file" >
+                <div class="alert alert-primary" role="alert">
+                  A simple primary alert—check it out!
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel hideToggle class="img-portada">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Portada
+                </mat-panel-title>
+                <mat-panel-description>
+                  Banner de tu negocio
+                  <mat-icon color="accent">image</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="portada">
+                <div class="file-select src-file long-img" >
                     <img class="preview-image" [src]="imgPortada" alt="your image" />
-                    <!-- <img src="../../../../../assets/img/upld.gif" alt="your image" /> -->
                     <input type="file" name="img-portada" aria-label="Archivo" (change)="imagePreview($event,1)">
                 </div>
-            </div>
-        </div>
-        <div class="alert alert-dark" style="width:100%;text-align: center;">
-          <div>Te recomendamos una medida de 1350 x 400 px para la portada, y un fondo blanco para el logotipo. Puedes ver la página de tu negocio aquí: <a routerLink="/detalle/tienda" target="_blank">Mi tienda</a></div>
-        </div>
+              </div>
+              <div class="alert alert-primary" role="alert">
+                A simple primary alert—check it out! A simple primary alert—check it out! A simple primary alert—check it out!
+              </div>
+            </mat-expansion-panel>
+          
+          </mat-accordion>
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="card border-dark mb-3" style="width: 100%;">
-    <div class="card-header">HORARIOS</div>
-    <div class="card-body text-primary">
-      <h6 class="card-title">Comparte los horarios en que está abierto tu negocio</h6>
-      <form #horarios="ngForm" name="horarios">
-        <table class="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th>Día</th>
-              <th>Actual</th>
-              <th>Nuevo (Desde)</th>
-              <th>Nuevo (Hasta)</th>
-              <th>Cerrado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-center align-middle">Lunes</td>
-              <td class="text-center align-middle"> horas</td>
-              <td class="text-center align-middle"></td>
-              <td class="text-center align-middle "></td>
-              <td class="text-center align-middle"></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="my-2 text-left">
-          <button  class="btn btn-rounded btn-primary" type="button">Enviar</button>
-        </div>
-      </form>
+  <div class="row">
+    <div class="card border-dark mb-3" style="width: 100%;">
+      <div class="card-header">UBICACIÓN</div>
+      <mat-progress-bar *ngIf="locationLoading"
+        class="example-margin"
+        [color]="'accent'"
+        [mode]="'indeterminate'"
+        [value]="50">
+    </mat-progress-bar>
+
+    <div class="ubication">
+    <form [formGroup]="businessForm" action="#">
+    <div class="edit-place">
+    <div class="field" style="margin-bottom: 35px;margin-top: 30px;">
+      <input ngx-google-places-autocomplete 
+          [options]='options' 
+          #placesRef="ngx-places" 
+          placeholder="Ingresa una ubicación" 
+          name="formattedAddress" 
+          (onAddressChange)="changeDireccion($event)" style="margin-bottom: 4px;"
+          [attr.disabled]="!locationEditable ? '' : null"
+          />
+  </div>
+  <div class="field" style="margin-top: 35px;">
+    <div class="sub-field">
+      <input type="text" required id="cp" name="cp" maxlength="5" formControlName="cp" [attr.disabled]="!locationEditable ? '' : null">
+      <label for="cp">CP</label>
+      <mat-error *ngIf="businessForm.controls.cp.touched && businessForm.controls.cp.invalid">
+          <span *ngIf="businessForm.controls.cp.errors?.required">Este campo no puede estar vacío.</span>
+      </mat-error>
+    </div>
+    <div class="sub-field">
+      <input type="text" maxlength="20" required id="state" formControlName="state" [attr.disabled]="!locationEditable ? '' : null">
+      <label for="state">Estado</label>
+      <mat-error *ngIf="businessForm.controls.state.touched && businessForm.controls.state.invalid">
+          <span *ngIf="businessForm.controls.state.errors?.required">Este campo no puede estar vacío.</span>
+      </mat-error>
     </div>
   </div>
+  <div class="field" style="margin-top: 35px;margin-bottom: 0;">
+    <div class="sub-field">
+      <input type="text" required id="suburb" maxlength="30" formControlName="suburb" [attr.disabled]="!locationEditable ? '' : null">
+      <label for="suburb">Colonia</label>
+      <mat-error *ngIf="businessForm.controls.suburb.touched && businessForm.controls.suburb.invalid">
+          <span *ngIf="businessForm.controls.suburb.errors?.required">Este campo no puede estar vacío.</span>
+      </mat-error>
+    </div>
+    <div class="sub-field">
+      <input type="text" required id="street" maxlength="25" formControlName="street" [attr.disabled]="!locationEditable ? '' : null">
+      <label for="street">Calle</label>
+      <mat-error *ngIf="businessForm.controls.street.touched && businessForm.controls.street.invalid">
+          <span *ngIf="businessForm.controls.street.errors?.required">Este campo no puede estar vacío.</span>
+      </mat-error>
+    </div>
+  </div>
+  <div class="field" style="margin-top: 35px;margin-bottom: 0;">
+    <div class="sub-field">
+      <input type="text" required id="externNumber" maxlength="6" formControlName="externNumber" [attr.disabled]="!locationEditable ? '' : null">
+      <label for="externNumber">Número externo</label>
+      <mat-error *ngIf="businessForm.controls.externNumber.touched && businessForm.controls.externNumber.invalid">
+          <span *ngIf="businessForm.controls.externNumber.errors?.required">Este campo no puede estar vacío.</span>
+      </mat-error>
+    </div>
+    <div class="sub-field">
+      <input type="text" id="internNumber" formControlName="internNumber" maxlength="6" [attr.disabled]="!locationEditable ? '' : null">
+      <label for="internNumber">Número interno</label>
+    </div>
+  </div>
+</div>
+  <div class="col-sm-12 optns">
+    <a class="btn btn-success col-sm-8 edit-info" href="javascript:void(0)" [style.display]="locationEditable ? 'inline-block' : 'none'">Actualizar ubicación</a>
+    <a (click)="locationEditable=true;" class="btn btn-outline-success col-sm-12 edit-info" href="javascript:void(0)" [style.display]="locationEditable ? 'none' : 'inline-block'">Editar ubicación</a>
+    <a (click)="locationEditable=false;loadGnralInfo();" class="btn btn-outline-danger edit-info-cancel" href="javascript:void(0)" [style.display]="locationEditable ? 'inline-block' : 'none' ">Cancelar edición</a>
+  </div>
+</form>
+</div>
+
+  </div>
+</div>
 </div>

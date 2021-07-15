@@ -28,8 +28,8 @@
                         <input type="text" #input formControlName="d6" pattern="\d*" minlength="1" maxlength="1" required (keyup)="next(5)" (keydown)="getNumber($event,5)" (click)="prev(5)">
                     </div>
                 </div>
-                <div class="subtitle" *ngIf="currentProvider.verType ==1">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode()">Reenviar código a {{currentProvider.email}}</a></div>
-                <div class="subtitle" *ngIf="currentProvider.verType ==2">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode()">Reenviar código por SMS al {{currentProvider.phone}}</a></div>
+                <div class="subtitle" *ngIf="currentProvider.verType ==1">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode('',null)">Reenviar código a {{currentProvider.email}}</a></div>
+                <div class="subtitle" *ngIf="currentProvider.verType ==2">¿No recibiste tu código? <a href="javascript:void(0)" (click)="resendCode('',null)">Reenviar código por SMS al {{currentProvider.phone}}</a></div>
                 <div class="field" style="margin-bottom: 0;">
                     <button class="firstNext next" [disabled]="verifyForm.invalid" (click)="verifyCode()">Verificar mi cuenta</button>
                 </div>

@@ -93,6 +93,10 @@ button.button, input[type=button], input[type=submit], a.button.border, a.button
     display: inline-block;
     width: 144px;
     height: 144px;
+    text-align: center;
+  }
+  .file-select.long-img{
+    width: 288px;
   }
    
   .file-select::before {
@@ -112,6 +116,9 @@ button.button, input[type=button], input[type=submit], a.button.border, a.button
     top: 0;
     bottom: 0;                
   }
+  .file-select.long-img::before {
+    width: 280px;
+  }
    
   .file-select input[type="file"] {
     opacity: 0.1;
@@ -126,9 +133,12 @@ button.button, input[type=button], input[type=submit], a.button.border, a.button
     color: transparent;
     text-indent: -100%; 
   }
+  .file-select.long-img input[type="file"]{
+    width: 280px;
+  }
   .file-select input[type="file"]:hover{
     background-color: #262626;
-    opacity: 0.5;
+    opacity: 0.3;
     filter: blur(8px);
     animation: 0.3s slidein;
   }
@@ -140,23 +150,26 @@ button.button, input[type=button], input[type=submit], a.button.border, a.button
     }
   
     to {
-      opacity: 0.5;
+      opacity: 0.3;
       filter: blur(8px);
    }
   }
    
   .src-file::before {
-    content: 'Selecciona o arrastra una imagen';
+    white-space: pre;
+    content: 'Selecciona o arrastra\A una imagen \A \1F4F7';
   }
   .preview-image{
-    width: 140px;
-    height: 140px;
+    width: 136px;
+    height: 136px;
     position: absolute;
     left: 2px;
     top: 2px;
     z-index: 0;
   }
-  .preview-image:hover {
-    -webkit-filter: blur(4px); /* Chrome, Safari, Opera */
-    filter: blur(4px);
+  .file-select.long-img .preview-image{
+    width: 276px;
+  }
+  input:matches([type="reset"]), input[type="file"]::file-selector-button{
+    display: none;
   }
