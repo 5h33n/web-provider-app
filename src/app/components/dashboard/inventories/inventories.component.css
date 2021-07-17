@@ -46,10 +46,10 @@ table {
   .example-element-diagram {
     min-width: 80px;
     border: 2px solid black;
-    padding: 8px;
+    padding: 2px;
     font-weight: lighter;
     margin: 8px 0;
-    height: 104px;
+    height: 108px;
   }
   
   .example-element-symbol {
@@ -97,4 +97,14 @@ table {
     margin-right: auto;
     margin-left: 5px;
     padding: 2px 8px;
+  }
+  .images-container{
+    display: flex;
+  }
+  .images-product{
+    display: flex;
+  }
+  .images-product img{
+    width: 100px;
+    height: 100px;
   }

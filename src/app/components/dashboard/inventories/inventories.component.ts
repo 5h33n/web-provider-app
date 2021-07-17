@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -23,8 +23,8 @@ import {ProductsDialogComponent} from './products/products.component';
 })
 export class InventoriesComponent implements OnInit,AfterViewInit {
   dataSource: MatTableDataSource<Producto> = new MatTableDataSource();
-  columnsToDisplay = [['name','Nombre'],['price','Precio'],['stock','Stock'],['unit','Unidades'],['score','Puntuación'],['tags','Tags']];
-  columnsToDisplay2 = ['name','price','stock','unit','score','tags','buttons'];
+  columnsToDisplay = [['name','Nombre'],['price','Precio'],['stock','Stock'],['unit','Unidades'],['score','Puntuación'],['state','Estado']];
+  columnsToDisplay2 = ['name','price','stock','unit','score','state','buttons'];
   expandedElement!: Producto | null;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -45,6 +45,7 @@ export class InventoriesComponent implements OnInit,AfterViewInit {
         if(!response[0]){
           this.isRateLimitReached = true;
         }
+        console.log(response)
         this.dataSource = new MatTableDataSource(response);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
